@@ -1,0 +1,24 @@
+<!-- src/app/components/apartment-list/apartment-list.component.html -->
+
+<div class="apartment-list-container">
+  <div class="list-header">
+    <h1>Dostupné apartmány</h1>
+    <p>Vyberte si spomedzi našich luxusných apartmánov</p>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <p>Načítavam apartmány...</p>
+  </div>
+
+  <div class="apartments-grid" *ngIf="!loading">
+    <app-apartment-card 
+      *ngFor="let apartment of apartments" 
+      [apartment]="apartment">
+    </app-apartment-card>
+  </div>
+
+  <div class="no-results" *ngIf="!loading && apartments.length === 0">
+    <mat-icon>search_off</mat-icon>
+    <p>Nenašli sa žiadne apartmány</p>
+  </div>
+</div>

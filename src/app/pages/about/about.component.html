@@ -1,0 +1,115 @@
+<!-- src/app/pages/about/about.component.html -->
+
+<div class="about-container">
+  
+  <!-- Hero sekcia -->
+  <section class="about-hero">
+    <div class="hero-content">
+      <h1>O nás</h1>
+      <p>Váš partner pre luxusné ubytovanie</p>
+    </div>
+  </section>
+
+  <!-- Naša história -->
+  <section class="story-section">
+    <div class="story-content">
+      <div class="story-text">
+        <h2>Naša história</h2>
+        <p>
+          Greyhill vznikol v roku 2015 s víziou poskytovať najkvalitnejšie ubytovanie 
+          v najpríjemnejších lokalitách. Od malého začiatku s jediným apartmánom sme 
+          sa rozrástli na sieť luxusných apartmánov naprieč celým Slovenskom.
+        </p>
+        <p>
+          Naša filozofia je jednoduchá - každý hosť si zaslúži výnimočný zážitok. 
+          Preto starostlivo vyberáme každý apartmán, dbáme na detail a poskytujeme 
+          služby na najvyššej úrovni.
+        </p>
+        <p>
+          Dnes spravujeme viac ako 50 apartmánov a každoročne privítame tisícky 
+          spokojných hostí zo všetkých kútov sveta.
+        </p>
+      </div>
+      <div class="story-image">
+        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=600" alt="O nás">
+      </div>
+    </div>
+  </section>
+
+  <!-- Naše hodnoty -->
+  <section class="values-section">
+    <div class="values-content">
+      <h2>Naše hodnoty</h2>
+      
+      <div class="values-grid">
+        <div class="value-card">
+          <mat-icon color="primary">star</mat-icon>
+          <h3>Kvalita</h3>
+          <p>Každý apartmán je starostlivo vybraný a pravidelne kontrolovaný, aby spĺňal naše vysoké štandardy.</p>
+        </div>
+
+        <div class="value-card">
+          <mat-icon color="primary">favorite</mat-icon>
+          <h3>Zákaznícky prístup</h3>
+          <p>Naši hostia sú na prvom mieste. Ich spokojnosť a pohodlie je našou prioritou.</p>
+        </div>
+
+        <div class="value-card">
+          <mat-icon color="primary">verified_user</mat-icon>
+          <h3>Dôveryhodnosť</h3>
+          <p>Transparentnosť a čestnosť vo všetkom, čo robíme. Žiadne skryté poplatky, žiadne prekvapenia.</p>
+        </div>
+
+        <div class="value-card">
+          <mat-icon color="primary">eco</mat-icon>
+          <h3>Udržateľnosť</h3>
+          <p>Staráme sa o životné prostredie a podporujeme lokálne komunity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Náš tím -->
+  <section class="team-section">
+    <div class="team-content">
+      <h2>Náš tím</h2>
+      <p class="team-intro">Spoznajte ľudí, ktorí sa starajú o váš pobyt</p>
+
+      <div class="team-grid">
+        <mat-card *ngFor="let member of teamMembers" class="team-card">
+          <img mat-card-image [src]="member.image" [alt]="member.name">
+          <mat-card-header>
+            <mat-card-title>{{ member.name }}</mat-card-title>
+            <mat-card-subtitle>{{ member.position }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ member.description }}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Štatistiky -->
+  <section class="stats-section">
+    <div class="stats-content">
+      <div class="stat-item">
+        <h3>50+</h3>
+        <p>Apartmánov</p>
+      </div>
+      <div class="stat-item">
+        <h3>10,000+</h3>
+        <p>Spokojných hostí</p>
+      </div>
+      <div class="stat-item">
+        <h3>4.9</h3>
+        <p>Priemerné hodnotenie</p>
+      </div>
+      <div class="stat-item">
+        <h3>24/7</h3>
+        <p>Podpora</p>
+      </div>
+    </div>
+  </section>
+
+</div>

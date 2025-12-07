@@ -1,0 +1,24 @@
+<!-- src/app/components/header/header.component.html -->
+
+<mat-toolbar color="primary" class="header">
+  <div class="header-content">
+    <div class="logo" routerLink="/">
+      <mat-icon>apartment</mat-icon>
+      <span class="logo-text">Greyhill</span>
+    </div>
+
+    <nav class="nav-menu">
+      <a mat-button routerLink="/">Domov</a>
+      <a mat-button routerLink="/apartments">Apartmány</a>
+      <a mat-button routerLink="/about">O nás</a>
+      <a mat-button routerLink="/contact">Kontakt</a>
+    </nav>
+
+    <div class="header-actions">
+      <button mat-raised-button color="accent">
+        <mat-icon>login</mat-icon>
+        Prihlásiť
+      </button>
+    </div>
+  </div>
+</mat-toolbar>

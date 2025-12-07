@@ -1,0 +1,45 @@
+<!-- src/app/components/apartment-card/apartment-card.component.html -->
+
+<mat-card class="apartment-card">
+  <img mat-card-image [src]="apartment.imageUrl" [alt]="apartment.name">
+  
+  <mat-card-header>
+    <mat-card-title>{{ apartment.name }}</mat-card-title>
+    <mat-card-subtitle>{{ apartment.city }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p class="description">{{ apartment.description }}</p>
+    
+    <div class="apartment-details">
+      <div class="detail-item">
+        <mat-icon>people</mat-icon>
+        <span>{{ apartment.capacity }} osôb</span>
+      </div>
+      <div class="detail-item">
+        <mat-icon>bed</mat-icon>
+        <span>{{ apartment.bedrooms }} izby</span>
+      </div>
+      <div class="detail-item">
+        <mat-icon>bathroom</mat-icon>
+        <span>{{ apartment.bathrooms }} kúpeľňa</span>
+      </div>
+    </div>
+
+    <div class="amenities">
+      <mat-chip-set>
+        <mat-chip *ngFor="let amenity of apartment.amenities.slice(0, 3)">
+          {{ amenity }}
+        </mat-chip>
+      </mat-chip-set>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <div class="price-section">
+      <span class="price">{{ apartment.pricePerNight }}€</span>
+      <span class="per-night">/noc</span>
+    </div>
+    <button mat-raised-button color="primary">Detail</button>
+  </mat-card-actions>
+</mat-card>

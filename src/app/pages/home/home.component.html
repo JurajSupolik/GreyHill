@@ -1,0 +1,54 @@
+<!-- src/app/pages/home/home.component.html -->
+
+<div class="home-container">
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Vitajte v Greyhill</h1>
+      <p class="hero-subtitle">Luxusné apartmány pre váš dokonalý pobyt</p>
+      <button mat-raised-button color="primary" class="cta-button" (click)="navigateToApartments()">
+        <mat-icon>search</mat-icon>
+        Prezrite apartmány
+      </button>
+    </div>
+    <div class="hero-overlay"></div>
+  </section>
+
+  <section class="features-section">
+    <div class="features-container">
+      <h2>Prečo si vybrať Greyhill?</h2>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <mat-icon color="primary">verified</mat-icon>
+          <h3>Overené apartmány</h3>
+          <p>Všetky naše apartmány sú starostlivo vybrané a kontrolované</p>
+        </div>
+
+        <div class="feature-card">
+          <mat-icon color="primary">support_agent</mat-icon>
+          <h3>24/7 Podpora</h3>
+          <p>Sme tu pre vás kedykoľvek potrebujete pomôcť</p>
+        </div>
+
+        <div class="feature-card">
+          <mat-icon color="primary">payment</mat-icon>
+          <h3>Bezpečné platby</h3>
+          <p>Vaše platby sú v bezpečí s našim šifrovaním</p>
+        </div>
+
+        <div class="feature-card">
+          <mat-icon color="primary">star</mat-icon>
+          <h3>Najlepšie ceny</h3>
+          <p>Garantujeme vám tie najlepšie ceny na trhu</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="popular-section">
+    <div class="popular-container">
+      <h2>Naše populárne apartmány</h2>
+      <app-apartment-list></app-apartment-list>
+    </div>
+  </section>
+</div>

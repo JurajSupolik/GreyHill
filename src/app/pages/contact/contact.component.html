@@ -1,0 +1,141 @@
+<!-- src/app/pages/contact/contact.component.html -->
+
+<div class="contact-container">
+  
+  <!-- Hero sekcia -->
+  <section class="contact-hero">
+    <div class="hero-content">
+      <h1>Kontaktujte nás</h1>
+      <p>Sme tu pre vás 24/7</p>
+    </div>
+  </section>
+
+  <!-- Hlavný obsah -->
+  <section class="contact-content">
+    <div class="content-wrapper">
+      
+      <!-- Kontaktné informácie -->
+      <div class="contact-info">
+        <h2>Kontaktné informácie</h2>
+        <p class="info-intro">Neváhajte nás kontaktovať. Radi vám pomôžeme s akýmikoľvek otázkami.</p>
+
+        <div class="info-cards">
+          <mat-card class="info-card">
+            <mat-icon color="primary">phone</mat-icon>
+            <h3>Telefón</h3>
+            <p>+421 123 456 789</p>
+            <p class="small">Pon - Ned: 24/7</p>
+          </mat-card>
+
+          <mat-card class="info-card">
+            <mat-icon color="primary">email</mat-icon>
+            <h3>Email</h3>
+            <p>info&#64;greyhill.sk</p>
+            <p class="small">Odpovieme do 24 hodín</p>
+          </mat-card>
+
+          <mat-card class="info-card">
+            <mat-icon color="primary">location_on</mat-icon>
+            <h3>Adresa</h3>
+            <p>Hlavná 123</p>
+            <p class="small">Bratislava, Slovensko</p>
+          </mat-card>
+
+          <mat-card class="info-card">
+            <mat-icon color="primary">schedule</mat-icon>
+            <h3>Pracovné hodiny</h3>
+            <p>Podpora: 24/7</p>
+            <p class="small">Kancelária: Pon-Pia 9:00-17:00</p>
+          </mat-card>
+        </div>
+
+        <!-- Sociálne siete -->
+        <div class="social-section">
+          <h3>Sledujte nás</h3>
+          <div class="social-icons">
+            <button mat-icon-button color="primary">
+              <mat-icon>facebook</mat-icon>
+            </button>
+            <button mat-icon-button color="primary">
+              <mat-icon>camera_alt</mat-icon>
+            </button>
+            <button mat-icon-button color="primary">
+              <mat-icon>chat</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kontaktný formulár -->
+      <div class="contact-form-section">
+        <mat-card class="form-card">
+          <mat-card-header>
+            <mat-card-title>Napište nám</mat-card-title>
+            <mat-card-subtitle>Vyplňte formulár a my sa vám ozveme čo najskôr</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="form-container">
+              
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Meno a priezvisko *</mat-label>
+                <input matInput [(ngModel)]="contactForm.name" required>
+                <mat-icon matPrefix>person</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email *</mat-label>
+                <input matInput type="email" [(ngModel)]="contactForm.email" required>
+                <mat-icon matPrefix>email</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Telefón</mat-label>
+                <input matInput type="tel" [(ngModel)]="contactForm.phone">
+                <mat-icon matPrefix>phone</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Predmet</mat-label>
+                <input matInput [(ngModel)]="contactForm.subject">
+                <mat-icon matPrefix>subject</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Správa *</mat-label>
+                <textarea matInput 
+                          [(ngModel)]="contactForm.message" 
+                          rows="6" 
+                          required></textarea>
+                <mat-icon matPrefix>message</mat-icon>
+              </mat-form-field>
+
+              <button mat-raised-button 
+                      color="primary" 
+                      class="submit-button"
+                      (click)="onSubmit()">
+                <mat-icon>send</mat-icon>
+                Odoslať správu
+              </button>
+
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Mapa sekcia -->
+  <section class="map-section">
+    <div class="map-content">
+      <h2>Kde nás nájdete</h2>
+      <div class="map-placeholder">
+        <mat-icon>location_on</mat-icon>
+        <p>Hlavná 123, Bratislava</p>
+        <p class="small">(Tu by bola interaktívna mapa)</p>
+      </div>
+    </div>
+  </section>
+
+</div>

@@ -1,0 +1,53 @@
+
+.apartment-list-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
+
+  .list-header {
+    text-align: center;
+    margin-bottom: 40px;
+
+    h1 {
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #666;
+    }
+  }
+
+  .loading {
+    text-align: center;
+    padding: 60px 20px;
+    font-size: 18px;
+    color: #666;
+  }
+
+  .apartments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 24px;
+    justify-items: center;
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+
+    mat-icon {
+      font-size: 64px;
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 18px;
+    }
+  }
+}
