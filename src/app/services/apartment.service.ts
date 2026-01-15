@@ -1,67 +1,49 @@
 // src/app/services/apartment.service.ts
 
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Apartment } from '../models/apartment';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApartmentService {
+  private apiUrl = `${environment.apiUrl}/apartments`;
 
-  private mockApartments: Apartment[] = [
-    {
-      id: 1,
-      name: 'Luxusný apartmán centrum',
-      description: 'Krásny priestranný apartmán v centre mesta s výhľadom na hory.',
-      pricePerNight: 89,
-      capacity: 4,
-      bedrooms: 2,
-      bathrooms: 1,
-      imageUrl: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800',
-      amenities: ['WiFi', 'TV', 'Kuchyňa', 'Parking', 'Balkón'],
-      address: 'Hlavná 123',
-      city: 'Bratislava',
-      rating: 4.8
-    },
-    {
-      id: 2,
-      name: 'Moderný loft s terasou',
-      description: 'Štýlový loft s veľkou terasou, ideálny pre páry.',
-      pricePerNight: 120,
-      capacity: 2,
-      bedrooms: 1,
-      bathrooms: 1,
-      imageUrl: 'https://images.unsplash.com/photo-1502672260066-6bc36a69ce48?w=800',
-      amenities: ['WiFi', 'TV', 'Kuchyňa', 'Terasa', 'Klimatizácia'],
-      address: 'Dunajská 45',
-      city: 'Bratislava',
-      rating: 4.9
-    },
-    {
-      id: 3,
-      name: 'Rodinný apartmán s garážou',
-      description: 'Priestranný 3-izbový apartmán pre celú rodinu.',
-      pricePerNight: 150,
-      capacity: 6,
-      bedrooms: 3,
-      bathrooms: 2,
-      imageUrl: 'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=800',
-      amenities: ['WiFi', 'TV', 'Kuchyňa', 'Parking', 'Garáž', 'Záhrada'],
-      address: 'Lesná 78',
-      city: 'Košice',
-      rating: 4.7
+  constructor(private http: HttpClient) { }
+
+  // Získaj všetky apartmány
+  getApartments(city?: string, skip: number = 0, limit: number = 100): Observable<Apartment[]> {
+    let params = new HttpParams()
+      .set('skip', skip.toString())
+      .set('limit', limit.toString());
+
+    if (city) {
+      params = params.set('city', city);
     }
-  ];
 
-  constructor() { }
-
-  getApartments(): Observable<Apartment[]> {
-    return of(this.mockApartments);
+    return this.http.get<Apartment[]>(this.apiUrl, { params });
   }
 
-  getApartmentById(id: number): Observable<Apartment | undefined> {
-    const apartment = this.mockApartments.find(apt => apt.id === id);
-    return of(apartment);
+  // Získaj jeden apartmán podľa ID
+  getApartmentById(id: number): Observable<Apartment> {
+    return this.http.get<Apartment>(`${this.apiUrl}/${id}`);
+  }
+
+  // Vytvor nový apartmán (len pre adminov)
+  createApartment(apartment: Apartment): Observable<Apartment> {
+    return this.http.post<Apartment>(this.apiUrl, apartment);
+  }
+
+  // Uprav apartmán (len pre adminov)
+  updateApartment(id: number, apartment: Partial<Apartment>): Observable<Apartment> {
+    return this.http.put<Apartment>(`${this.apiUrl}/${id}`, apartment);
+  }
+
+  // Zmaž apartmán (len pre adminov)
+  deleteApartment(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

@@ -1,0 +1,73 @@
+<!-- src/app/pages/login/login.component.html -->
+
+<div class="login-container">
+  <div class="login-content">
+    
+    <mat-card class="login-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>login</mat-icon>
+          Prihlásenie
+        </mat-card-title>
+        <mat-card-subtitle>Prihláste sa do svojho účtu</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form class="login-form" (ngSubmit)="onSubmit()">
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input 
+              matInput 
+              type="email" 
+              [(ngModel)]="credentials.email" 
+              name="email"
+              required
+              placeholder="vas@email.com">
+            <mat-icon matPrefix>email</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Heslo</mat-label>
+            <input 
+              matInput 
+              [type]="hidePassword ? 'password' : 'text'" 
+              [(ngModel)]="credentials.password" 
+              name="password"
+              required
+              placeholder="Vaše heslo">
+            <mat-icon matPrefix>lock</mat-icon>
+            <button 
+              mat-icon-button 
+              matSuffix 
+              type="button"
+              (click)="hidePassword = !hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit" 
+            class="login-button"
+            [disabled]="loading">
+            <mat-icon *ngIf="!loading">login</mat-icon>
+            <span *ngIf="loading">Prihlasuje sa...</span>
+            <span *ngIf="!loading">Prihlásiť sa</span>
+          </button>
+
+        </form>
+
+        <div class="links">
+          <p>
+            Ešte nemáte účet? 
+            <a routerLink="/register">Zaregistrujte sa</a>
+          </p>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>

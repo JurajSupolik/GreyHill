@@ -1,0 +1,79 @@
+/* src/app/pages/register/register.component.css */
+
+.register-container {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.register-content {
+  width: 100%;
+  max-width: 500px;
+}
+
+.register-card {
+  padding: 32px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+mat-card-header {
+  margin-bottom: 24px;
+}
+
+mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 28px;
+  color: #333;
+}
+
+mat-card-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-top: 8px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.register-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.register-button mat-icon {
+  margin-right: 8px;
+}
+
+.links {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.links p {
+  color: #666;
+  font-size: 14px;
+}
+
+.links a {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}

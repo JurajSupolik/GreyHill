@@ -1,0 +1,115 @@
+<!-- src/app/pages/register/register.component.html -->
+
+<div class="register-container">
+  <div class="register-content">
+    
+    <mat-card class="register-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>person_add</mat-icon>
+          Registrácia
+        </mat-card-title>
+        <mat-card-subtitle>Vytvorte si nový účet</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form class="register-form" (ngSubmit)="onSubmit()">
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email *</mat-label>
+            <input 
+              matInput 
+              type="email" 
+              [(ngModel)]="userData.email" 
+              name="email"
+              required
+              placeholder="vas@email.com">
+            <mat-icon matPrefix>email</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Používateľské meno *</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              [(ngModel)]="userData.username" 
+              name="username"
+              required
+              placeholder="vase_meno">
+            <mat-icon matPrefix>person</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Celé meno</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              [(ngModel)]="userData.full_name" 
+              name="full_name"
+              placeholder="Ján Novák">
+            <mat-icon matPrefix>badge</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Heslo *</mat-label>
+            <input 
+              matInput 
+              [type]="hidePassword ? 'password' : 'text'" 
+              [(ngModel)]="userData.password" 
+              name="password"
+              required
+              placeholder="Minimálne 6 znakov">
+            <mat-icon matPrefix>lock</mat-icon>
+            <button 
+              mat-icon-button 
+              matSuffix 
+              type="button"
+              (click)="hidePassword = !hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Potvrďte heslo *</mat-label>
+            <input 
+              matInput 
+              [type]="hideConfirmPassword ? 'password' : 'text'" 
+              [(ngModel)]="userData.confirmPassword" 
+              name="confirmPassword"
+              required
+              placeholder="Zopakujte heslo">
+            <mat-icon matPrefix>lock_outline</mat-icon>
+            <button 
+              mat-icon-button 
+              matSuffix 
+              type="button"
+              (click)="hideConfirmPassword = !hideConfirmPassword">
+              <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit" 
+            class="register-button"
+            [disabled]="loading">
+            <mat-icon *ngIf="!loading">person_add</mat-icon>
+            <span *ngIf="loading">Registruje sa...</span>
+            <span *ngIf="!loading">Zaregistrovať sa</span>
+          </button>
+
+        </form>
+
+        <div class="links">
+          <p>
+            Už máte účet? 
+            <a routerLink="/login">Prihláste sa</a>
+          </p>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>
