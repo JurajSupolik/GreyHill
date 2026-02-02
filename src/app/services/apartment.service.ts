@@ -46,4 +46,13 @@ export class ApartmentService {
   deleteApartment(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  // Získaj dostupnosť apartmánu pre kalendár
+  getApartmentAvailability(id: number, startDate?: string, endDate?: string): Observable<any> {
+    let params = new HttpParams();
+    if (startDate) params = params.set('start_date', startDate);
+    if (endDate) params = params.set('end_date', endDate);
+    
+    return this.http.get<any>(`${this.apiUrl}/../bookings/availability/${id}`, { params });
+  }
 }

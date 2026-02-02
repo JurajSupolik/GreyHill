@@ -1,138 +1,149 @@
 <!-- src/app/pages/admin/dashboard/dashboard.component.html -->
 
-<div class="admin-container">
+<div class="dashboard-container">
   
-  <!-- Header -->
-  <div class="admin-header">
-    <h1>
-      <mat-icon>admin_panel_settings</mat-icon>
-      Admin Dashboard
-    </h1>
-    <p>Vitajte v administrátorskom paneli</p>
+  <div class="header">
+    <h1>🏢 Admin Dashboard</h1>
+    <p>Správa rezervácií</p>
   </div>
 
-  <!-- Štatistiky -->
-  <div class="stats-grid">
-    <mat-card class="stat-card">
-      <mat-card-content>
-        <div class="stat-icon" style="background-color: #3f51b5;">
-          <mat-icon>people</mat-icon>
-        </div>
-        <div class="stat-info">
-          <h3>{{ stats.totalUsers }}</h3>
-          <p>Používateľov</p>
-        </div>
-      </mat-card-content>
-    </mat-card>
+  @if (loading) {
+    <div class="loading">
+      <p>Načítavam rezervácie...</p>
+    </div>
+  }
 
-    <mat-card class="stat-card">
+  @if (!loading && bookings.length === 0) {
+    <mat-card class="empty-state">
       <mat-card-content>
-        <div class="stat-icon" style="background-color: #4caf50;">
-          <mat-icon>check_circle</mat-icon>
-        </div>
-        <div class="stat-info">
-          <h3>{{ stats.activeUsers }}</h3>
-          <p>Aktívnych</p>
-        </div>
+        <mat-icon>inbox</mat-icon>
+        <h2>Žiadne rezervácie</h2>
+        <p>Momentálne nemáte žiadne rezervácie.</p>
       </mat-card-content>
     </mat-card>
+  }
 
-    <mat-card class="stat-card">
+  @if (!loading && bookings.length > 0) {
+    <mat-card>
       <mat-card-content>
-        <div class="stat-icon" style="background-color: #ff9800;">
-          <mat-icon>verified_user</mat-icon>
-        </div>
-        <div class="stat-info">
-          <h3>{{ stats.adminUsers }}</h3>
-          <p>Adminov</p>
-        </div>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card class="stat-card">
-      <mat-card-content>
-        <div class="stat-icon" style="background-color: #9c27b0;">
-          <mat-icon>apartment</mat-icon>
-        </div>
-        <div class="stat-info">
-          <h3>{{ stats.totalApartments }}</h3>
-          <p>Apartmánov</p>
-        </div>
-      </mat-card-content>
-    </mat-card>
+        
+        <div class="stats">
+  <div class="stat-card">
+    <mat-icon>event_available</mat-icon>
+    <div>
+      <h3>{{ bookings.length }}</h3>
+      <p>Celkovo rezervácií</p>
+    </div>
   </div>
+  
+  <div class="stat-card pending">
+    <mat-icon>schedule</mat-icon>
+    <div>
+      <h3>{{ pendingCount }}</h3>
+      <p>Čakajúce</p>
+    </div>
+  </div>
+  
+  <div class="stat-card confirmed">
+    <mat-icon>check_circle</mat-icon>
+    <div>
+      <h3>{{ confirmedCount }}</h3>
+      <p>Potvrdené</p>
+    </div>
+  </div>
+</div>
 
-  <!-- Používatelia -->
-  <mat-card class="table-card">
-    <mat-card-header>
-      <mat-card-title>
-        <mat-icon>people</mat-icon>
-        Zoznam používateľov
-      </mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
-      @if (loading) {
-        <div class="loading">
-          <p>Načítavam dáta...</p>
-        </div>
-      } @else {
         <div class="table-container">
-          <table mat-table [dataSource]="users" class="users-table">
-            
-            <!-- ID -->
+          <table mat-table [dataSource]="bookings" class="bookings-table">
+
+            <!-- ID Column -->
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef>ID</th>
-              <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+              <td mat-cell *matCellDef="let booking">#{{ booking.id }}</td>
             </ng-container>
 
-            <!-- Username -->
-            <ng-container matColumnDef="username">
-              <th mat-header-cell *matHeaderCellDef>Používateľ</th>
-              <td mat-cell *matCellDef="let user">
-                <strong>{{ user.username }}</strong>
-                @if (user.full_name) {
-                  <br>
-                  <small>{{ user.full_name }}</small>
-                }
+            <!-- Guest Name Column -->
+            <ng-container matColumnDef="guestName">
+              <th mat-header-cell *matHeaderCellDef>Hosť</th>
+              <td mat-cell *matCellDef="let booking">
+                <div class="guest-info">
+                  <strong>{{ booking.guest_name }}</strong>
+                  <small>{{ booking.guest_email }}</small>
+                </div>
               </td>
             </ng-container>
 
-            <!-- Email -->
-            <ng-container matColumnDef="email">
-              <th mat-header-cell *matHeaderCellDef>Email</th>
-              <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+            <!-- Apartment Column -->
+            <ng-container matColumnDef="apartmentId">
+              <th mat-header-cell *matHeaderCellDef>Apartmán</th>
+              <td mat-cell *matCellDef="let booking">Apartmán #{{ booking.apartment_id }}</td>
             </ng-container>
 
-            <!-- Admin -->
-            <ng-container matColumnDef="is_admin">
-              <th mat-header-cell *matHeaderCellDef>Rola</th>
-              <td mat-cell *matCellDef="let user">
-                @if (user.is_admin) {
-                  <mat-chip color="warn">Admin</mat-chip>
-                } @else {
-                  <mat-chip>Používateľ</mat-chip>
-                }
+            <!-- Check In Column -->
+            <ng-container matColumnDef="checkIn">
+              <th mat-header-cell *matHeaderCellDef>Príchod</th>
+              <td mat-cell *matCellDef="let booking">{{ formatDate(booking.check_in_date) }}</td>
+            </ng-container>
+
+            <!-- Check Out Column -->
+            <ng-container matColumnDef="checkOut">
+              <th mat-header-cell *matHeaderCellDef>Odchod</th>
+              <td mat-cell *matCellDef="let booking">{{ formatDate(booking.check_out_date) }}</td>
+            </ng-container>
+
+            <!-- Guests Column -->
+            <ng-container matColumnDef="guests">
+              <th mat-header-cell *matHeaderCellDef>Hostia</th>
+              <td mat-cell *matCellDef="let booking">
+                <mat-icon class="small-icon">people</mat-icon>
+                {{ booking.number_of_guests }}
               </td>
             </ng-container>
 
-            <!-- Active -->
-            <ng-container matColumnDef="is_active">
-              <th mat-header-cell *matHeaderCellDef>Stav</th>
-              <td mat-cell *matCellDef="let user">
-                @if (user.is_active) {
-                  <mat-chip color="primary">Aktívny</mat-chip>
-                } @else {
-                  <mat-chip>Neaktívny</mat-chip>
-                }
+            <!-- Price Column -->
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef>Cena</th>
+              <td mat-cell *matCellDef="let booking">
+                <strong>{{ booking.total_price }}€</strong>
               </td>
             </ng-container>
 
-            <!-- Created At -->
-            <ng-container matColumnDef="created_at">
-              <th mat-header-cell *matHeaderCellDef>Registrovaný</th>
-              <td mat-cell *matCellDef="let user">
-                {{ user.created_at | date:'dd.MM.yyyy HH:mm' }}
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let booking">
+                <mat-chip [color]="getStatusColor(booking.status)" highlighted>
+                  {{ getStatusText(booking.status) }}
+                </mat-chip>
+              </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Akcie</th>
+              <td mat-cell *matCellDef="let booking">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  @if (booking.status === 'PENDING') {
+                    <button mat-menu-item (click)="confirmBooking(booking.id)">
+                      <mat-icon color="primary">check_circle</mat-icon>
+                      <span>Potvrdiť</span>
+                    </button>
+                  }
+                  @if (booking.status !== 'CANCELLED') {
+                    <button mat-menu-item (click)="cancelBooking(booking.id)">
+                      <mat-icon color="warn">cancel</mat-icon>
+                      <span>Zrušiť</span>
+                    </button>
+                  }
+                  <mat-divider></mat-divider>
+                  <button mat-menu-item (click)="deleteBooking(booking.id)" class="delete-action">
+                    <mat-icon>delete</mat-icon>
+                    <span>Zmazať</span>
+                  </button>
+                </mat-menu>
               </td>
             </ng-container>
 
@@ -140,8 +151,9 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
         </div>
-      }
-    </mat-card-content>
-  </mat-card>
+
+      </mat-card-content>
+    </mat-card>
+  }
 
 </div>

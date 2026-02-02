@@ -4,14 +4,16 @@ export interface Apartment {
   id: number;
   name: string;
   description: string;
-  pricePerNight: number;
+  price_per_night: number;  // ← zmenené z pricePerNight
   capacity: number;
   bedrooms: number;
   bathrooms: number;
-  imageUrl: string;
+  image_url: string;  // ← zmenené z imageUrl
   images?: string[];
   amenities: string[];
   address: string;
   city: string;
   rating?: number;
+  created_at?: string;
+  updated_at?: string;
 }

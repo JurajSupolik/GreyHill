@@ -3,6 +3,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { ApartmentListComponent } from './components/apartment-list/apartment-list.component';
+import { ApartmentDetailComponent } from './pages/apartment-detail/apartment-detail.component';
 import { AboutComponent } from './pages/about/about.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -13,6 +14,7 @@ import { adminGuard } from './guards/auth.guard';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'apartments', component: ApartmentListComponent },
+  { path: 'apartments/:id', component: ApartmentDetailComponent },  // ← TOTO CHÝBALO!
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'login', component: LoginComponent },
@@ -20,7 +22,7 @@ export const routes: Routes = [
   { 
     path: 'admin', 
     component: DashboardComponent,
-    canActivate: [adminGuard]  // Chránené len pre adminov
+    canActivate: [adminGuard]
   },
   { path: '**', redirectTo: '' }
 ];

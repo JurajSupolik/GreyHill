@@ -1,0 +1,58 @@
+<!-- src/app/components/availability-calendar/availability-calendar.component.html -->
+
+<mat-card class="calendar-card">
+  <mat-card-content>
+    
+    <div class="calendar-header">
+      <button mat-icon-button (click)="previousMonth()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <h3>{{ currentMonthName }}</h3>
+      <button mat-icon-button (click)="nextMonth()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+
+    @if (loading) {
+      <div class="loading">Načítavam...</div>
+    }
+
+    @if (!loading) {
+      <!-- Názvy dní -->
+      <div class="calendar-grid">
+        @for (day of weekDays; track day) {
+          <div class="day-header">{{ day }}</div>
+        }
+        
+        <!-- Dni v kalendári -->
+        @for (day of calendarDays; track day.date) {
+          <div 
+            class="calendar-day"
+            [class.other-month]="!day.isCurrentMonth"
+            [class.occupied]="day.isOccupied"
+            [class.available]="!day.isOccupied && day.isCurrentMonth"
+            [class.today]="day.isToday">
+            <span class="day-number">{{ day.date.getDate() }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- Legenda -->
+      <div class="legend">
+        <div class="legend-item">
+          <div class="color-box available"></div>
+          <span>Voľné</span>
+        </div>
+        <div class="legend-item">
+          <div class="color-box occupied"></div>
+          <span>Obsadené</span>
+        </div>
+        <div class="legend-item">
+          <div class="color-box today"></div>
+          <span>Dnes</span>
+        </div>
+      </div>
+    }
+
+  </mat-card-content>
+</mat-card>

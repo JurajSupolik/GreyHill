@@ -1,0 +1,287 @@
+<!-- src/app/pages/apartment-detail/apartment-detail.component.html -->
+
+<div class="detail-container">
+
+  <!-- Loading -->
+  @if (loading) {
+    <div class="loading">
+      <p>Načítavam apartmán...</p>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (error && !loading) {
+    <div class="error">
+      <mat-icon>error_outline</mat-icon>
+      <h2>Apartmán sa nenašiel</h2>
+      <p>Požadovaný apartmán neexistuje alebo bol odstránený.</p>
+      <button mat-raised-button color="primary" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Späť na zoznam
+      </button>
+    </div>
+  }
+
+  <!-- Detail apartmánu -->
+  @if (apartment && !loading && !error) {
+    <div class="detail-content">
+      
+      <!-- Navigácia späť -->
+      <div class="back-button">
+        <button mat-button (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          Späť na zoznam
+        </button>
+      </div>
+
+      <!-- Hlavná fotka -->
+      <div class="main-image">
+        <img [src]="apartment.image_url" [alt]="apartment.name">
+      </div>
+
+      <!-- Obsah -->
+      <div class="content-grid">
+        
+        <!-- Ľavá strana - Info -->
+        <div class="info-section">
+          
+          <h1>{{ apartment.name }}</h1>
+          
+          <div class="location">
+            <mat-icon>location_on</mat-icon>
+            <span>{{ apartment.address }}, {{ apartment.city }}</span>
+          </div>
+
+          @if (apartment.rating) {
+            <div class="rating">
+              <mat-icon>star</mat-icon>
+              <span>{{ apartment.rating }} / 5.0</span>
+            </div>
+          }
+
+          <mat-divider></mat-divider>
+
+          <!-- Základné info -->
+          <div class="basic-info">
+            <div class="info-item">
+              <mat-icon>people</mat-icon>
+              <div>
+                <strong>Kapacita</strong>
+                <p>{{ apartment.capacity }} osôb</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <mat-icon>bed</mat-icon>
+              <div>
+                <strong>Spálne</strong>
+                <p>{{ apartment.bedrooms }} izby</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <mat-icon>bathroom</mat-icon>
+              <div>
+                <strong>Kúpeľne</strong>
+                <p>{{ apartment.bathrooms }}</p>
+              </div>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <!-- Popis -->
+          <div class="description">
+            <h2>O apartmáne</h2>
+            <p>{{ apartment.description }}</p>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <!-- Vybavenie -->
+          <div class="amenities">
+            <h2>Vybavenie</h2>
+            <div class="amenities-grid">
+              @for (amenity of apartment.amenities; track amenity) {
+                <div class="amenity-item">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>{{ amenity }}</span>
+                </div>
+              }
+            </div>
+          </div>
+
+        </div>
+        <div class="calendar-section">
+          <h2>📅 Dostupnosť</h2>
+          <p class="calendar-description">
+            Pozrite si voľné a obsadené termíny pre tento apartmán
+          </p>
+          <app-availability-calendar [apartmentId]="apartment.id"></app-availability-calendar>
+        </div>
+
+        <!-- Pravá strana - Rezervačný box -->
+        <div class="booking-section">
+          <mat-card class="booking-card">
+            <mat-card-content>
+              
+              <div class="price-header">
+                <div class="price">
+                  <span class="amount">{{ apartment.price_per_night }}€</span>
+                  <span class="per-night">/ noc</span>
+                </div>
+              </div>
+
+              <mat-divider></mat-divider>
+
+              <!-- Booking formulár -->
+              @if (!showBookingForm) {
+                <div class="booking-info">
+                  <p><mat-icon>info</mat-icon> Bezplatné zrušenie do 24h pred príchodom</p>
+                  <p><mat-icon>verified</mat-icon> Overený apartmán</p>
+                  <p><mat-icon>support_agent</mat-icon> 24/7 zákaznícka podpora</p>
+                </div>
+
+                <button 
+                  mat-raised-button 
+                  color="primary" 
+                  class="book-button"
+                  (click)="toggleBookingForm()">
+                  <mat-icon>event_available</mat-icon>
+                  Rezervovať
+                </button>
+
+                <p class="booking-note">Platba až po rezervácii</p>
+              }
+
+              <!-- Samotný formulár -->
+              @if (showBookingForm) {
+                <form [formGroup]="bookingForm" (ngSubmit)="submitBooking()" class="booking-form">
+                  
+                  <h3>Rezervačný formulár</h3>
+                  
+                  <!-- Meno -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Celé meno</mat-label>
+                    <input matInput formControlName="guestName" placeholder="Jan Novák">
+                    <mat-icon matPrefix>person</mat-icon>
+                    @if (bookingForm.get('guestName')?.hasError('required')) {
+                      <mat-error>Meno je povinné</mat-error>
+                    }
+                    @if (bookingForm.get('guestName')?.hasError('minlength')) {
+                      <mat-error>Meno musí mať aspoň 2 znaky</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <!-- Email -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="guestEmail" placeholder="jan@example.com">
+                    <mat-icon matPrefix>email</mat-icon>
+                    @if (bookingForm.get('guestEmail')?.hasError('required')) {
+                      <mat-error>Email je povinný</mat-error>
+                    }
+                    @if (bookingForm.get('guestEmail')?.hasError('email')) {
+                      <mat-error>Neplatný email</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <!-- Telefón -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Telefón</mat-label>
+                    <input matInput formControlName="guestPhone" placeholder="+421 900 123 456">
+                    <mat-icon matPrefix>phone</mat-icon>
+                    @if (bookingForm.get('guestPhone')?.hasError('required')) {
+                      <mat-error>Telefón je povinný</mat-error>
+                    }
+                    @if (bookingForm.get('guestPhone')?.hasError('pattern')) {
+                      <mat-error>Neplatný formát telefónu</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <!-- Dátumy -->
+                  <div class="date-fields">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Príchod</mat-label>
+                      <input matInput [matDatepicker]="checkinPicker" formControlName="checkInDate" [min]="minDate">
+                      <mat-datepicker-toggle matIconSuffix [for]="checkinPicker"></mat-datepicker-toggle>
+                      <mat-datepicker #checkinPicker></mat-datepicker>
+                      @if (bookingForm.get('checkInDate')?.hasError('required')) {
+                        <mat-error>Dátum príchodu je povinný</mat-error>
+                      }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Odchod</mat-label>
+                      <input matInput [matDatepicker]="checkoutPicker" formControlName="checkOutDate" [min]="minDate">
+                      <mat-datepicker-toggle matIconSuffix [for]="checkoutPicker"></mat-datepicker-toggle>
+                      <mat-datepicker #checkoutPicker></mat-datepicker>
+                      @if (bookingForm.get('checkOutDate')?.hasError('required')) {
+                        <mat-error>Dátum odchodu je povinný</mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Počet hostí -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Počet hostí</mat-label>
+                    <input matInput type="number" formControlName="numberOfGuests" [max]="apartment.capacity" min="1">
+                    <mat-icon matPrefix>people</mat-icon>
+                    @if (bookingForm.get('numberOfGuests')?.hasError('required')) {
+                      <mat-error>Počet hostí je povinný</mat-error>
+                    }
+                    @if (bookingForm.get('numberOfGuests')?.hasError('max')) {
+                      <mat-error>Maximum {{ apartment.capacity }} hostí</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <!-- Špeciálne požiadavky -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Špeciálne požiadavky (voliteľné)</mat-label>
+                    <textarea matInput formControlName="specialRequests" rows="3"></textarea>
+                    <mat-icon matPrefix>note</mat-icon>
+                  </mat-form-field>
+
+                  <!-- Celková cena -->
+                  @if (totalPrice > 0) {
+                    <div class="total-price">
+                      <strong>Celková cena:</strong>
+                      <span class="price-amount">{{ totalPrice }}€</span>
+                    </div>
+                  }
+
+                  <!-- Tlačidlá -->
+                  <div class="form-actions">
+                    <button 
+                      mat-button 
+                      type="button" 
+                      (click)="toggleBookingForm()"
+                      [disabled]="submitting">
+                      Zrušiť
+                    </button>
+                    <button 
+                      mat-raised-button 
+                      color="primary" 
+                      type="submit"
+                      [disabled]="!bookingForm.valid || submitting">
+                      @if (submitting) {
+                        <span>Vytvára sa...</span>
+                      } @else {
+                        <span>Potvrdiť rezerváciu</span>
+                      }
+                    </button>
+                  </div>
+
+                </form>
+              }
+
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+      </div>
+
+    </div>
+  }
+
+</div>

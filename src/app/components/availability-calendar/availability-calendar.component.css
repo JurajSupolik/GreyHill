@@ -1,0 +1,136 @@
+/* src/app/components/availability-calendar/availability-calendar.component.css */
+
+.calendar-card {
+  margin: 20px 0;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.day-header {
+  text-align: center;
+  font-weight: bold;
+  color: #666;
+  padding: 10px 0;
+  font-size: 14px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: default;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.day-number {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Voľné dni */
+.calendar-day.available {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.calendar-day.available:hover {
+  background-color: #c8e6c9;
+}
+
+/* Obsadené dni */
+.calendar-day.occupied {
+  background-color: #ffebee;
+  color: #c62828;
+  cursor: not-allowed;
+}
+
+/* Iný mesiac */
+.calendar-day.other-month {
+  background-color: #fafafa;
+  color: #bbb;
+}
+
+/* Dnešný deň */
+.calendar-day.today {
+  border: 2px solid #1976d2;
+  font-weight: bold;
+}
+
+/* Legenda */
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.color-box.available {
+  background-color: #e8f5e9;
+  border: 1px solid #2e7d32;
+}
+
+.color-box.occupied {
+  background-color: #ffebee;
+  border: 1px solid #c62828;
+}
+
+.color-box.today {
+  background-color: #fff;
+  border: 2px solid #1976d2;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .calendar-grid {
+    gap: 4px;
+  }
+  
+  .day-number {
+    font-size: 12px;
+  }
+  
+  .legend {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

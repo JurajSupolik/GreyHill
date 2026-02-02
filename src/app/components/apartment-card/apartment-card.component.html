@@ -1,7 +1,7 @@
 <!-- src/app/components/apartment-card/apartment-card.component.html -->
 
 <mat-card class="apartment-card">
-  <img mat-card-image [src]="apartment.imageUrl" [alt]="apartment.name">
+  <img mat-card-image [src]="apartment.image_url" [alt]="apartment.name">
   
   <mat-card-header>
     <mat-card-title>{{ apartment.name }}</mat-card-title>
@@ -37,9 +37,9 @@
 
   <mat-card-actions>
     <div class="price-section">
-      <span class="price">{{ apartment.pricePerNight }}€</span>
+      <span class="price">{{ apartment.price_per_night }}€</span>
       <span class="per-night">/noc</span>
     </div>
-    <button mat-raised-button color="primary">Detail</button>
+    <button mat-raised-button color="primary" [routerLink]="['/apartments', apartment.id]">Detail</button>
   </mat-card-actions>
 </mat-card>
