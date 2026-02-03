@@ -133,6 +133,21 @@ def get_booking(booking_id: int, db: Session = Depends(get_db)):
         )
     return booking
 
+# GET - Rezervácie podla emailu hosťa
+@router.get("/guest/{guest_email}", response_model=List[BookingResponse])   
+def get_bookings_by_guest_email(guest_email: str, db: Session = Depends(get_db)):
+    bookings = db.query(Booking).filter(
+        Booking.guest_email == guest_email
+    ).order_by(Booking.created_at.desc()).all()
+    
+    if not bookings:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Nenalezen žádná rezervace pro tento email"
+        )
+    
+    return bookings
+
 # PUT - Zmeň status rezervácie (len admin)
 @router.put("/{booking_id}/status", response_model=BookingResponse)
 async def update_booking_status(
