@@ -6,6 +6,7 @@ import os
 class EnvVariables(BaseModel):
     secret_key: str
     database_url: str
+    admin_password: str
     is_debug_mode: bool = False  # Príklad ďalšieho nastavenia
 
 
@@ -13,6 +14,7 @@ load_dotenv()  # Načíta premenné prostredia z .env súboru
 EnvVariables = EnvVariables(
     secret_key=os.getenv("SECRET_KEY", "default_secret_key"),
     database_url=os.getenv("DATABASE_URL", "sqlite:///./greyhill.db"),  # Predvolená hodnota
+    admin_password=os.getenv("ADMIN_PASSWORD", "default_admin_password"),
     is_debug_mode=os.getenv("IS_DEBUG_MODE", "false").lower() == "true"
 )
 
