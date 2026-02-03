@@ -134,10 +134,10 @@ def get_booking(booking_id: int, db: Session = Depends(get_db)):
     return booking
 
 # GET - Rezervácie podla emailu hosťa
-@router.get("/guest/{guest_email}", response_model=List[BookingResponse])   
-def get_bookings_by_guest_email(guest_email: str, db: Session = Depends(get_db)):
+@router.get("/guest/{email}", response_model=List[BookingResponse])   
+def get_bookings_by_guest_email(email: str, db: Session = Depends(get_db)):
     bookings = db.query(Booking).filter(
-        Booking.guest_email == guest_email
+        Booking.guest_email == email
     ).order_by(Booking.created_at.desc()).all()
     
     if not bookings:
