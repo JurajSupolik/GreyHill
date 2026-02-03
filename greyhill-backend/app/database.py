@@ -3,6 +3,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from app.utils.env_variables import get_env_variables   
 from dotenv import load_dotenv 
 import os
 #from app.settings import settings
@@ -26,6 +27,10 @@ engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
     connect_args={"check_same_thread": False}
 )
+
+env_variables = get_env_variables()
+if env_variables.is_debug_mode:
+    print("database URL from .env:", SQLALCHEMY_DATABASE_URL)
 
 # SessionLocal
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

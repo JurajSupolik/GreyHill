@@ -13,6 +13,7 @@ from app.utils.auth import (
     get_current_active_user,
     get_current_admin_user
 )
+from app.utils.env_variables import EnvVariables, get_env_variables
 
 router = APIRouter()
 
@@ -186,3 +187,13 @@ async def get_all_users(
     print(f"📋 Admin {current_user.username} žiada zoznam používateľov")
     users = db.query(User).order_by(User.created_at.desc()).all()
     return users
+
+# GET /admin/veraibles - Zobrazenie env premenných (len admin)
+@router.get("/admin/variables")
+async def get_env_variables_admin(
+    #current_user: User = Depends(get_current_admin_user),
+    #current_user: User = Depends(get_current_active_user),
+    env_vars: EnvVariables = Depends(get_env_variables)
+):
+    #print(f"📋 {current_user.username} žiada env premenné")    
+    return env_vars
