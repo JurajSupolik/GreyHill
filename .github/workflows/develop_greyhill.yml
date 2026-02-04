@@ -27,7 +27,7 @@ jobs:
       - name: npm install, build
         run: |
           npm install --force          
-          ng build --configuration production
+          ng build
 
       - name: Clean up before deployment
         run: |
