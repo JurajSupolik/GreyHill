@@ -3,19 +3,11 @@
 from app.database import SessionLocal, engine, Base
 from app.models.apartment import Apartment
 from app.models.user import User
+from app.models.booking import Booking
 from app.utils.auth import hash_password
 
-# Vytvor tabuľky
-Base.metadata.create_all(bind=engine)
 
-db = SessionLocal()
-
-# Vymaž staré dáta (voliteľné)
-db.query(Apartment).delete()
-db.commit()
-
-# Vytvor testové apartmány
-apartments = [
+APARTMENTS_DATA = [
     {
         "name": "Luxusný apartmán centrum",
         "description": "Krásny priestranný apartmán v centre mesta s výhľadom na hory.",
@@ -57,27 +49,139 @@ apartments = [
     }
 ]
 
-for apt_data in apartments:
-    apartment = Apartment(**apt_data)
-    db.add(apartment)
 
-db.commit()
+def create_tables():
+    """Vytvor databázové tabuľky."""
+    Base.metadata.create_all(bind=engine)
 
-print(f"✅ Vytvorených {len(apartments)} apartmánov!")
 
-# Vytvor admin používateľa (ak neexistuje)
-admin = db.query(User).filter(User.email == "admin@greyhill.sk").first()
-if not admin:
-    admin = User(
-        email="admin@greyhill.sk",
-        username="admin",
-        full_name="Admin User",
-        hashed_password=hash_password("admin123"),
-        is_admin=True
-    )
-    db.add(admin)
+def clear_apartments(db):
+    """Vymaž staré apartmány z databázy."""
+    db.query(Apartment).delete()
     db.commit()
-    print("✅ Admin používateľ vytvorený! (admin@greyhill.sk / admin123)")
 
-db.close()
-print("✅ Databáza naplnená!")
+
+def create_apartments(db):
+    """Vytvor testové apartmány."""
+    for apt_data in APARTMENTS_DATA:
+        apartment = Apartment(**apt_data)
+        db.add(apartment)
+    
+    db.commit()
+    print(f"✅ Vytvorených {len(APARTMENTS_DATA)} apartmánov!")
+
+
+def create_admin_user(db):
+    """Vytvor admin používateľa (ak neexistuje)."""
+    admin = db.query(User).filter(User.email == "admin@greyhill.sk").first()
+    if not admin:
+        admin = User(
+            email="admin@greyhill.sk",
+            username="admin",
+            full_name="Admin User",
+            hashed_password=hash_password("admin123"),
+            is_admin=True
+        )
+        db.add(admin)
+        db.commit()
+        print("✅ Admin používateľ vytvorený! (admin@greyhill.sk / admin123)")
+
+def create_user(db):
+    """Vytvor testového používateľa."""
+    user = db.query(User).filter(User.email == "user@greyhill.sk").first()
+    if not user:
+        user = User(
+            email="user@greyhill.sk",
+            username="user",
+            full_name="Test User",
+            hashed_password=hash_password("user123"),
+            is_admin=False
+        )
+        db.add(user)
+        db.commit()
+        print("✅ Testový používateľ vytvorený! (user@greyhill.sk / user123)")
+    return user
+
+
+def create_bookings(db):
+    """Vytvor testové rezervácie pre test používateľa."""
+    from datetime import datetime, timedelta
+    from app.models.booking import BookingStatus
+    
+    # Získaj test používateľa
+    user = db.query(User).filter(User.email == "user@greyhill.sk").first()
+    if not user:
+        print("❌ Test používateľ nenájdený!")
+        return
+    
+    # Zisti dostupné apartmány
+    apartments = db.query(Apartment).all()
+    if len(apartments) < 2:
+        print("❌ Nedostatok apartmánov na vytvorenie rezervácií!")
+        return
+    
+    # Vytvor 2 rezervácie
+    bookings = [
+        Booking(
+            apartment_id=apartments[0].id,
+            guest_name="Test User",
+            guest_email="user@greyhill.sk",
+            guest_phone="+421940123456",
+            check_in_date=datetime.now() + timedelta(days=5),
+            check_out_date=datetime.now() + timedelta(days=10),
+            number_of_guests=2,
+            total_price=apartments[0].price_per_night * 5,
+            status=BookingStatus.CONFIRMED,
+            special_requests="Prosím, ranný check-in"
+        ),
+        Booking(
+            apartment_id=apartments[1].id,
+            guest_name="Test User",
+            guest_email="user@greyhill.sk",
+            guest_phone="+421940123456",
+            check_in_date=datetime.now() + timedelta(days=15),
+            check_out_date=datetime.now() + timedelta(days=20),
+            number_of_guests=2,
+            total_price=apartments[1].price_per_night * 5,
+            status=BookingStatus.PENDING,
+            special_requests="Veľa vankúšov, prosím"
+        )
+    ]
+    
+    for booking in bookings:
+        db.add(booking)
+    
+    db.commit()
+    print(f"✅ Vytvorené 2 rezervácie pre používateľa user@greyhill.sk!")
+
+
+
+def seed_database():
+    """Inicializuj databázu s testovacími údajmi."""
+    create_tables()
+    
+    db = SessionLocal()
+    try:
+        clear_apartments(db)
+        create_apartments(db)
+        create_admin_user(db)
+        create_user(db)
+        create_bookings(db)
+        print("✅ Databáza naplnená!")
+    finally:
+        db.close()
+
+def clear_database():
+    """Vymaž všetky dáta z databázy."""
+    db = SessionLocal()
+    try:
+        db.query(Apartment).delete()
+        db.query(User).filter(User.is_admin == False).delete()  # Nevymazávaj admin používateľov
+        db.query(Booking).delete()
+        db.commit()
+        print("✅ Databáza vymazaná!")
+    finally:
+        db.close()
+
+if __name__ == "__main__":
+    seed_database()

@@ -14,6 +14,8 @@ from app.utils.auth import (
     get_current_admin_user
 )
 from app.utils.env_variables import EnvVariables, get_env_variables
+import traceback
+from seed_data import clear_database, seed_database
 
 router = APIRouter()
 
@@ -192,8 +194,42 @@ async def get_all_users(
 @router.get("/admin/variables")
 async def get_env_variables_admin(
     #current_user: User = Depends(get_current_admin_user),
-    #current_user: User = Depends(get_current_active_user),
+    current_user: User = Depends(get_current_active_user),
     env_vars: EnvVariables = Depends(get_env_variables)
 ):
     #print(f"📋 {current_user.username} žiada env premenné")    
     return env_vars
+
+@router.get("/admin/clear_database")
+async def clear_database_admin(
+    current_user: User = Depends(get_current_active_user)
+):
+    try:
+        print("🛠️ Spouštím vymazanie databázy")
+        clear_database()
+        return {"message": "Databáza vymazaná!"}
+    except Exception as e:
+        print(f"❌ Chyba pri vymazávaní databázy: {e}")
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Chyba pri vymazávaní databázy: {str(e)}"
+        )
+
+#Get /admin/seed_database - Naplnenie databázy testovacími údajmi (len admin)
+@router.post("/admin/seed_database")    
+async def seed_database_admin(
+    #current_user: User = Depends(get_current_admin_user)
+):
+    try:
+        print("🛠️ Spouštím naplnení databáze testovacími údajmi")
+        #print(f"🛠️ Admin {current_user.username} spúšťa naplnenie databázy testovacími údajmi")
+        seed_database()
+        return {"message": "Databáza naplnená testovacími údajmi"}
+    except Exception as e:
+        print(f"❌ Chyba při naplňování databáze: {e}")
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Chyba při naplňování databáze: {str(e)}"
+        )
