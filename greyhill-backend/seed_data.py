@@ -85,6 +85,20 @@ def create_admin_user(db):
         db.commit()
         print("✅ Admin používateľ vytvorený! (admin@greyhill.sk / admin123)")
 
+def create_user(db):
+    """Vytvor testového používateľa."""
+    user = db.query(User).filter(User.email == "user@greyhill.sk").first()
+    if not user:
+        user = User(
+            email="user@greyhill.sk",
+            username="user",
+            full_name="Test User",
+            hashed_password=hash_password("user123"),
+            is_admin=False
+        )
+        db.add(user)
+        db.commit()
+        print("✅ Testový používateľ vytvorený! (user@greyhill.sk / user123)")
 
 def seed_database():
     """Inicializuj databázu s testovacími údajmi."""
@@ -95,10 +109,10 @@ def seed_database():
         clear_apartments(db)
         create_apartments(db)
         create_admin_user(db)
+        create_user(db)
         print("✅ Databáza naplnená!")
     finally:
         db.close()
-
 
 if __name__ == "__main__":
     seed_database()
