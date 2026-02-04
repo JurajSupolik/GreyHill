@@ -100,6 +100,61 @@ def create_user(db):
         db.add(user)
         db.commit()
         print("✅ Testový používateľ vytvorený! (user@greyhill.sk / user123)")
+    return user
+
+
+def create_bookings(db):
+    """Vytvor testové rezervácie pre test používateľa."""
+    from datetime import datetime, timedelta
+    from app.models.booking import BookingStatus
+    
+    # Získaj test používateľa
+    user = db.query(User).filter(User.email == "user@greyhill.sk").first()
+    if not user:
+        print("❌ Test používateľ nenájdený!")
+        return
+    
+    # Zisti dostupné apartmány
+    apartments = db.query(Apartment).all()
+    if len(apartments) < 2:
+        print("❌ Nedostatok apartmánov na vytvorenie rezervácií!")
+        return
+    
+    # Vytvor 2 rezervácie
+    bookings = [
+        Booking(
+            apartment_id=apartments[0].id,
+            guest_name="Test User",
+            guest_email="user@greyhill.sk",
+            guest_phone="+421940123456",
+            check_in_date=datetime.now() + timedelta(days=5),
+            check_out_date=datetime.now() + timedelta(days=10),
+            number_of_guests=2,
+            total_price=apartments[0].price_per_night * 5,
+            status=BookingStatus.CONFIRMED,
+            special_requests="Prosím, ranný check-in"
+        ),
+        Booking(
+            apartment_id=apartments[1].id,
+            guest_name="Test User",
+            guest_email="user@greyhill.sk",
+            guest_phone="+421940123456",
+            check_in_date=datetime.now() + timedelta(days=15),
+            check_out_date=datetime.now() + timedelta(days=20),
+            number_of_guests=2,
+            total_price=apartments[1].price_per_night * 5,
+            status=BookingStatus.PENDING,
+            special_requests="Veľa vankúšov, prosím"
+        )
+    ]
+    
+    for booking in bookings:
+        db.add(booking)
+    
+    db.commit()
+    print(f"✅ Vytvorené 2 rezervácie pre používateľa user@greyhill.sk!")
+
+
 
 def seed_database():
     """Inicializuj databázu s testovacími údajmi."""
@@ -111,6 +166,7 @@ def seed_database():
         create_apartments(db)
         create_admin_user(db)
         create_user(db)
+        create_bookings(db)
         print("✅ Databáza naplnená!")
     finally:
         db.close()
@@ -121,6 +177,7 @@ def clear_database():
     try:
         db.query(Apartment).delete()
         db.query(User).filter(User.is_admin == False).delete()  # Nevymazávaj admin používateľov
+        db.query(Booking).delete()
         db.commit()
         print("✅ Databáza vymazaná!")
     finally:
