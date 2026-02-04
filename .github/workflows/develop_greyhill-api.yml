@@ -3,7 +3,7 @@
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 # test
 
-name: Build and deploy Python app to Azure Web App - greyhill-dev-api
+name: Build and deploy Python app to Azure Web App - greyhill-api
 
 on:
   push:
@@ -76,6 +76,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'greyhill-dev-api'
+          app-name: 'greyhill-api'
           slot-name: 'Production'
           package: './python-app.zip'
