@@ -8,7 +8,7 @@ name: Build and deploy Python app to Azure Web App - greyhill-dev-api
 on:
   push:
     branches:
-      - develop
+      - master
   workflow_dispatch:
 
 jobs:
