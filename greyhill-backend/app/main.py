@@ -30,7 +30,7 @@ app.include_router(bookings.router, prefix="/api/bookings", tags=["Bookings"])
 def root():
     return {
         "message": "Greyhill API",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "docs": "/docs"
     }
 
