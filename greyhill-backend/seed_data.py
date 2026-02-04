@@ -3,6 +3,7 @@
 from app.database import SessionLocal, engine, Base
 from app.models.apartment import Apartment
 from app.models.user import User
+from app.models.booking import Booking
 from app.utils.auth import hash_password
 
 
@@ -111,6 +112,17 @@ def seed_database():
         create_admin_user(db)
         create_user(db)
         print("✅ Databáza naplnená!")
+    finally:
+        db.close()
+
+def clear_database():
+    """Vymaž všetky dáta z databázy."""
+    db = SessionLocal()
+    try:
+        db.query(Apartment).delete()
+        db.query(User).filter(User.is_admin == False).delete()  # Nevymazávaj admin používateľov
+        db.commit()
+        print("✅ Databáza vymazaná!")
     finally:
         db.close()
 
