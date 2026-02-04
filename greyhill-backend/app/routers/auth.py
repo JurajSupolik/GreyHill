@@ -14,6 +14,8 @@ from app.utils.auth import (
     get_current_admin_user
 )
 from app.utils.env_variables import EnvVariables, get_env_variables
+import traceback
+from seed_data import seed_database
 
 router = APIRouter()
 
@@ -197,3 +199,21 @@ async def get_env_variables_admin(
 ):
     #print(f"📋 {current_user.username} žiada env premenné")    
     return env_vars
+
+#Get /admin/seed_database - Naplnenie databázy testovacími údajmi (len admin)
+@router.post("/admin/seed_database")    
+async def seed_database_admin(
+    #current_user: User = Depends(get_current_admin_user)
+):
+    try:
+        print("🛠️ Spouštím naplnení databáze testovacími údajmi")
+        #print(f"🛠️ Admin {current_user.username} spúšťa naplnenie databázy testovacími údajmi")
+        seed_database()
+        return {"message": "Databáza naplnená testovacími údajmi"}
+    except Exception as e:
+        print(f"❌ Chyba při naplňování databáze: {e}")
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Chyba při naplňování databáze: {str(e)}"
+        )

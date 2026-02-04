@@ -5,17 +5,8 @@ from app.models.apartment import Apartment
 from app.models.user import User
 from app.utils.auth import hash_password
 
-# Vytvor tabuľky
-Base.metadata.create_all(bind=engine)
 
-db = SessionLocal()
-
-# Vymaž staré dáta (voliteľné)
-db.query(Apartment).delete()
-db.commit()
-
-# Vytvor testové apartmány
-apartments = [
+APARTMENTS_DATA = [
     {
         "name": "Luxusný apartmán centrum",
         "description": "Krásny priestranný apartmán v centre mesta s výhľadom na hory.",
@@ -57,27 +48,57 @@ apartments = [
     }
 ]
 
-for apt_data in apartments:
-    apartment = Apartment(**apt_data)
-    db.add(apartment)
 
-db.commit()
+def create_tables():
+    """Vytvor databázové tabuľky."""
+    Base.metadata.create_all(bind=engine)
 
-print(f"✅ Vytvorených {len(apartments)} apartmánov!")
 
-# Vytvor admin používateľa (ak neexistuje)
-admin = db.query(User).filter(User.email == "admin@greyhill.sk").first()
-if not admin:
-    admin = User(
-        email="admin@greyhill.sk",
-        username="admin",
-        full_name="Admin User",
-        hashed_password=hash_password("admin123"),
-        is_admin=True
-    )
-    db.add(admin)
+def clear_apartments(db):
+    """Vymaž staré apartmány z databázy."""
+    db.query(Apartment).delete()
     db.commit()
-    print("✅ Admin používateľ vytvorený! (admin@greyhill.sk / admin123)")
 
-db.close()
-print("✅ Databáza naplnená!")
+
+def create_apartments(db):
+    """Vytvor testové apartmány."""
+    for apt_data in APARTMENTS_DATA:
+        apartment = Apartment(**apt_data)
+        db.add(apartment)
+    
+    db.commit()
+    print(f"✅ Vytvorených {len(APARTMENTS_DATA)} apartmánov!")
+
+
+def create_admin_user(db):
+    """Vytvor admin používateľa (ak neexistuje)."""
+    admin = db.query(User).filter(User.email == "admin@greyhill.sk").first()
+    if not admin:
+        admin = User(
+            email="admin@greyhill.sk",
+            username="admin",
+            full_name="Admin User",
+            hashed_password=hash_password("admin123"),
+            is_admin=True
+        )
+        db.add(admin)
+        db.commit()
+        print("✅ Admin používateľ vytvorený! (admin@greyhill.sk / admin123)")
+
+
+def seed_database():
+    """Inicializuj databázu s testovacími údajmi."""
+    create_tables()
+    
+    db = SessionLocal()
+    try:
+        clear_apartments(db)
+        create_apartments(db)
+        create_admin_user(db)
+        print("✅ Databáza naplnená!")
+    finally:
+        db.close()
+
+
+if __name__ == "__main__":
+    seed_database()
