@@ -40,8 +40,8 @@ jobs:
         with:
           name: python-app
           path: |
-            .
-            !antenv/
+            greyhill-backend
+            !greyhill-backend/antenv/
 
       # 🚫 Opting Out of Oryx Build
       # If you prefer to disable the Oryx build process during deployment, follow these steps:
@@ -75,3 +75,4 @@ jobs:
         with:
           app-name: 'greyhill-dev-api'
           slot-name: 'Production'
+          package: './greyhill-backend'
