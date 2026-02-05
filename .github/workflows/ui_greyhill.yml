@@ -29,7 +29,7 @@ jobs:
         working-directory: client
         run: |
           npm install
-          npx ng build
+          npx ng build --configuration production
 
       - name: Create ZIP artifact
         working-directory: client
