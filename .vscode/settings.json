@@ -2,7 +2,5 @@
     "appService.zipIgnorePattern": [
         "node_modules{,/**}",
         ".vscode{,/**}"
-    ],
-    "appService.defaultWebAppToDeploy": "/subscriptions/33fb38df-688e-4ca1-8dd8-b46e26262ff8/resourceGroups/greyhill-dev-rg-pol/providers/Microsoft.Web/sites/greyhill",
-    "appService.deploySubpath": "dist"
+    ]
 }
