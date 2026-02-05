@@ -1,17 +1,18 @@
-# app/routers/bookings.py
+# greyhill-backend/app/routers/bookings.py
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
+
 from app.database import get_db
 from app.models.booking import Booking, BookingStatus
-from app.models.apartment import Apartment
 from app.models.user import User
-from app.schemas.booking import BookingCreate, BookingResponse, BookingStatusUpdate
-from app.utils.auth import get_current_active_user, get_current_admin_user
+from app.models.apartment import Apartment
+from app.schemas.booking import BookingCreate, BookingResponse, BookingUpdate, BookingStatusUpdate
+from app.utils.auth import get_current_user
 from app.utils.email import (
-    send_booking_confirmation_email, 
+    send_booking_confirmation_email,
     send_admin_notification_email,
     send_booking_confirmed_email,
     send_booking_cancelled_email
@@ -19,250 +20,290 @@ from app.utils.email import (
 
 router = APIRouter()
 
-# POST - Vytvor novú rezerváciu
+
+@router.get("/my-bookings", response_model=List[BookingResponse])
+def get_my_bookings(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Získaj všetky rezervácie aktuálneho užívateľa"""
+    bookings = db.query(Booking).filter(
+        Booking.guest_email == current_user.email
+    ).order_by(Booking.created_at.desc()).all()
+    
+    return bookings
+
+
+@router.get("/", response_model=List[BookingResponse])
+def get_all_bookings(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Získaj všetky rezervácie (admin) alebo len moje (user)"""
+    if current_user.is_admin:
+        bookings = db.query(Booking).order_by(Booking.created_at.desc()).all()
+    else:
+        bookings = db.query(Booking).filter(
+            Booking.guest_email == current_user.email
+        ).order_by(Booking.created_at.desc()).all()
+    
+    return bookings
+
+
+@router.get("/{booking_id}", response_model=BookingResponse)
+def get_booking(
+    booking_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Získaj detail rezervácie"""
+    booking = db.query(Booking).filter(Booking.id == booking_id).first()
+    
+    if not booking:
+        raise HTTPException(status_code=404, detail="Rezervácia nenájdená")
+    
+    # Kontrola oprávnení - len admin alebo vlastník rezervácie
+    if not current_user.is_admin and booking.guest_email != current_user.email:
+        raise HTTPException(status_code=403, detail="Nemáte oprávnenie")
+    
+    return booking
+
+
 @router.post("/", response_model=BookingResponse, status_code=status.HTTP_201_CREATED)
-def create_booking(booking_data: BookingCreate, db: Session = Depends(get_db)):
-    print(f"📅 Nova rezervacia pre apartman ID: {booking_data.apartment_id}")
-    
+def create_booking(
+    booking: BookingCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Vytvor novú rezerváciu"""
     # Skontroluj, či apartmán existuje
-    apartment = db.query(Apartment).filter(Apartment.id == booking_data.apartment_id).first()
+    apartment = db.query(Apartment).filter(Apartment.id == booking.apartment_id).first()
     if not apartment:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Apartmán neexistuje"
-        )
+        raise HTTPException(status_code=404, detail="Apartmán nenájdený")
     
-    # Validácia dátumov
-    if booking_data.check_in_date >= booking_data.check_out_date:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Dátum odchodu musí byť po dátume príchodu"
-        )
-    
-    # Porovnaj s UTC datetime
-    now_utc = datetime.now(timezone.utc)
-    if booking_data.check_in_date < now_utc:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Dátum príchodu nemôže byť v minulosti"
-        )
-    
-    # Skontroluj dostupnosť (či sa termíny neprekrývajú s existujúcimi rezerváciami)
-    overlapping = db.query(Booking).filter(
-        Booking.apartment_id == booking_data.apartment_id,
-        Booking.status != BookingStatus.CANCELLED,
-        Booking.check_in_date < booking_data.check_out_date,
-        Booking.check_out_date > booking_data.check_in_date
+    # Skontroluj dostupnosť
+    existing_bookings = db.query(Booking).filter(
+        Booking.apartment_id == booking.apartment_id,
+        Booking.status.in_([BookingStatus.PENDING, BookingStatus.CONFIRMED]),
+        Booking.check_out_date > booking.check_in_date,
+        Booking.check_in_date < booking.check_out_date
     ).first()
     
-    if overlapping:
+    if existing_bookings:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Apartmán nie je dostupný v požadovanom termíne"
+            status_code=400, 
+            detail="Apartmán nie je dostupný v tomto termíne"
         )
     
     # Vypočítaj celkovú cenu
-    days = (booking_data.check_out_date - booking_data.check_in_date).days
-    total_price = days * apartment.price_per_night
-    
-    print(f"💰 Celkova cena: {days} dni × {apartment.price_per_night}€ = {total_price}€")
+    nights = (booking.check_out_date - booking.check_in_date).days
+    total_price = apartment.price_per_night * nights
     
     # Vytvor rezerváciu
     new_booking = Booking(
-        apartment_id=booking_data.apartment_id,
-        guest_name=booking_data.guest_name,
-        guest_email=booking_data.guest_email,
-        guest_phone=booking_data.guest_phone,
-        check_in_date=booking_data.check_in_date,
-        check_out_date=booking_data.check_out_date,
-        number_of_guests=booking_data.number_of_guests,
+        apartment_id=booking.apartment_id,
+        guest_name=booking.guest_name or current_user.full_name,
+        guest_email=booking.guest_email or current_user.email,
+        guest_phone=booking.guest_phone,
+        check_in_date=booking.check_in_date,
+        check_out_date=booking.check_out_date,
+        number_of_guests=booking.number_of_guests,
         total_price=total_price,
-        special_requests=booking_data.special_requests,
-        status=BookingStatus.PENDING
+        status=BookingStatus.PENDING,
+        special_requests=booking.special_requests
     )
     
     db.add(new_booking)
     db.commit()
     db.refresh(new_booking)
     
-    print(f"✅ Rezervacia vytvorena! ID: {new_booking.id}")
-    
-    # 📧 ODOŠLI EMAILY
-    booking_dict = {
-        'guest_name': booking_data.guest_name,
-        'guest_email': booking_data.guest_email,
-        'guest_phone': booking_data.guest_phone,
-        'check_in_date': booking_data.check_in_date.isoformat(),
-        'check_out_date': booking_data.check_out_date.isoformat(),
-        'number_of_guests': booking_data.number_of_guests
-    }
-    
-    # Email hosťovi
-    send_booking_confirmation_email(booking_dict, apartment.name, total_price)
-    
-    # Email adminovi
-    send_admin_notification_email(booking_dict, apartment.name, total_price, new_booking.id)
+    # 📧 POŠLI EMAILY
+    try:
+        # Email hosťovi
+        booking_data = {
+            'guest_name': new_booking.guest_name,
+            'guest_email': new_booking.guest_email,
+            'guest_phone': new_booking.guest_phone,
+            'check_in_date': new_booking.check_in_date.isoformat(),
+            'check_out_date': new_booking.check_out_date.isoformat(),
+            'number_of_guests': new_booking.number_of_guests
+        }
+        
+        send_booking_confirmation_email(
+            booking_data=booking_data,
+            apartment_name=apartment.name,
+            total_price=total_price
+        )
+        
+        # Email adminovi
+        send_admin_notification_email(
+            booking_data=booking_data,
+            apartment_name=apartment.name,
+            total_price=total_price,
+            booking_id=new_booking.id
+        )
+    except Exception as e:
+        print(f"⚠️ Email sa nepodarilo odoslať: {e}")
+        # Nezrušuj rezerváciu ak email zlyhá
     
     return new_booking
 
-# GET - Všetky rezervácie (len admin)
-@router.get("/", response_model=List[BookingResponse])
-async def get_all_bookings(
-    current_user: User = Depends(get_current_admin_user),
-    db: Session = Depends(get_db)
-):
-    bookings = db.query(Booking).order_by(Booking.created_at.desc()).all()
-    return bookings
 
-# GET - Rezervácie pre konkrétny apartmán
-@router.get("/apartment/{apartment_id}", response_model=List[BookingResponse])
-def get_apartment_bookings(apartment_id: int, db: Session = Depends(get_db)):
-    bookings = db.query(Booking).filter(
-        Booking.apartment_id == apartment_id
-    ).order_by(Booking.check_in_date).all()
-    return bookings
-
-# GET - Jedna rezervácia podľa ID
-@router.get("/{booking_id}", response_model=BookingResponse)
-def get_booking(booking_id: int, db: Session = Depends(get_db)):
-    booking = db.query(Booking).filter(Booking.id == booking_id).first()
-    if not booking:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Rezervácia neexistuje"
-        )
-    return booking
-
-# GET - Rezervácie podla emailu hosťa
-@router.get("/guest/{email}", response_model=List[BookingResponse])   
-def get_bookings_by_guest_email(email: str, db: Session = Depends(get_db)):
-    bookings = db.query(Booking).filter(
-        Booking.guest_email == email
-    ).order_by(Booking.created_at.desc()).all()
-    
-    if not bookings:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Nenalezen žádná rezervace pro tento email"
-        )
-    
-    return bookings
-
-# PUT - Zmeň status rezervácie (len admin)
-@router.put("/{booking_id}/status", response_model=BookingResponse)
-async def update_booking_status(
+@router.put("/{booking_id}/cancel", response_model=BookingResponse)
+def cancel_booking(
     booking_id: int,
-    status_update: BookingStatusUpdate,
-    current_user: User = Depends(get_current_admin_user),
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
+    """Zruš rezerváciu"""
     booking = db.query(Booking).filter(Booking.id == booking_id).first()
+    
     if not booking:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Rezervácia neexistuje"
-        )
+        raise HTTPException(status_code=404, detail="Rezervácia nenájdená")
     
-    # Ulož starý status
+    # Kontrola oprávnení
+    if not current_user.is_admin and booking.guest_email != current_user.email:
+        raise HTTPException(status_code=403, detail="Nemáte oprávnenie zrušiť túto rezerváciu")
+    
+    # Skontroluj, či rezervácia už nie je zrušená
+    if booking.status == BookingStatus.CANCELLED:
+        raise HTTPException(status_code=400, detail="Rezervácia už bola zrušená")
+    
+    # Zruš rezerváciu
     old_status = booking.status
-    new_status = BookingStatus(status_update.status)
-    
-    # Zmeň status
-    booking.status = new_status
+    booking.status = BookingStatus.CANCELLED
     db.commit()
     db.refresh(booking)
     
-    print(f"✅ Status rezervacie {booking_id} zmeneny z {old_status} na {new_status}")
+    # 📧 POŠLI EMAIL O ZRUŠENÍ
+    if old_status in [BookingStatus.PENDING, BookingStatus.CONFIRMED]:
+        try:
+            apartment = db.query(Apartment).filter(Apartment.id == booking.apartment_id).first()
+            booking_data = {
+                'guest_name': booking.guest_name,
+                'guest_email': booking.guest_email,
+                'check_in_date': booking.check_in_date.isoformat(),
+                'check_out_date': booking.check_out_date.isoformat(),
+                'number_of_guests': booking.number_of_guests,
+                'total_price': booking.total_price
+            }
+            
+            send_booking_cancelled_email(
+                booking=booking_data,
+                apartment_name=apartment.name if apartment else "Neznámy apartmán"
+            )
+        except Exception as e:
+            print(f"⚠️ Email zrušenia sa nepodarilo odoslať: {e}")
     
-    # 📧 ODOŠLI EMAIL AK SA STATUS ZMENIL NA CONFIRMED ALEBO CANCELLED
-    apartment = db.query(Apartment).filter(Apartment.id == booking.apartment_id).first()
+    return booking
+
+
+@router.put("/{booking_id}/status", response_model=BookingResponse)
+def update_booking_status(
+    booking_id: int,
+    status_update: BookingStatusUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Aktualizuj stav rezervácie (admin only)"""
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Len admin môže meniť stav rezervácie")
     
-    if apartment:
-        booking_dict = {
+    booking = db.query(Booking).filter(Booking.id == booking_id).first()
+    
+    if not booking:
+        raise HTTPException(status_code=404, detail="Rezervácia nenájdená")
+    
+    # Validuj status
+    try:
+        new_status = BookingStatus[status_update.status.upper()]
+        old_status = booking.status
+        booking.status = new_status
+    except KeyError:
+        raise HTTPException(status_code=400, detail="Neplatný status")
+    
+    db.commit()
+    db.refresh(booking)
+    
+    # 📧 POŠLI EMAIL PRI ZMENE STATUSU
+    try:
+        apartment = db.query(Apartment).filter(Apartment.id == booking.apartment_id).first()
+        booking_data = {
             'guest_name': booking.guest_name,
             'guest_email': booking.guest_email,
-            'guest_phone': booking.guest_phone,
-            'check_in_date': booking.check_in_date,
-            'check_out_date': booking.check_out_date,
+            'check_in_date': booking.check_in_date.isoformat(),
+            'check_out_date': booking.check_out_date.isoformat(),
             'number_of_guests': booking.number_of_guests,
             'total_price': booking.total_price
         }
         
-        if new_status == BookingStatus.CONFIRMED and old_status != BookingStatus.CONFIRMED:
-            send_booking_confirmed_email(booking_dict, apartment.name)
+        # Email pri potvrdení
+        if old_status == BookingStatus.PENDING and new_status == BookingStatus.CONFIRMED:
+            send_booking_confirmed_email(
+                booking=booking_data,
+                apartment_name=apartment.name if apartment else "Neznámy apartmán"
+            )
         
+        # Email pri zrušení
         elif new_status == BookingStatus.CANCELLED and old_status != BookingStatus.CANCELLED:
-            send_booking_cancelled_email(booking_dict, apartment.name)
+            send_booking_cancelled_email(
+                booking=booking_data,
+                apartment_name=apartment.name if apartment else "Neznámy apartmán"
+            )
+    except Exception as e:
+        print(f"⚠️ Email sa nepodarilo odoslať: {e}")
     
     return booking
-# GET - Dostupnosť apartmánu (kalendár)
+
+
+@router.delete("/{booking_id}")
+def delete_booking(
+    booking_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Vymaž rezerváciu (len admin)"""
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Len admin môže mazať rezervácie")
+    
+    booking = db.query(Booking).filter(Booking.id == booking_id).first()
+    
+    if not booking:
+        raise HTTPException(status_code=404, detail="Rezervácia nenájdená")
+    
+    db.delete(booking)
+    db.commit()
+    
+    return {"message": "Rezervácia vymazaná"}
+
+
 @router.get("/availability/{apartment_id}")
-def get_apartment_availability(
+def get_availability(
     apartment_id: int,
     start_date: str = None,
     end_date: str = None,
     db: Session = Depends(get_db)
 ):
-    """
-    Vráti zoznam obsadených dátumov pre kalendár.
-    Query params:
-    - start_date: YYYY-MM-DD (voliteľné, default: dnes)
-    - end_date: YYYY-MM-DD (voliteľné, default: +3 mesiace)
-    """
+    """Získaj dostupnosť apartmánu"""
+    apartment = db.query(Apartment).filter(Apartment.id == apartment_id).first()
+    if not apartment:
+        raise HTTPException(status_code=404, detail="Apartmán nenájdený")
     
-    # Ak nie sú zadané dátumy, použij default
-    if not start_date:
-        start = datetime.now(timezone.utc)
-    else:
-        start = datetime.fromisoformat(start_date).replace(tzinfo=timezone.utc)
-    
-    if not end_date:
-        end = start + timedelta(days=90)  # 3 mesiace dopredu
-    else:
-        end = datetime.fromisoformat(end_date).replace(tzinfo=timezone.utc)
-    
-    # Získaj všetky aktívne rezervácie v tomto období
+    # Získaj všetky potvrdené rezervácie
     bookings = db.query(Booking).filter(
         Booking.apartment_id == apartment_id,
-        Booking.status != BookingStatus.CANCELLED,
-        Booking.check_in_date <= end,
-        Booking.check_out_date >= start
+        Booking.status.in_([BookingStatus.PENDING, BookingStatus.CONFIRMED])
     ).all()
     
-    # Vytvor zoznam obsadených dátumov
-    occupied_dates = []
+    booked_dates = []
     for booking in bookings:
-        current_date = booking.check_in_date.date()
-        end_date_obj = booking.check_out_date.date()
-        
-        while current_date < end_date_obj:
-            occupied_dates.append(current_date.isoformat())
-            current_date += timedelta(days=1)
+        booked_dates.append({
+            "check_in": booking.check_in_date.isoformat(),
+            "check_out": booking.check_out_date.isoformat(),
+            "status": booking.status.value
+        })
     
     return {
         "apartment_id": apartment_id,
-        "start_date": start.date().isoformat(),
-        "end_date": end.date().isoformat(),
-        "occupied_dates": occupied_dates,
-        "bookings_count": len(bookings)
+        "booked_dates": booked_dates
     }
-# DELETE - Zmaž rezerváciu (len admin)
-@router.delete("/{booking_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_booking(
-    booking_id: int,
-    current_user: User = Depends(get_current_admin_user),
-    db: Session = Depends(get_db)
-):
-    booking = db.query(Booking).filter(Booking.id == booking_id).first()
-    if not booking:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Rezervácia neexistuje"
-        )
-    
-    db.delete(booking)
-    db.commit()
-    
-    print(f"🗑️ Rezervacia {booking_id} vymazana")
-    
-    return None
