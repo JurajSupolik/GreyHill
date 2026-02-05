@@ -27,11 +27,17 @@ jobs:
         working-directory: client
         run: |
           npm install
-          npm run build --if-present
+          npm run build
 
       - name: Create ZIP artifact
         working-directory: client
-        run: zip -r release.zip dist/
+        run: |
+          if [ -d "dist" ]; then
+            cd dist && zip -r ../release.zip . && cd ..
+          else
+            echo "ERROR: dist directory not found. Build may have failed."
+            exit 1
+          fi
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
