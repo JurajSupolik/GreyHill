@@ -9,7 +9,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Greyhill API",
-    description="Booking systém pre apartmány 3",
+    description="Booking systém pre apartmány Greyhill",
     version="1.0.0"
 )
 
