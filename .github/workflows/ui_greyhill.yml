@@ -74,4 +74,4 @@ jobs:
         with:
           app-name: 'greyhill'
           slot-name: 'Production'
-          package: ./dist
+          package: ./
