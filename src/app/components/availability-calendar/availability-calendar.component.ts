@@ -56,7 +56,28 @@ export class AvailabilityCalendarComponent implements OnInit {
       end.toISOString().split('T')[0]
     ).subscribe({
       next: (data) => {
-        this.occupiedDates = new Set(data.occupied_dates);
+        console.log('📅 Dostupnosť z API:', data); // DEBUG
+        
+        // Spracuj booked_dates z backendu
+        this.occupiedDates = new Set();
+        
+        if (data.booked_dates && Array.isArray(data.booked_dates)) {
+          data.booked_dates.forEach((booking: any) => {
+            // Pridaj všetky dni medzi check_in a check_out
+            const checkIn = new Date(booking.check_in);
+            const checkOut = new Date(booking.check_out);
+            
+            let currentDate = new Date(checkIn);
+            while (currentDate < checkOut) {
+              const dateStr = currentDate.toISOString().split('T')[0];
+              this.occupiedDates.add(dateStr);
+              currentDate.setDate(currentDate.getDate() + 1);
+            }
+          });
+        }
+        
+        console.log('🔴 Obsadené dni:', Array.from(this.occupiedDates)); // DEBUG
+        
         this.generateCalendar();
         this.loading = false;
       },
@@ -120,7 +141,8 @@ export class AvailabilityCalendarComponent implements OnInit {
 
   isDateOccupied(date: Date): boolean {
     const dateStr = date.toISOString().split('T')[0];
-    return this.occupiedDates.has(dateStr);
+    const isOccupied = this.occupiedDates.has(dateStr);
+    return isOccupied;
   }
 
   isToday(date: Date): boolean {

@@ -100,7 +100,7 @@ export class DashboardComponent implements OnInit {
           this.snackBar.open('✅ Status zmenený', 'Zavrieť', { duration: 3000 });
           this.loadBookings(); // Refresh
         },
-        error: (error) => {
+        error: (error: any) => {
           this.snackBar.open('❌ Chyba pri zmene statusu', 'Zavrieť', { duration: 3000 });
           console.error('Chyba:', error);
         }
