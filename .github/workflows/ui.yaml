@@ -1,0 +1,71 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Angular app to Azure Web App - greyhill
+
+on:
+  push:
+    branches:
+      - ui
+  workflow_dispatch:
+
+jobs:
+  build-angular:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: npm install and build
+        working-directory: client
+        run: |
+          npm install
+          npm run build --if-present
+
+      - name: Create ZIP artifact
+        working-directory: client
+        run: zip release.zip ./dist -r
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: angular-app
+          path: client/release.zip
+
+  deploy-angular:
+    runs-on: ubuntu-latest
+    needs: build-angular
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: angular-app
+
+      - name: Unzip artifact
+        run: unzip release.zip
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_95EBABD228A447E885021C8984A123A0 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_437A75DEBC5F41D5809FF50347EC7642 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2C2F92DD412A4F3DB5FB18DEA4377D35 }}
+
+      - name: 'Deploy to Azure Web App'
+        uses: azure/webapps-deploy@v3
+        id: deploy-to-angular-app
+        with:
+          app-name: 'greyhill'
+          slot-name: 'Production'
+          package: ./dist
