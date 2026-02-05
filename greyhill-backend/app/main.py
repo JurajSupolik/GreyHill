@@ -15,8 +15,8 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    #allow_origins=["http://localhost:4200", "https://greyhill.azurewebsites.net", "https://greyhill-api.azurewebsites.net"],
-    allow_origins=["*"],  # Povoliť všetky originy (neodporúča sa v produkcii)
+    allow_origins=["http://localhost:4200", "https://greyhill.azurewebsites.net", "https://greyhill-api.azurewebsites.net"],
+    #allow_origins=["*"],  # Povoliť všetky originy (neodporúča sa v produkcii)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
