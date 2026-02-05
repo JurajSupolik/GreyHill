@@ -1,0 +1,196 @@
+/* src/app/pages/profile/profile.component.css */
+
+.profile-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* User Card */
+.user-card {
+  margin-bottom: 2rem;
+}
+
+.user-avatar {
+  background-color: #673ab7;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-avatar mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.user-info {
+  margin-top: 1rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.info-row mat-icon {
+  color: #666;
+}
+
+/* Bookings Card */
+.bookings-card {
+  min-height: 400px;
+}
+
+.bookings-card mat-card-header {
+  margin-bottom: 1.5rem;
+}
+
+.bookings-card mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  color: #666;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #673ab7;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #666;
+}
+
+.empty-state mat-icon {
+  font-size: 72px;
+  width: 72px;
+  height: 72px;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.empty-state p {
+  margin-bottom: 2rem;
+}
+
+/* Bookings Table */
+.table-container {
+  overflow-x: auto;
+}
+
+.bookings-table {
+  width: 100%;
+  box-shadow: none;
+}
+
+.bookings-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  color: #333;
+}
+
+.bookings-table td {
+  padding: 1rem;
+}
+
+.apartment-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.apartment-cell strong {
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.apartment-cell small {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.dates-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.date-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.small-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 0 0.5rem;
+  }
+
+  .bookings-table {
+    font-size: 0.85rem;
+  }
+
+  .bookings-table td,
+  .bookings-table th {
+    padding: 0.5rem;
+  }
+
+  .displayedColumns {
+    display: none;
+  }
+
+  /* Na mobile možno prepnúť na cards namiesto tabuľky */
+  .table-container {
+    display: block;
+  }
+}
+
+/* Status Colors */
+mat-chip.mat-primary {
+  background-color: #4caf50 !important;
+}
+
+mat-chip.mat-accent {
+  background-color: #ff9800 !important;
+}
+
+mat-chip.mat-warn {
+  background-color: #f44336 !important;
+}

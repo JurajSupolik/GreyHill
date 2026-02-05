@@ -3,8 +3,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Booking } from '../models/booking';
 import { environment } from '../../environments/environment';
+import { Booking } from '../models/booking';
 
 @Injectable({
   providedIn: 'root'
@@ -14,33 +14,53 @@ export class BookingService {
 
   constructor(private http: HttpClient) { }
 
-  // Vytvor novú rezerváciu
-  createBooking(bookingData: any): Observable<Booking> {
-    return this.http.post<Booking>(this.apiUrl, bookingData);
+  // Získaj moje rezervácie
+  getMyBookings(): Observable<Booking[]> {
+    return this.http.get<Booking[]>(`${this.apiUrl}/my-bookings`);
   }
 
-  // Získaj všetky rezervácie (len pre adminov)
+  // Získaj všetky rezervácie
   getAllBookings(): Observable<Booking[]> {
     return this.http.get<Booking[]>(this.apiUrl);
   }
 
-  // Získaj rezervácie pre konkrétny apartmán
-  getApartmentBookings(apartmentId: number): Observable<Booking[]> {
-    return this.http.get<Booking[]>(`${this.apiUrl}/apartment/${apartmentId}`);
+  // Získaj detail rezervácie
+  getBookingById(id: number): Observable<Booking> {
+    return this.http.get<Booking>(`${this.apiUrl}/${id}`);
   }
 
-  // Získaj jednu rezerváciu podľa ID
-  getBookingById(bookingId: number): Observable<Booking> {
-    return this.http.get<Booking>(`${this.apiUrl}/${bookingId}`);
+  // Vytvor rezerváciu
+  createBooking(booking: any): Observable<Booking> {
+    return this.http.post<Booking>(this.apiUrl, booking);
   }
 
-  // Zmeň status rezervácie (len pre adminov)
-  updateBookingStatus(bookingId: number, status: string): Observable<Booking> {
-    return this.http.put<Booking>(`${this.apiUrl}/${bookingId}/status`, { status });
+  // Zruš rezerváciu
+  cancelBooking(id: number): Observable<Booking> {
+    return this.http.put<Booking>(`${this.apiUrl}/${id}/cancel`, {});
   }
 
-  // Zmaž rezerváciu (len pre adminov)
-  deleteBooking(bookingId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${bookingId}`);
+  // Aktualizuj stav rezervácie (admin)
+  updateBookingStatus(id: number, status: string): Observable<Booking> {
+    return this.http.put<Booking>(`${this.apiUrl}/${id}/status`, { status });
+  }
+
+  // Zmaž rezerváciu (admin)
+  deleteBooking(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  // Získaj dostupnosť apartmánu
+  getAvailability(apartmentId: number, startDate?: string, endDate?: string): Observable<any> {
+    let url = `${this.apiUrl}/availability/${apartmentId}`;
+    const params = new URLSearchParams();
+    
+    if (startDate) params.append('start_date', startDate);
+    if (endDate) params.append('end_date', endDate);
+    
+    if (params.toString()) {
+      url += `?${params.toString()}`;
+    }
+    
+    return this.http.get<any>(url);
   }
 }

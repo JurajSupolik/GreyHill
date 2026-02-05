@@ -9,13 +9,13 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Greyhill API",
-    description="Booking systém pre apartmány",
+    description="Booking systém pre apartmány Greyhill 1",
     version="1.0.0"
 )
 
 app.add_middleware(
     CORSMiddleware,
-    #allow_origins=["http://localhost:4200"],
+    #allow_origins=["http://localhost:4200", "https://greyhill.azurewebsites.net", "https://greyhill-api.azurewebsites.net"],
     allow_origins=["*"],  # Povoliť všetky originy (neodporúča sa v produkcii)
     allow_credentials=True,
     allow_methods=["*"],
@@ -30,7 +30,7 @@ app.include_router(bookings.router, prefix="/api/bookings", tags=["Bookings"])
 def root():
     return {
         "message": "Greyhill API",
-        "version": "1.0.0",
+        "version": "26.02.04",
         "docs": "/docs"
     }
 

@@ -8,17 +8,24 @@ import { AboutComponent } from './pages/about/about.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 import { adminGuard } from './guards/auth.guard';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'apartments', component: ApartmentListComponent },
-  { path: 'apartments/:id', component: ApartmentDetailComponent },  // ← TOTO CHÝBALO!
+  { path: 'apartments/:id', component: ApartmentDetailComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { 
+    path: 'profile', 
+    component: ProfileComponent,
+    canActivate: [authGuard]  // Len prihlásení môžu vidieť profil
+  },
   { 
     path: 'admin', 
     component: DashboardComponent,
