@@ -1,0 +1,44 @@
+<div class="test-api-container">
+  <div class="input-section">
+    <h2>Test API Endpoint</h2>
+    
+    <div class="input-group">
+      <label for="url">API URL:</label>
+      <input 
+        id="url"
+        type="text" 
+        [(ngModel)]="url" 
+        placeholder="https://example.com/api/endpoint"
+        class="url-input"
+      />
+    </div>
+
+    <div class="button-group">
+      <button 
+        (click)="testApi()" 
+        [disabled]="loading"
+        class="btn btn-primary"
+      >
+        {{ loading ? 'Načítavam...' : 'Otestuj' }}
+      </button>
+      <button 
+        (click)="clearResults()" 
+        class="btn btn-secondary"
+      >
+        Vymaž
+      </button>
+    </div>
+  </div>
+
+  <div class="results-section" *ngIf="response || error">
+    <div *ngIf="error" class="error-box">
+      <strong>Chyba:</strong>
+      <p>{{ error }}</p>
+    </div>
+
+    <div *ngIf="response" class="response-box">
+      <strong>Odpoveď:</strong>
+      <pre>{{ response }}</pre>
+    </div>
+  </div>
+</div>
