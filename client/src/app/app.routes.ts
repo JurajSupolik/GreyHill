@@ -10,6 +10,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
+import { TestComponent } from './pages/test/test.component';
 import { adminGuard } from './guards/auth.guard';
 import { authGuard } from './guards/auth.guard';
 
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'test', component: TestComponent },
   { 
     path: 'profile', 
     component: ProfileComponent,
