@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { TestApiComponent } from '../../components/test-api/test-api.component';
 
 @Component({
   selector: 'app-about',
@@ -11,7 +12,8 @@ import { MatCardModule } from '@angular/material/card';
   imports: [
     CommonModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    TestApiComponent
   ],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css'
