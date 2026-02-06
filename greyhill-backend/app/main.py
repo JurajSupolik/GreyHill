@@ -21,7 +21,7 @@ file_logger = LoggerFactory.create_file_logger(file_path="logs/api_requests.log"
 
 app = FastAPI(
     title="Greyhill API",
-    description="Booking systém pre apartmány Greyhill 2",
+    description="Booking systém pre apartmány Greyhill 1:06",
     version="1.0.0"
 )
 
@@ -39,13 +39,13 @@ def custom_log_handler(log_data: RequestLogData):
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:4200",
-        "https://localhost:4200", 
-        "http://greyhill.azurewebsites.net",
-        "https://greyhill.azurewebsites.net", 
-        "https://greyhill-api.azurewebsites.net"],
-    #allow_origins=["*"],  # Povoliť všetky originy (neodporúča sa v produkcii)
+    # allow_origins=[
+    #     "http://localhost:4200",
+    #     "https://localhost:4200", 
+    #     "http://greyhill.azurewebsites.net",
+    #     "https://greyhill.azurewebsites.net", 
+    #     "https://greyhill-api.azurewebsites.net"],
+    allow_origins=["*"],  # Povoliť všetky originy (neodporúča sa v produkcii)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
