@@ -40,7 +40,8 @@ def custom_log_handler(log_data: RequestLogData):
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:4200", 
+        "http://localhost:4200",
+        "https://localhost:4200", 
         "http://greyhill.azurewebsites.net",
         "https://greyhill.azurewebsites.net", 
         "https://greyhill-api.azurewebsites.net"],

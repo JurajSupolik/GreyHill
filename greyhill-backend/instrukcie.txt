@@ -1,0 +1,18 @@
+vytvor certificakat
+
+zastva python
+cd greyhill-backend
+ak neni python generate_cert.py
+
+spusti potom z ssl
+uvicorn app.main:app --reload --reload-dir app --ssl-keyfile=key.pem --ssl-certfile=cert.pem
+
+bezne no ssl
+uvicorn app.main:app --reload --reload-dir app 
+
+
+angluar
+ng serve --configuration development --ssl true --ssl-cert cert.pem --ssl-key key.pem
+ng serve --configuration production --ssl true --ssl-cert cert.pem --ssl-key key.pem
+alebo
+ng serve --ssl
