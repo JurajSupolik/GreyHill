@@ -11,7 +11,8 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./test-api.component.css']
 })
 export class TestApiComponent {
-  url: string = '';
+  //url: string = '';
+  url: string = 'https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m';
   response: string = '';
   loading: boolean = false;
   error: string = '';
@@ -27,6 +28,7 @@ export class TestApiComponent {
     this.loading = true;
     this.error = '';
     this.response = '';
+    //this.url = ''; //nemaz url
 
     this.http.get(this.url, { responseType: 'text' }).subscribe({
       next: (data) => {
