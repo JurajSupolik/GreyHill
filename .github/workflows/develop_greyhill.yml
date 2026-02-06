@@ -3,7 +3,7 @@
 # web appp | General settings| Stack settings | Startup command = pm2 serve /home/site/wwwroot/greyhill/browser/ --no-daemon
 
 
-name: UI develop - Angular greyhill
+name: UI Angular - greyhill
 
 on:
   push:
