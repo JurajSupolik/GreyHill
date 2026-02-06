@@ -12,7 +12,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class TestApiComponent {
   //url: string = '';
-  url: string = 'https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m';
+  //url: string = 'https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m';
+  url: string = 'https://greyhill-api.azurewebsites.net/api/apartments/1';  
   response: string = '';
   loading: boolean = false;
   error: string = '';
