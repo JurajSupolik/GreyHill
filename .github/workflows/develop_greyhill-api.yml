@@ -6,9 +6,10 @@
 name: api Python - greyhill-api
 
 on:
-  push:
-    branches:
-      - develop
+  # ako chcete spustiť workflow pri pushnutí do develop vetvy, odkomentujte nasledujúci blok
+  # push:
+  #   branches:
+  #     - develop  
   workflow_dispatch:
 
 jobs:
