@@ -21,7 +21,7 @@ console_logger = LoggerFactory.create_console_logger()
 file_logger = LoggerFactory.create_file_logger(file_path="logs/api_requests.log")
 
 app = FastAPI(
-    redirect_slashes=False,
+    #redirect_slashes=False,
     title="Greyhill API",
     description="Booking systém pre apartmány Greyhill 1:06",
     version="1.0.0"
