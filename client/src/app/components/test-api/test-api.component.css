@@ -31,6 +31,26 @@ label {
   color: #333;
 }
 
+.environment-display {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  background-color: #f9f9f9;
+  color: #333;
+  min-height: 60px;
+  resize: vertical;
+  font-family: 'Courier New', monospace;
+}
+
+.environment-display:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
 .url-input {
   width: 100%;
   padding: 12px;

@@ -3,6 +3,15 @@
     <h2>Iba  test api</h2>
     
     <div class="input-group">
+      <label for="environment-api">Current Environment API URL:</label>
+      <textarea 
+        id="environment-api"
+        class="environment-display"
+        readonly
+      >{{ apiUrl }}</textarea>
+    </div>
+    
+    <div class="input-group">
       <label for="url">API URL:</label>
       <input 
         id="url"

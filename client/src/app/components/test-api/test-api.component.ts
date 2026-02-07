@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-test-api',
@@ -16,6 +17,7 @@ export class TestApiComponent {
   response: string = '';
   loading: boolean = false;
   error: string = '';
+  apiUrl: string = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

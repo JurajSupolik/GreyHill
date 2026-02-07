@@ -1,3 +1,6 @@
+# Import to Trusted Root Certification Authorities
+certutil -addstore -user "Root" localhost.crt
+
 vytvor certificakat
 
 zastva python
