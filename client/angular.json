@@ -58,6 +58,21 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "test": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
             }
           },
           "defaultConfiguration": "production"
@@ -70,6 +85,9 @@
             },
             "development": {
               "buildTarget": "greyhill:build:development"
+            },
+            "test": {
+              "buildTarget": "greyhill:build:test"
             }
           },
           "defaultConfiguration": "development"
