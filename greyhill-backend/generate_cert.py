@@ -5,9 +5,12 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 import datetime
+from datetime import timezone
 
 # Generate private key
-private_key = rsa.generate_private_key(
+private_key = None
+if private_key is None: 
+    private_key = rsa.generate_private_key(
     public_exponent=65537,
     key_size=4096,
     backend=default_backend()
@@ -31,9 +34,9 @@ cert = x509.CertificateBuilder().subject_name(
 ).serial_number(
     x509.random_serial_number()
 ).not_valid_before(
-    datetime.datetime.utcnow()
+    datetime.datetime.now(timezone.utc)
 ).not_valid_after(
-    datetime.datetime.utcnow() + datetime.timedelta(days=365)
+    datetime.datetime.now(timezone.utc) + datetime.timedelta(days=365)
 ).add_extension(
     x509.SubjectAlternativeName([
         x509.DNSName(u'localhost'),
@@ -59,4 +62,33 @@ with open('key.pem', 'wb') as f:
 with open('cert.pem', 'wb') as f:
     f.write(cert.public_bytes(serialization.Encoding.PEM))
 
-print('✅ Generated cert.pem and key.pem')
+# Create PKCS12 (.pfx) file
+from cryptography.hazmat.primitives.serialization import pkcs12
+pfx_data = pkcs12.serialize_key_and_certificates(
+    name=b'greyhill',
+    key=private_key,
+    cert=cert,
+    cas=None,
+    encryption_algorithm=serialization.NoEncryption()
+)
+
+with open('cert.pfx', 'wb') as f:
+    f.write(pfx_data)
+
+# Create PKCS12 (.pfx) file with password
+from cryptography.hazmat.primitives.serialization import pkcs12, BestAvailableEncryption
+
+password = b''  # Your password as bytes
+
+pfx_data = pkcs12.serialize_key_and_certificates(
+    name=b'greyhill',
+    key=private_key,
+    cert=cert,
+    cas=None,
+    encryption_algorithm=BestAvailableEncryption(password)
+)
+
+with open('cert.pfx', 'wb') as f:
+    f.write(pfx_data)
+
+print('✅ Generated cert.pem, key.pem, and cert.pfx')
