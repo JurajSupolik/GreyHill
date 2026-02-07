@@ -27,10 +27,11 @@ jobs:
         working-directory: client
         run: npm install
 
-      - name: ng build production
+      - name: ng build test
         working-directory: client
-        run: npx ng build --configuration production #nefungovalo na github actions
-        #run: ng build --configuration production
+        run: npx ng build --configuration test 
+        #run: npx ng build --configuration production 
+        #run: ng build --configuration production nefungovalo na github actions
 
       - name: Create ZIP artifact
         working-directory: client
