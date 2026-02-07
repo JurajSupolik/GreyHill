@@ -2,13 +2,18 @@ vytvor certificakat
 
 zastva python
 cd greyhill-backend
-ak neni python generate_cert.py
+ak neni cert tak potom spusti
+python generate_cert.py
 
 spusti potom z ssl
 uvicorn app.main:app --reload --reload-dir app --ssl-keyfile=key.pem --ssl-certfile=cert.pem
 
 bezne no ssl
 uvicorn app.main:app --reload --reload-dir app 
+
+cd .\greyhill-backend\
+venv\Scripts\activate
+pip install -r requirements.txt --force
 
 
 angluar

@@ -40,9 +40,10 @@ cert = x509.CertificateBuilder().subject_name(
         x509.DNSName(u'127.0.0.1'),
         x509.DNSName(u'greyhill.azurewebsites.net'),
         x509.DNSName(u'greyhill-api.azurewebsites.net'),
+        x509.DNSName(u'greyhill-test.azurewebsites.net'),
+        x509.DNSName(u'greyhill-test-api.azurewebsites.net'),
         x509.DNSName(u'greyhill-dev.azurewebsites.net'),
-        x509.DNSName(u'greyhill-dev-api.azurewebsites.net'),
-
+        x509.DNSName(u'greyhill-dev-api.azurewebsites.net'),       
     ]),
     critical=False,
 ).sign(private_key, hashes.SHA256(), default_backend())
