@@ -2,6 +2,7 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from app.database import engine, Base
 from app.routers import apartments, auth, bookings
 from seed_data import seed_database
@@ -49,6 +50,12 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+# Trust Azure's proxy headers
+app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=["*"]    
 )
 
 # Pridanie vlastného middleware pre logovanie
