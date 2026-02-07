@@ -18,6 +18,7 @@ export class TestApiComponent {
   loading: boolean = false;
   error: string = '';
   apiUrl: string = environment.apiUrl;
+  environmentApiUrlToTest: string = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -33,6 +34,28 @@ export class TestApiComponent {
     //this.url = ''; //nemaz url
 
     this.http.get(this.url, { responseType: 'text' }).subscribe({
+      next: (data) => {
+        this.response = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = `Chyba: ${err.status} - ${err.message}`;
+        this.loading = false;
+      }
+    });
+  }
+
+  testEnvironmentApi(): void {
+    if (!this.environmentApiUrlToTest.trim()) {
+      this.error = 'Prosím, zadaj URL';
+      return;
+    }
+
+    this.loading = true;
+    this.error = '';
+    this.response = '';
+
+    this.http.get(this.environmentApiUrlToTest, { responseType: 'text' }).subscribe({
       next: (data) => {
         this.response = data;
         this.loading = false;

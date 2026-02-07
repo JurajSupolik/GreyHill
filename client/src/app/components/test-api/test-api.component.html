@@ -9,10 +9,32 @@
         class="environment-display"
         readonly
       >{{ apiUrl }}</textarea>
+      <div class="button-group" style="margin-top: 10px;">
+        <button 
+          (click)="testEnvironmentApi()" 
+          [disabled]="loading"
+          class="btn btn-primary"
+        >
+          {{ loading ? 'Načítavam...' : 'Test Environment API' }}
+        </button>
+      </div>
     </div>
     
     <div class="input-group">
-      <label for="url">API URL:</label>
+      <label for="environment-api-test">Environment API URL (Editable):</label>
+      <textarea 
+        id="environment-api-test"
+        [(ngModel)]="environmentApiUrlToTest" 
+        placeholder="https://example.com/api/endpoint"
+        class="url-input"
+        style="min-height: 60px; resize: vertical;"
+      ></textarea>
+    </div>
+    
+    <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
+    
+    <div class="input-group">
+      <label for="url">Manual API URL:</label>
       <input 
         id="url"
         type="text" 
