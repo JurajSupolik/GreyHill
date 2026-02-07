@@ -21,6 +21,7 @@ console_logger = LoggerFactory.create_console_logger()
 file_logger = LoggerFactory.create_file_logger(file_path="logs/api_requests.log")
 
 app = FastAPI(
+    redirect_slashes=False,
     title="Greyhill API",
     description="Booking systém pre apartmány Greyhill 1:06",
     version="1.0.0"
@@ -57,6 +58,19 @@ app.add_middleware(
     TrustedHostMiddleware,
     allowed_hosts=["*"]    
 )
+
+# Handle forwarded headers properly
+from starlette.middleware.base import BaseHTTPMiddleware
+
+class ProxyHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        # Azure passes these headers
+        if "x-forwarded-proto" in request.headers:
+            request.scope["scheme"] = request.headers["x-forwarded-proto"]
+        response = await call_next(request)
+        return response
+
+app.add_middleware(ProxyHeadersMiddleware)
 
 # Pridanie vlastného middleware pre logovanie
 app.add_middleware(LoggingMiddleware,log_handler=custom_log_handler)
