@@ -2,6 +2,7 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from app.database import engine, Base
 from app.routers import apartments, auth, bookings
 from seed_data import seed_database
@@ -50,6 +51,23 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# bug nesiel ssl zaciatok
+# Confiuracia pre Azure
+app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=["*"]    
+)
+# Handle forwarded headers properly
+from starlette.middleware.base import BaseHTTPMiddleware
+class ProxyHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):        
+        if "x-forwarded-proto" in request.headers: # Azure passes these headers
+            request.scope["scheme"] = request.headers["x-forwarded-proto"]
+        response = await call_next(request)
+        return response
+app.add_middleware(ProxyHeadersMiddleware)
+# bug nesiel ssl koniec
 
 # Pridanie vlastného middleware pre logovanie
 app.add_middleware(LoggingMiddleware,log_handler=custom_log_handler)
