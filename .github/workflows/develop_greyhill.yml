@@ -6,10 +6,10 @@
 name: UI Angular - greyhill develop
 
 on:
-  push:
-    branches:
-      #- develop
-      - master
+  # push:
+  #   branches:
+  #     #- develop
+  #     - master
   workflow_dispatch:
 
 jobs:
