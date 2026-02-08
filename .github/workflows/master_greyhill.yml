@@ -1,19 +1,22 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
+# web appp | General settings| Stack settings | Startup command = pm2 serve /home/site/wwwroot/greyhill/browser/ --no-daemon
 
-name: Build and deploy Node.js app to Azure Web App - greyhill
+
+name: UI Angular - greyhill master
 
 on:
   push:
     branches:
+      #- develop
       - master
   workflow_dispatch:
 
 jobs:
-  build:
+  build-angular:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -23,43 +26,58 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: npm install, build, and test
+      - name: npm install
+        working-directory: client
+        run: npm install
+
+      - name: ng build production
+        working-directory: client
+        run: npx ng build --configuration production #nefungovalo na github actions
+        #run: ng build --configuration production
+
+      - name: Create ZIP artifact
+        working-directory: client
         run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+          if [ -d "dist" ]; then
+            cd dist && zip -r ../release.zip . && cd ..
+          else
+            echo "ERROR: dist directory not found. Build may have failed."
+            exit 1
+          fi
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: node-app
-          path: .
+          name: angular-app
+          path: client/release.zip
 
-  deploy:
+  deploy-angular:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-angular
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: node-app
-      
+          name: angular-app
+
+      - name: Unzip artifact
+        run: unzip release.zip
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_858A37D2C4474B89BC3E210B5BF7601A }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6E207611BF5A469EBCDB27AB7A371D95 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4F8FF83520304BE9ADB8EBB992E33A56 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_95EBABD228A447E885021C8984A123A0 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_437A75DEBC5F41D5809FF50347EC7642 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2C2F92DD412A4F3DB5FB18DEA4377D35 }}
 
       - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
+        id: deploy-to-angular-app
         with:
           app-name: 'greyhill'
           slot-name: 'Production'
-          package: .
-          
+          package: ./
