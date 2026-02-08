@@ -3,7 +3,7 @@
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 # web appp | General settings| Stack settings | Startup command = uvicorn app.main:app --host 0.0.0.0 --port 8000
 
-name: api Python - greyhill-api
+name: api Python - greyhill-api  develop
 
 on:
   # ako chcete spustiť workflow pri pushnutí do develop vetvy, odkomentujte nasledujúci blok
