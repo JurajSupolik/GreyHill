@@ -6,7 +6,8 @@ name: api Test  - greyhill-test-api
 on:
   push:
     branches:
-      - angular-test
+      #- angular-test
+      - develop
   workflow_dispatch:
 
 jobs:

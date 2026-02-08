@@ -8,7 +8,8 @@ name: UI Angular - greyhill
 on:
   push:
     branches:
-      - develop
+      #- develop
+      - master
   workflow_dispatch:
 
 jobs:
