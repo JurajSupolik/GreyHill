@@ -10,10 +10,9 @@ name: TEST Python - greyhill-api  develop
 
 on:
   # ako chcete spustiť workflow pri pushnutí do develop vetvy, odkomentujte nasledujúci blok
-  # push:
-  #   branches:
-  #     #- develop
-  #     - master
+  push:
+    branches:
+      - develop
   workflow_dispatch:
 
 jobs:
