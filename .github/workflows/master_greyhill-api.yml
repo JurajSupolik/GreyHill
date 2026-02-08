@@ -1,16 +1,18 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
+# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
 # manulane nastavenie v Azure portalu:
 # web appp | General settings| Stack settings | Startup command = mkdir -p /home/data && uvicorn app.main:app --host 0.0.0.0 --port 8000
 # DATABASE_URL=sqlite:////home/data/greyhill.db
 
-name: xxxVymaz api Test  - greyhill-test-api
+name: PROD Python - greyhill-api master
 
 on:
-  # push:
-  #   branches:
-  #     - angular-test
+  # ako chcete spustiť workflow pri pushnutí do develop vetvy, odkomentujte nasledujúci blok
+  push:
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
@@ -70,15 +72,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6AEAD0F9CBB04A3DA7D37F7D0FBF0C97 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F3A76806CB1F45E0ADE09335E7B26FC7 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C55A844CF6764BE8B5F4E35DAAC34A66 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_95EBABD228A447E885021C8984A123A0 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_437A75DEBC5F41D5809FF50347EC7642 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2C2F92DD412A4F3DB5FB18DEA4377D35 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'greyhill-test-api'
+          app-name: 'greyhill-api'
           slot-name: 'Production'
           package: './python-app.zip'
-          

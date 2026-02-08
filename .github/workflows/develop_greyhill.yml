@@ -1,15 +1,17 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
+
+# manulane nastavenie v Azure portalu:
 # web appp | General settings| Stack settings | Startup command = pm2 serve /home/site/wwwroot/greyhill/browser/ --no-daemon
 
 
-name: UI Angular - greyhill
+name: TEST Angular - greyhill develop
 
 on:
-  push:
-    branches:
-      #- develop
-      - master
+  # push:
+  #   branches:
+  #     #- develop
+  #     - master
   workflow_dispatch:
 
 jobs:
