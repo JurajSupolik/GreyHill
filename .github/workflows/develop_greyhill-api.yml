@@ -9,7 +9,8 @@ on:
   # ako chcete spustiť workflow pri pushnutí do develop vetvy, odkomentujte nasledujúci blok
   push:
     branches:
-      - develop
+      #- develop
+      - master
   workflow_dispatch:
 
 jobs:

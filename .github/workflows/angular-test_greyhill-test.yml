@@ -6,7 +6,8 @@ name: UI Test - greyhill-test
 on:
   push:
     branches:
-      - angular-test
+      #- angular-test
+      - develop
   workflow_dispatch:
 
 jobs:
