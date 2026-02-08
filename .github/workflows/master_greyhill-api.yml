@@ -1,9 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
-# web appp | General settings| Stack settings | Startup command = uvicorn app.main:app --host 0.0.0.0 --port 8000
 
-name: api Python - greyhill-api master
+# manulane nastavenie v Azure portalu:
+# web appp | General settings| Stack settings | Startup command = mkdir -p /home/data && uvicorn app.main:app --host 0.0.0.0 --port 8000
+# DATABASE_URL=sqlite:////home/data/greyhill.db
+
+name: PROD Python - greyhill-api master
 
 on:
   # ako chcete spustiť workflow pri pushnutí do develop vetvy, odkomentujte nasledujúci blok
