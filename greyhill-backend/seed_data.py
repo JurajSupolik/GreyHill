@@ -54,15 +54,13 @@ def create_tables():
     """Vytvor databázové tabuľky."""
     Base.metadata.create_all(bind=engine)
 
-
-def clear_apartments(db):
-    """Vymaž staré apartmány z databázy."""
-    db.query(Apartment).delete()
-    db.commit()
-
-
 def create_apartments(db):
     """Vytvor testové apartmány."""
+    existing_count = db.query(Apartment).count()
+    if existing_count > 0:
+        print(f"ℹ️  Už existuje {existing_count} apartmánov, preskočené vytváranie.")
+        return
+    
     for apt_data in APARTMENTS_DATA:
         apartment = Apartment(**apt_data)
         db.add(apartment)
@@ -108,6 +106,12 @@ def create_bookings(db):
     from datetime import datetime, timedelta
     from app.models.booking import BookingStatus
     
+    # Skontroluj, či už existujú rezervácie
+    existing_count = db.query(Booking).count()
+    if existing_count > 0:
+        print(f"ℹ️  Už existuje {existing_count} rezervácií, preskočené vytváranie.")
+        return    
+
     # Získaj test používateľa
     user = db.query(User).filter(User.email == "user@greyhill.sk").first()
     if not user:
@@ -119,7 +123,7 @@ def create_bookings(db):
     if len(apartments) < 2:
         print("❌ Nedostatok apartmánov na vytvorenie rezervácií!")
         return
-    
+
     # Vytvor 2 rezervácie
     bookings = [
         Booking(
@@ -162,7 +166,6 @@ def seed_database():
     
     db = SessionLocal()
     try:
-        clear_apartments(db)
         create_apartments(db)
         create_admin_user(db)
         create_user(db)

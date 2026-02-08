@@ -1,0 +1,26 @@
+# Import to Trusted Root Certification Authorities
+certutil -addstore -user "Root" localhost.crt
+
+vytvor certificakat
+
+zastva python
+cd greyhill-backend
+ak neni cert tak potom spusti
+python generate_cert.py
+
+spusti potom z ssl
+uvicorn app.main:app --reload --reload-dir app --ssl-keyfile=key.pem --ssl-certfile=cert.pem
+
+bezne no ssl
+uvicorn app.main:app --reload --reload-dir app 
+
+cd .\greyhill-backend\
+venv\Scripts\activate
+pip install -r requirements.txt --force
+
+
+angluar
+ng serve --configuration development --ssl true --ssl-cert cert.pem --ssl-key key.pem
+ng serve --configuration production --ssl true --ssl-cert cert.pem --ssl-key key.pem
+alebo
+ng serve --ssl
