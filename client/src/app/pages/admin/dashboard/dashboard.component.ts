@@ -73,15 +73,15 @@ export class DashboardComponent implements OnInit {
     return this.bookings.filter(b => b.status === 'CONFIRMED').length;
   }
 
-  getStatusColor(status: string): string {
-    switch(status) {
-      case 'PENDING': return 'warn';
-      case 'CONFIRMED': return 'primary';
-      case 'CANCELLED': return 'accent';
-      case 'COMPLETED': return '';
-      default: return '';
-    }
+ getStatusColor(status: string): string {
+  switch(status) {
+    case 'PENDING': return 'accent';     // ← ORANŽOVÁ pre čakajúce
+    case 'CONFIRMED': return 'primary';  // ← ZELENÁ pre potvrdené
+    case 'CANCELLED': return 'warn';     // ← ČERVENÁ pre zrušené
+    case 'COMPLETED': return 'primary';  // ← ZELENÁ pre dokončené
+    default: return '';
   }
+}
 
   getStatusText(status: string): string {
     switch(status) {

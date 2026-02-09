@@ -1,76 +1,263 @@
-/* src/app/pages/profile/profile.component.css */
+/* PROFILE PAGE - Tmavo modrý dizajn */
 
 .profile-container {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  min-height: calc(100vh - 64px);
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
 }
 
-/* User Card */
+/* Animované pozadie */
+.profile-container::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 12s ease-in-out infinite;
+}
+
+.profile-container::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 15s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-30px) translateX(30px);
+  }
+}
+
+/* User Card - Hero style */
 .user-card {
-  margin-bottom: 2rem;
+  max-width: 1000px;
+  margin: 0 auto 32px auto;
+  border-radius: 24px !important;
+  background: white !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  animation: slideInDown 0.6s ease-out;
 }
 
-.user-avatar {
-  background-color: #673ab7;
-  color: white;
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gradient header background */
+.user-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  z-index: 0;
+}
+
+.user-card mat-card-header {
+  position: relative;
+  z-index: 1;
+  padding: 40px !important;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 24px;
+}
+
+/* User Avatar - Veľký a štýlový */
+.user-avatar {
+  width: 120px !important;
+  height: 120px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 4px solid white;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 .user-avatar mat-icon {
-  font-size: 40px;
-  width: 40px;
-  height: 40px;
+  font-size: 64px !important;
+  width: 64px !important;
+  height: 64px !important;
+  color: white;
+}
+
+.user-card mat-card-title {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: white !important;
+  margin: 0 0 8px 0 !important;
+}
+
+.user-card mat-card-subtitle {
+  font-size: 1.125rem !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* User Info */
+.user-card mat-card-content {
+  padding: 32px 40px !important;
+  position: relative;
+  z-index: 1;
+  
 }
 
 .user-info {
-  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .info-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  gap: 12px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border-left: 4px solid #2563eb;
+}
+
+.info-row:hover {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  transform: translateX(8px);
 }
 
 .info-row mat-icon {
-  color: #666;
+  color: #2563eb;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.info-row span {
+  color: #475569;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.info-row mat-chip {
+  font-weight: 600 !important;
+ background: linear-gradient(90deg,rgba(29, 219, 35, 1) 0%, rgba(43, 196, 81, 1) 57%, rgba(25, 166, 30, 1) 81%);
+  color: white !important;
+}
+
+/* Actions */
+.user-card mat-card-actions {
+  padding: 24px 40px 32px 40px !important;
+  border-top: 2px solid #f1f5f9;
+  position: relative;
+  z-index: 1;
+}
+
+.user-card mat-card-actions button {
+  height: 48px;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
 }
 
 /* Bookings Card */
 .bookings-card {
-  min-height: 400px;
+  max-width: 1400px;
+  margin: 0 auto;
+  border-radius: 24px !important;
+  background: white !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+  position: relative;
+  z-index: 1;
+  animation: slideInUp 0.6s ease-out 0.2s both;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .bookings-card mat-card-header {
-  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  padding: 32px !important;
+  border-radius: 24px 24px 0 0 !important;
 }
 
 .bookings-card mat-card-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  font-size: 1.75rem !important;
+  color: #1e3a8a !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
 }
 
-/* Loading State */
+.bookings-card mat-card-title mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.bookings-card mat-card-subtitle {
+  color: #64748b !important;
+  font-size: 15px !important;
+  margin-top: 8px !important;
+}
+
+/* Loading */
 .loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 0;
-  color: #666;
+  text-align: center;
+  padding: 80px 20px;
 }
 
-.spinning {
+.loading-container mat-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: #2563eb;
+  margin-bottom: 16px;
+}
+
+.loading-container mat-icon.spinning {
   animation: spin 1s linear infinite;
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  color: #673ab7;
 }
 
 @keyframes spin {
@@ -81,116 +268,112 @@
 /* Empty State */
 .empty-state {
   text-align: center;
-  padding: 4rem 2rem;
-  color: #666;
+  padding: 80px 20px;
 }
 
 .empty-state mat-icon {
-  font-size: 72px;
-  width: 72px;
-  height: 72px;
-  color: #ccc;
-  margin-bottom: 1rem;
+  font-size: 80px;
+  width: 80px;
+  height: 80px;
+  color: #cbd5e1;
+  margin-bottom: 24px;
 }
 
 .empty-state h3 {
-  margin-bottom: 0.5rem;
-  color: #333;
+  font-size: 1.5rem;
+  color: #475569;
+  margin-bottom: 12px;
 }
 
 .empty-state p {
-  margin-bottom: 2rem;
+  color: #94a3b8;
+  margin-bottom: 24px;
 }
 
-/* Bookings Table */
+/* Table */
 .table-container {
   overflow-x: auto;
+  margin: 24px 0;
 }
 
 .bookings-table {
   width: 100%;
-  box-shadow: none;
 }
 
 .bookings-table th {
-  background-color: #f5f5f5;
-  font-weight: 600;
-  color: #333;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  font-weight: 700;
+  color: #1e3a8a;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 20px 16px !important;
 }
 
 .bookings-table td {
-  padding: 1rem;
+  padding: 16px !important;
+  color: #475569;
 }
 
-.apartment-cell {
-  display: flex;
-  flex-direction: column;
+.bookings-table tr:hover {
+  background: #f8fafc;
 }
 
 .apartment-cell strong {
-  color: #333;
-  margin-bottom: 0.25rem;
+  display: block;
+  color: #1e3a8a;
+  font-weight: 600;
+  margin-bottom: 4px;
 }
 
 .apartment-cell small {
-  color: #666;
-  font-size: 0.85rem;
+  color: #94a3b8;
+  font-size: 12px;
 }
 
 .dates-cell {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 4px;
 }
 
 .date-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
+  gap: 6px;
+  font-size: 13px;
 }
 
 .small-icon {
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
-  color: #666;
+  font-size: 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+  color: #64748b;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .profile-container {
-    padding: 0 0.5rem;
+    padding: 24px 16px;
   }
-
-  .bookings-table {
-    font-size: 0.85rem;
+  
+  .user-card mat-card-header {
+    padding: 24px !important;
+    flex-direction: column;
+    text-align: center;
   }
-
-  .bookings-table td,
-  .bookings-table th {
-    padding: 0.5rem;
+  
+  .user-avatar {
+    width: 100px !important;
+    height: 100px !important;
   }
-
-  .displayedColumns {
-    display: none;
+  
+  .user-card mat-card-content,
+  .user-card mat-card-actions,
+  .bookings-card mat-card-header {
+    padding: 24px !important;
   }
-
-  /* Na mobile možno prepnúť na cards namiesto tabuľky */
-  .table-container {
-    display: block;
+  
+  .user-card mat-card-title {
+    font-size: 1.5rem !important;
   }
-}
-
-/* Status Colors */
-mat-chip.mat-primary {
-  background-color: #4caf50 !important;
-}
-
-mat-chip.mat-accent {
-  background-color: #ff9800 !important;
-}
-
-mat-chip.mat-warn {
-  background-color: #f44336 !important;
 }
