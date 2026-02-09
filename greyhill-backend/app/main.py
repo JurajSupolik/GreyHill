@@ -17,20 +17,22 @@ seed_database()
 
 # Inicializácia loggerov
 path = os.getcwd()
+log_file_path = os.path.join("api_requests.log")
 print(f"Current working directory: {path}")
 if os.name == "nt":  # NT kernel (Windows)
     print("Windows")
     os.makedirs("logs", exist_ok=True) 
     path = os.path.join(path, "logs")
 elif os.name == "posix":  # POSIX kernel (Linux, macOS)
-    print("Linux/MacOS")
-    os.makedirs("data", exist_ok=True)
-    os.makedirs("data/logs", exist_ok=True)
-    path = os.path.join(path, "data/logs")
+    print("Linux/MacOS")    
+    linux_path = os.path.join(path, "home", "data", "logs")
+    os.makedirs(linux_path, exist_ok=True)
+    path = linux_path
+    print(f"Linux/MacOS log folder: {linux_path}")
 
 console_logger = LoggerFactory.create_console_logger()
-file_logger = LoggerFactory.create_file_logger(file_path=os.path.join(path, "api_requests.log"))
-print(f"Logging to: {os.path.join(path, 'api_requests.log')}")
+file_logger = LoggerFactory.create_file_logger(file_path=os.path.join(path, log_file_path))
+print(f"Logging to: {os.path.join(path, log_file_path)}")
 
 app = FastAPI(
     title="Greyhill API",
