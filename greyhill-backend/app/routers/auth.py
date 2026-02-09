@@ -193,9 +193,17 @@ async def get_all_users(
 # GET /admin/veraibles - Zobrazenie env premenných (len admin)
 @router.get("/admin/variables")
 async def get_env_variables_admin(
-    #current_user: User = Depends(get_current_admin_user),
-    current_user: User = Depends(get_current_active_user),
+    current_user: User = Depends(get_current_admin_user),    
     env_vars: EnvVariables = Depends(get_env_variables)
 ):
     #print(f"📋 {current_user.username} žiada env premenné")    
     return env_vars
+
+@router.post("/admin/current_path")
+async def get_current_path(
+    current_user: User = Depends(get_current_admin_user)
+):
+    import os
+    current_path = os.getcwd()
+    print(f"📁 {current_user.username} žiada aktuálnu cestu: {current_path}")
+    return {"current_path": current_path}
