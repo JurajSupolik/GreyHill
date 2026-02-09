@@ -24,6 +24,7 @@ if os.name == "nt":  # NT kernel (Windows)
     path = os.path.join(path, "logs")
 elif os.name == "posix":  # POSIX kernel (Linux, macOS)
     print("Linux/MacOS")
+    os.makedirs("data", exist_ok=True)
     os.makedirs("data/logs", exist_ok=True)
     path = os.path.join(path, "data/logs")
 
