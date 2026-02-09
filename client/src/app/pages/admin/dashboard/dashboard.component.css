@@ -1,119 +1,229 @@
-/* src/app/pages/admin/dashboard/dashboard.component.css */
+/* ADMIN DASHBOARD - Modré pozadie + výrazné stavy */
 
 .dashboard-container {
-  padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
   min-height: calc(100vh - 64px);
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
 }
 
+/* Animované pozadie - jemné */
+.dashboard-container::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 15s ease-in-out infinite;
+}
+
+.dashboard-container::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 20s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-20px) translateX(20px);
+  }
+}
+
+/* Header - Bielý na modrom */
 .header {
-  margin-bottom: 32px;
+  max-width: 1400px;
+  margin: 0 auto 40px auto;
+  padding: 40px 48px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border-left: 6px solid #f59e0b;
+  position: relative;
+  z-index: 1;
+  animation: slideInDown 0.6s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .header h1 {
-  font-size: 32px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e3a8a;
   margin: 0 0 8px 0;
-  color: #333;
 }
 
 .header p {
+  color: #64748b;
+  font-size: 1.125rem;
   margin: 0;
-  color: #666;
-  font-size: 16px;
 }
 
+/* Loading */
 .loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 300px;
-  font-size: 18px;
-  color: #666;
-}
-
-.empty-state {
   text-align: center;
-  padding: 60px 20px;
+  padding: 80px 20px;
+  color: white;
 }
 
-.empty-state mat-icon {
-  font-size: 64px;
-  width: 64px;
-  height: 64px;
-  color: #ccc;
-  margin-bottom: 16px;
+.loading p {
+  font-size: 18px;
 }
 
-.empty-state h2 {
-  color: #666;
-  margin-bottom: 8px;
-}
-
-.empty-state p {
-  color: #999;
-}
-
-/* Statistics Cards */
+/* Stats Grid - Biele karty */
 .stats {
+  max-width: 1400px;
+  margin: 0 auto 40px auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  margin-bottom: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  position: relative;
+  z-index: 1;
 }
 
 .stat-card {
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-left: 4px solid #1976d2;
+  gap: 20px;
+  transition: all 0.3s ease;
+  border-bottom: 5px solid #e2e8f0;
+  animation: scaleIn 0.6s ease-out both;
 }
 
-.stat-card.pending {
-  border-left-color: #ff9800;
+.stat-card:nth-child(1) {
+  animation-delay: 0.1s;
+  border-bottom-color: #2563eb;
 }
 
-.stat-card.confirmed {
-  border-left-color: #4caf50;
+.stat-card:nth-child(2) {
+  animation-delay: 0.2s;
+  border-bottom-color: #f59e0b;
 }
 
+.stat-card:nth-child(3) {
+  animation-delay: 0.3s;
+  border-bottom-color: #10b981;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Ikony v stat kartách */
 .stat-card mat-icon {
-  font-size: 40px;
-  width: 40px;
-  height: 40px;
-  color: #1976d2;
+  font-size: 56px;
+  width: 56px;
+  height: 56px;
+  padding: 16px;
+  border-radius: 14px;
+  transition: transform 0.3s ease;
 }
 
-.stat-card.pending mat-icon {
-  color: #ff9800;
+.stat-card:nth-child(1) mat-icon {
+  background: #dbeafe;
+  color: #2563eb;
 }
 
-.stat-card.confirmed mat-icon {
-  color: #4caf50;
+.stat-card:nth-child(2) mat-icon {
+  background: #fef3c7;
+  color: #f59e0b;
 }
 
-.stat-card h3 {
-  margin: 0;
-  font-size: 32px;
-  color: #333;
+.stat-card:nth-child(3) mat-icon {
+  background: #d1fae5;
+  color: #10b981;
 }
 
-.stat-card p {
-  margin: 0;
+.stat-card:hover mat-icon {
+  transform: rotate(-10deg) scale(1.1);
+}
+
+.stat-card div h3 {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin: 0 0 4px 0;
+}
+
+.stat-card div p {
   font-size: 14px;
-  color: #666;
+  color: #64748b;
+  margin: 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Main Card - Biela na modrom */
+mat-card {
+  max-width: 1400px;
+  margin: 0 auto;
+  border-radius: 20px !important;
+  background: white !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+  position: relative;
+  z-index: 1;
+  animation: slideInUp 0.6s ease-out 0.4s both;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+mat-card mat-card-content {
+  padding: 32px !important;
 }
 
 /* Table */
 .table-container {
   overflow-x: auto;
-  background: #fff;
-  border-radius: 8px;
+  margin: 24px 0;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
 }
 
 .bookings-table {
@@ -121,13 +231,34 @@
 }
 
 .bookings-table th {
-  background-color: #f5f5f5;
-  font-weight: 600;
-  color: #333;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  color: #1e3a8a;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  padding: 18px 16px !important;
+  border-bottom: 2px solid #e2e8f0;
+  letter-spacing: 0.5px;
 }
 
-.bookings-table td, .bookings-table th {
-  padding: 16px;
+.bookings-table td {
+  padding: 16px !important;
+  color: #475569;
+  font-size: 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.bookings-table tr {
+  transition: all 0.2s ease;
+}
+
+.bookings-table tr:hover {
+  background: #f8fafc;
+  transform: scale(1.005);
+}
+
+.bookings-table tr:last-child td {
+  border-bottom: none;
 }
 
 .guest-info {
@@ -137,45 +268,188 @@
 }
 
 .guest-info strong {
-  color: #333;
+  color: #1e3a8a;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .guest-info small {
-  color: #666;
+  color: #94a3b8;
   font-size: 12px;
 }
 
-.small-icon {
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
-  vertical-align: middle;
-  margin-right: 4px;
+/* STATUS BADGES - VÝRAZNÉ A ČITATEĽNÉ! */
+::ng-deep .bookings-table mat-chip {
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 2px solid;
 }
 
-mat-chip {
-  font-weight: 500;
+/* STATUS BADGES - SPRÁVNE FARBY! */
+::ng-deep .bookings-table mat-chip {
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 2px solid;
 }
 
-.delete-action {
-  color: #f44336;
+/* PRIMARY (Potvrdené/Dokončené) - ZELENÁ */
+::ng-deep .bookings-table mat-chip.mat-primary,
+::ng-deep mat-chip[color="primary"] {
+  background: #10b981 !important;
+  color: white !important;
+  border-color: #059669 !important;
 }
 
-.delete-action mat-icon {
-  color: #f44336;
+/* ACCENT (Čakajúce) - ORANŽOVÁ */
+::ng-deep .bookings-table mat-chip.mat-accent,
+::ng-deep mat-chip[color="accent"] {
+  background: #f59e0b !important;
+  color: white !important;
+  border-color: #d97706 !important;
+}
+
+/* WARN (Zrušené) - ČERVENÁ */
+::ng-deep .bookings-table mat-chip.mat-warn,
+::ng-deep mat-chip[color="warn"] {
+  background: #ef4444 !important;
+  color: white !important;
+  border-color: #dc2626 !important;
+}
+
+/* Hover efekt */
+::ng-deep .bookings-table mat-chip:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Action Buttons */
+::ng-deep .bookings-table button {
+  transition: all 0.2s ease;
+}
+
+::ng-deep .bookings-table button:hover {
+  transform: scale(1.15);
+}
+
+::ng-deep .bookings-table .mat-mdc-icon-button.mat-primary {
+  color: #10b981;
+}
+
+::ng-deep .bookings-table .mat-mdc-icon-button.mat-primary:hover {
+  background: #d1fae5;
+}
+
+::ng-deep .bookings-table .mat-mdc-icon-button.mat-accent {
+  color: #f59e0b;
+}
+
+::ng-deep .bookings-table .mat-mdc-icon-button.mat-accent:hover {
+  background: #fef3c7;
+}
+
+::ng-deep .bookings-table .mat-mdc-icon-button.mat-warn {
+  color: #ef4444;
+}
+
+::ng-deep .bookings-table .mat-mdc-icon-button.mat-warn:hover {
+  background: #fee2e2;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.empty-state mat-card-content {
+  padding: 40px !important;
+}
+
+.empty-state mat-icon {
+  font-size: 80px;
+  width: 80px;
+  height: 80px;
+  color: #cbd5e1;
+  margin-bottom: 24px;
+}
+
+.empty-state h2 {
+  font-size: 1.5rem;
+  color: #475569;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.empty-state p {
+  color: #94a3b8;
+  font-size: 15px;
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .dashboard-container {
-    padding: 16px;
+    padding: 24px 16px;
   }
-
+  
+  .header {
+    padding: 32px 24px;
+  }
+  
   .header h1 {
-    font-size: 24px;
+    font-size: 2rem;
   }
-
+  
   .stats {
     grid-template-columns: 1fr;
+  }
+  
+  .stat-card {
+    padding: 24px;
+  }
+  
+  mat-card mat-card-content {
+    padding: 20px !important;
+  }
+  
+  .bookings-table th,
+  .bookings-table td {
+    padding: 12px !important;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-card div h3 {
+    font-size: 2rem;
+  }
+  
+  .stat-card mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+  }
+  
+  ::ng-deep .bookings-table mat-chip {
+    font-size: 10px !important;
+    padding: 6px 12px !important;
   }
 }

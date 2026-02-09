@@ -1,66 +1,250 @@
+/* APARTMENT CARD COMPONENT - Presne podľa HTML */
 
+/* ========================================
+   MAIN CARD - S luxusným hover efektom
+   ======================================== */
 .apartment-card {
-  max-width: 400px;
-  margin: 16px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px !important;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  background: white;
+  border: 2px solid transparent;
+}
 
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+.apartment-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.apartment-card:hover::before {
+  opacity: 1;
+}
+
+.apartment-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15) !important;
+  border-color: #2563eb;
+}
+
+/* ========================================
+   IMAGE - S zoom efektom
+   ======================================== */
+.apartment-card img {
+  height: 240px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.apartment-card:hover img {
+  transform: scale(1.1);
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+.apartment-card mat-card-header {
+  padding: 16px 16px 8px 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.apartment-card mat-card-title {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: #1e3a8a !important;
+  margin-bottom: 4px !important;
+}
+
+.apartment-card mat-card-subtitle {
+  color: #64748b !important;
+  font-size: 14px !important;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ========================================
+   CONTENT
+   ======================================== */
+.apartment-card mat-card-content {
+  padding: 0 16px 16px 16px !important;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.description {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2; /* ← PRIDAJ TOTO */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ========================================
+   DETAILS - S ikonkami
+   ======================================== */
+.apartment-details {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #64748b;
+  transition: all 0.3s ease;
+}
+
+.apartment-card:hover .detail-item {
+  color: #2563eb;
+}
+
+.detail-item mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #2563eb;
+  transition: transform 0.3s ease;
+}
+
+.apartment-card:hover .detail-item mat-icon {
+  transform: scale(1.2);
+}
+
+/* ========================================
+   AMENITIES - Chipy
+   ======================================== */
+.amenities {
+  margin-bottom: 16px;
+}
+
+.amenities mat-chip-set {
+  gap: 8px;
+}
+
+.amenities mat-chip {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
+  padding: 4px 12px !important;
+  transition: all 0.3s ease;
+}
+
+.apartment-card:hover .amenities mat-chip {
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   ACTIONS - Cena a button
+   ======================================== */
+.apartment-card mat-card-actions {
+  padding: 16px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #f1f5f9;
+  background: linear-gradient(to top, rgba(248, 250, 252, 0.5), transparent);
+  position: relative;
+  z-index: 1;
+}
+
+.price-section {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.price {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  transition: all 0.3s ease;
+}
+
+.apartment-card:hover .price {
+  color: #2563eb;
+  transform: scale(1.05);
+}
+
+.per-night {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.apartment-card mat-card-actions button {
+  transition: all 0.3s ease;
+}
+
+.apartment-card:hover mat-card-actions button {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* ========================================
+   ANIMÁCIE
+   ======================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-
-  img {
-    height: 250px;
-    object-fit: cover;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
-  .description {
-    color: rgba(0,0,0,0.7);
-    margin: 16px 0;
-    min-height: 48px;
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+  .apartment-card img {
+    height: 200px;
   }
-
+  
   .apartment-details {
-    display: flex;
-    gap: 16px;
-    margin: 16px 0;
-
-    .detail-item {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 14px;
-
-      mat-icon {
-        font-size: 18px;
-        width: 18px;
-        height: 18px;
-        color: rgba(0,0,0,0.6);
-      }
-    }
+    gap: 12px;
   }
-
-  .amenities {
-    margin: 16px 0;
+  
+  .price {
+    font-size: 1.5rem;
   }
+}
 
-  mat-card-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-
-    .price-section {
-      .price {
-        font-size: 24px;
-        font-weight: bold;
-        color: #1976d2;
-      }
-
-      .per-night {
-        font-size: 14px;
-        color: rgba(0,0,0,0.6);
-      }
-    }
+@media (max-width: 480px) {
+  .apartment-card mat-card-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .apartment-card mat-card-actions button {
+    width: 100%;
   }
 }
