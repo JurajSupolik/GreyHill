@@ -16,9 +16,21 @@ import os
 seed_database()
 
 # Inicializácia loggerov
-os.makedirs("logs", exist_ok=True) 
+path = os.getcwd()
+print(f"Current working directory: {path}")
+if os.name == "nt":  # NT kernel (Windows)
+    print("Windows")
+    os.makedirs("logs", exist_ok=True) 
+    path = os.path.join(path, "logs")
+elif os.name == "posix":  # POSIX kernel (Linux, macOS)
+    print("Linux/MacOS")
+    os.makedirs("data", exist_ok=True)
+    os.makedirs("data/logs", exist_ok=True)
+    path = os.path.join(path, "data/logs")
+
 console_logger = LoggerFactory.create_console_logger()
-file_logger = LoggerFactory.create_file_logger(file_path="logs/api_requests.log")
+file_logger = LoggerFactory.create_file_logger(file_path=os.path.join(path, "api_requests.log"))
+print(f"Logging to: {os.path.join(path, 'api_requests.log')}")
 
 app = FastAPI(
     title="Greyhill API",
@@ -40,13 +52,7 @@ def custom_log_handler(log_data: RequestLogData):
 
 app.add_middleware(
     CORSMiddleware,
-    # allow_origins=[
-    #     "http://localhost:4200",
-    #     "https://localhost:4200", 
-    #     "http://greyhill.azurewebsites.net",
-    #     "https://greyhill.azurewebsites.net", 
-    #     "https://greyhill-api.azurewebsites.net"],
-    allow_origins=["*"],  # Povoliť všetky originy (neodporúča sa v produkcii)
+    allow_origins=["*"],  # Azure nastavia CORS policy, preto povolujeme všetky originy
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -80,7 +86,7 @@ app.include_router(bookings.router, prefix="/api/bookings", tags=["Bookings"])
 def root():
     return {
         "message": "Greyhill API",
-        "version": "26.02.04",
+        "version": "26.02.09",
         "docs": "/docs"
     }
 

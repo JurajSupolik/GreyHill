@@ -3,18 +3,18 @@ from typing import List, Optional
 from dotenv import load_dotenv 
 import os
 
-class EnvVariables(BaseModel):
-    secret_key: str
+class EnvVariables(BaseModel):    
     database_url: str
     admin_password: str
+    smtp_password: str   
     is_debug_mode: bool = False  # Príklad ďalšieho nastavenia
 
 
 load_dotenv()  # Načíta premenné prostredia z .env súboru
-EnvVariables = EnvVariables(
-    secret_key=os.getenv("SECRET_KEY", "default_secret_key"),
+EnvVariables = EnvVariables(    
     database_url=os.getenv("DATABASE_URL", "sqlite:///./greyhill.db"),  # Predvolená hodnota
     admin_password=os.getenv("ADMIN_PASSWORD", "default_admin_password"),
+    smtp_password=os.getenv("SMTP_PASSWORD", "default_smtp_password"),
     is_debug_mode=os.getenv("IS_DEBUG_MODE", "false").lower() == "true"
 )
 
