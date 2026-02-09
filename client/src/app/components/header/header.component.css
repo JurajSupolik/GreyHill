@@ -1,53 +1,270 @@
-
+/* HEADER COMPONENT - OPRAVENÝ */
 
 .header {
-  position: sticky;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%) !important;
+  box-shadow: 0 4px 20px rgba(30, 58, 138, 0.2);
+  position: sticky !important;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  height: 64px;
+  padding: 0 !important;
+  transition: all 0.3s ease;
+}
 
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
+}
+
+/* ========================================
+   LOGO
+   ======================================== */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.logo mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover mat-icon {
+  transform: rotate(-10deg) scale(1.1);
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+/* ========================================
+   NAVIGATION MENU
+   ======================================== */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-menu a {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  font-size: 15px;
+  padding: 8px 20px !important;
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-menu a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white !important;
+  transform: translateY(-2px);
+}
+
+.nav-menu a.active {
+  background: rgba(255, 255, 255, 0.25);
+  color: white !important;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ========================================
+   HEADER ACTIONS - VŽDY VIDITEĽNÉ!
+   ======================================== */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-actions button,
+.header-actions a {
+  color: white !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.header-actions .mat-mdc-button {
+  color: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 10px;
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-actions .mat-mdc-button:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-2px);
+}
+
+.header-actions .mat-mdc-button mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.header-actions .mat-mdc-button:hover mat-icon {
+  transform: rotate(15deg);
+}
+
+/* Register Button */
+.header-actions .mat-mdc-raised-button {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%) !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-actions .mat-mdc-raised-button:hover {
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* ========================================
+   USER MENU
+   ======================================== */
+::ng-deep .mat-mdc-menu-panel {
+  border-radius: 12px !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+  min-width: 280px !important;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+::ng-deep .mat-mdc-menu-item {
+  min-height: 48px !important;
+  padding: 12px 16px !important;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+::ng-deep .mat-mdc-menu-item mat-icon {
+  margin-right: 12px;
+  color: #64748b;
+  transition: all 0.3s ease;
+}
+
+::ng-deep .mat-mdc-menu-item:hover {
+  background: #f8fafc !important;
+}
+
+::ng-deep .mat-mdc-menu-item:hover mat-icon {
+  color: #2563eb;
+  transform: scale(1.1);
+}
+
+::ng-deep .mat-mdc-menu-item[disabled] {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+::ng-deep .mat-mdc-menu-item[disabled] mat-icon {
+  color: #2563eb;
+}
+
+::ng-deep .mat-mdc-menu-item[disabled] span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+/* ========================================
+   RESPONSIVE - OPRAVENÉ!
+   ======================================== */
+@media (max-width: 1024px) {
   .header-content {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 0 16px;
   }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-
-    mat-icon {
-      font-size: 32px;
-      width: 32px;
-      height: 32px;
-    }
-
-    &:hover {
-      opacity: 0.9;
-    }
-  }
-
+  
   .nav-menu {
-    display: flex;
-    gap: 8px;
-
-    a {
-      color: white;
-    }
-  }
-
-  .header-actions button {
-    display: flex;
-    align-items: center;
     gap: 4px;
+  }
+  
+  .nav-menu a {
+    padding: 6px 12px !important;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: 56px;
+  }
+  
+  .header-content {
+    padding: 0 12px;
+  }
+  
+  /* Skryť len navigačné menu (nie user actions!) */
+  .nav-menu {
+    display: none;
+  }
+  
+  .logo mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+  
+  .logo-text {
+    font-size: 20px;
+  }
+  
+  .header-actions {
+    gap: 8px;
+  }
+  
+  /* Na mobile: skryť text v Prihlásiť buttone, nechať ikonu */
+  .header-actions .mat-mdc-button span:not(.mat-mdc-menu-trigger span) {
+    display: none;
+  }
+  
+  /* Username v user menu ZOSTANE VIDITEĽNÝ */
+  .header-actions [matMenuTriggerFor] {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    padding: 4px 8px;
+  }
+  
+  .logo-text {
+    font-size: 18px;
+  }
+  
+  /* Registrovať button zostáva viditeľný ale menší */
+  .header-actions .mat-mdc-raised-button {
+    padding: 0 16px !important;
+    font-size: 14px !important;
   }
 }

@@ -1,6 +1,22 @@
-/* src/styles.css */
+/* ========================================
+   GREYHILL - GLOBÁLNE ŠTÝLY
+   Tmavo modrá téma + Animácie
+   ======================================== */
 
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* CSS PREMENNÉ */
+:root {
+  --primary-dark: #1e3a8a;
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --accent-orange: #f59e0b;
+  --accent-green: #10b981;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-500: #64748b;
+  --gray-800: #1e293b;
+}
 
 * {
   margin: 0;
@@ -8,24 +24,90 @@
   box-sizing: border-box;
 }
 
-html, body {
+html {
   height: 100%;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
-  background-color: #fafafa;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 500;
-}
-
-p {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+  color: var(--gray-800);
   line-height: 1.6;
 }
 
-html {
-  scroll-behavior: smooth;
+h1, h2, h3 {
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+p {
+  color: var(--gray-500);
+}
+
+/* MATERIAL OVERRIDES */
+.mat-mdc-raised-button.mat-primary {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary)) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+.mat-mdc-raised-button.mat-primary:hover {
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3) !important;
+  transform: translateY(-2px);
+}
+
+.mat-mdc-card {
+  border-radius: 16px !important;
+  transition: all 0.3s ease !important;
+}
+
+.mat-mdc-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-4px);
+}
+
+/* ANIMÁCIE */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  border-radius: 5px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
 }

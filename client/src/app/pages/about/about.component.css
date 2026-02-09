@@ -1,31 +1,33 @@
-/* src/app/pages/about/about.component.css */
+/* ABOUT PAGE - Presne podľa HTML */
 
 .about-container {
-  width: 100%;
+  min-height: calc(100vh - 64px);
 }
 
-/* Hero sekcia */
+/* Hero Section */
 .about-hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 120px 20px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  padding: 80px 20px;
   text-align: center;
+  color: white;
 }
 
 .hero-content h1 {
-  font-size: 48px;
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
   margin-bottom: 16px;
 }
 
 .hero-content p {
-  font-size: 24px;
-  opacity: 0.9;
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-/* História */
+/* Story Section */
 .story-section {
   padding: 80px 20px;
-  background-color: white;
+  background: white;
 }
 
 .story-content {
@@ -38,28 +40,40 @@
 }
 
 .story-text h2 {
-  font-size: 36px;
+  font-size: 2.5rem;
+  color: #1e3a8a;
   margin-bottom: 24px;
-  color: #333;
+  font-weight: 700;
 }
 
 .story-text p {
-  font-size: 18px;
+  color: #64748b;
   line-height: 1.8;
-  color: #666;
   margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.story-image {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .story-image img {
   width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
 }
 
-/* Hodnoty */
+.story-image:hover img {
+  transform: scale(1.05);
+}
+
+/* Values Section */
 .values-section {
   padding: 80px 20px;
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
 .values-content {
@@ -68,54 +82,58 @@
 }
 
 .values-content h2 {
+  font-size: 2.5rem;
+  color: #1e3a8a;
   text-align: center;
-  font-size: 36px;
   margin-bottom: 60px;
-  color: #333;
+  font-weight: 700;
 }
 
 .values-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
 }
 
 .value-card {
-  text-align: center;
-  padding: 40px 30px;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: transform 0.3s;
+  padding: 40px 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .value-card:hover {
+  border-color: #2563eb;
   transform: translateY(-8px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.15);
 }
 
 .value-card mat-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
+  font-size: 56px;
+  width: 56px;
+  height: 56px;
   margin-bottom: 20px;
 }
 
 .value-card h3 {
-  font-size: 22px;
+  font-size: 1.5rem;
+  color: #1e3a8a;
   margin-bottom: 12px;
-  color: #333;
+  font-weight: 600;
 }
 
 .value-card p {
-  color: #666;
-  line-height: 1.6;
+  color: #64748b;
+  line-height: 1.8;
+  font-size: 15px;
 }
 
-/* Tím */
+/* Team Section */
 .team-section {
   padding: 80px 20px;
-  background-color: white;
+  background: white;
 }
 
 .team-content {
@@ -124,32 +142,37 @@
 }
 
 .team-content h2 {
+  font-size: 2.5rem;
+  color: #1e3a8a;
   text-align: center;
-  font-size: 36px;
   margin-bottom: 16px;
-  color: #333;
+  font-weight: 700;
 }
 
 .team-intro {
   text-align: center;
-  font-size: 18px;
-  color: #666;
+  color: #64748b;
   margin-bottom: 60px;
+  font-size: 1.125rem;
 }
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
 }
 
 .team-card {
-  transition: transform 0.3s;
+  border-radius: 16px !important;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .team-card:hover {
+  border-color: #2563eb;
   transform: translateY(-8px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.15) !important;
 }
 
 .team-card img {
@@ -157,10 +180,36 @@
   object-fit: cover;
 }
 
-/* Štatistiky */
+.team-card mat-card-header {
+  padding: 20px !important;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+}
+
+.team-card mat-card-title {
+  font-size: 1.25rem !important;
+  color: #1e3a8a !important;
+  font-weight: 600 !important;
+}
+
+.team-card mat-card-subtitle {
+  color: #64748b !important;
+  font-size: 14px !important;
+}
+
+.team-card mat-card-content {
+  padding: 20px !important;
+}
+
+.team-card p {
+  color: #64748b;
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+/* Stats Section */
 .stats-section {
   padding: 80px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
   color: white;
 }
 
@@ -168,46 +217,79 @@
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 40px;
 }
 
 .stat-item {
   text-align: center;
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-8px);
 }
 
 .stat-item h3 {
-  font-size: 48px;
-  font-weight: bold;
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
   margin-bottom: 8px;
 }
 
 .stat-item p {
-  font-size: 18px;
-  opacity: 0.9;
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
 }
 
-/* Responzívny dizajn */
-@media (max-width: 768px) {
-  .about-hero {
-    padding: 80px 20px;
-  }
-
-  .hero-content h1 {
-    font-size: 36px;
-  }
-
-  .hero-content p {
-    font-size: 18px;
-  }
-
+/* Responsive */
+@media (max-width: 1024px) {
   .story-content {
     grid-template-columns: 1fr;
   }
+  
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
+@media (max-width: 768px) {
+  .about-hero {
+    padding: 60px 20px;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .story-section,
+  .values-section,
+  .team-section,
+  .stats-section {
+    padding: 60px 16px;
+  }
+  
   .story-text h2,
   .values-content h2,
   .team-content h2 {
-    font-size: 28px;
+    font-size: 2rem;
+  }
+  
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }

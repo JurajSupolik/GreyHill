@@ -1,136 +1,209 @@
-/* src/app/components/availability-calendar/availability-calendar.component.css */
+/* AVAILABILITY CALENDAR - Presne podľa HTML */
 
 .calendar-card {
-  margin: 20px 0;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  overflow: hidden;
 }
 
+.calendar-card mat-card-content {
+  padding: 24px !important;
+}
+
+/* Calendar Header */
 .calendar-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border-radius: 12px;
 }
 
 .calendar-header h3 {
   margin: 0;
-  font-size: 20px;
-  color: #333;
+  font-size: 1.25rem;
+  color: #1e3a8a;
+  font-weight: 600;
 }
 
+.calendar-header button {
+  transition: all 0.3s ease;
+}
+
+.calendar-header button:hover {
+  background: rgba(37, 99, 235, 0.1);
+  transform: scale(1.1);
+}
+
+/* Loading State */
 .loading {
   text-align: center;
   padding: 40px;
-  color: #666;
+  color: #64748b;
+  font-size: 16px;
 }
 
+/* Calendar Grid */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 8px;
 }
 
+/* Day Headers */
 .day-header {
   text-align: center;
-  font-weight: bold;
-  color: #666;
-  padding: 10px 0;
+  font-weight: 600;
   font-size: 14px;
+  color: #1e3a8a;
+  padding: 12px 4px;
+  background: #f8fafc;
+  border-radius: 8px;
 }
 
+/* Calendar Days */
 .calendar-day {
   aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  cursor: default;
-  transition: all 0.2s;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
   position: relative;
 }
 
 .day-number {
-  font-size: 14px;
-  font-weight: 500;
+  position: relative;
+  z-index: 1;
 }
 
-/* Voľné dni */
+/* Day States */
+.calendar-day.other-month {
+  color: #cbd5e1;
+  background: #f8fafc;
+}
+
 .calendar-day.available {
-  background-color: #e8f5e9;
-  color: #2e7d32;
+  background: #d1fae5;
+  color: #065f46;
+  border-color: #10b981;
 }
 
 .calendar-day.available:hover {
-  background-color: #c8e6c9;
+  background: #a7f3d0;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
-/* Obsadené dni */
 .calendar-day.occupied {
-  background-color: #ffebee;
-  color: #c62828;
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #ef4444;
   cursor: not-allowed;
 }
 
-/* Iný mesiac */
-.calendar-day.other-month {
-  background-color: #fafafa;
-  color: #bbb;
-}
-
-/* Dnešný deň */
 .calendar-day.today {
-  border: 2px solid #1976d2;
-  font-weight: bold;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
 }
 
-/* Legenda */
+.calendar-day.today:hover {
+  transform: scale(1.1);
+}
+
+/* Legend */
 .legend {
   display: flex;
   justify-content: center;
   gap: 24px;
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid #e0e0e0;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 2px solid #e2e8f0;
+  flex-wrap: wrap;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 14px;
+  color: #475569;
 }
 
 .color-box {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid;
 }
 
 .color-box.available {
-  background-color: #e8f5e9;
-  border: 1px solid #2e7d32;
+  background: #d1fae5;
+  border-color: #10b981;
 }
 
 .color-box.occupied {
-  background-color: #ffebee;
-  border: 1px solid #c62828;
+  background: #fee2e2;
+  border-color: #ef4444;
 }
 
 .color-box.today {
-  background-color: #fff;
-  border: 2px solid #1976d2;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  border-color: #1e3a8a;
 }
 
 /* Responsive */
-@media (max-width: 600px) {
-  .calendar-grid {
-    gap: 4px;
+@media (max-width: 768px) {
+  .calendar-card mat-card-content {
+    padding: 16px !important;
   }
   
-  .day-number {
+  .calendar-header {
+    padding: 12px;
+  }
+  
+  .calendar-header h3 {
+    font-size: 1.125rem;
+  }
+  
+  .day-header {
+    font-size: 12px;
+    padding: 8px 2px;
+  }
+  
+  .calendar-day {
     font-size: 12px;
   }
   
   .legend {
     flex-direction: column;
-    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendar-grid {
+    gap: 4px;
+  }
+  
+  .day-header {
+    font-size: 11px;
+  }
+  
+  .calendar-day {
+    font-size: 11px;
+  }
+  
+  .color-box {
+    width: 20px;
+    height: 20px;
   }
 }
