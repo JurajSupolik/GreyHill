@@ -4,15 +4,22 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime
+from app.utils.env_variables import get_env_variables, EnvVariables
 
 # Email konfigurácia - UPRAV TIETO ÚDAJE!
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 SMTP_EMAIL = "jurajsupolik@gmail.com"  # Tvoj Gmail
-SMTP_PASSWORD = "ycqi aaef tsin idto"     # App password z Googlu (nie heslo od Gmailu!)
 
 # Príjemca admin emailov
 ADMIN_EMAIL = "jurajsupolik@gmail.com"
+
+def get_smtp_password():
+    """Get SMTP password from environment variables"""
+    env_vars = get_env_variables()
+    if not env_vars or not env_vars.smtp_password:
+        raise Exception("SMTP password not found")
+    return env_vars.smtp_password
 
 def send_booking_confirmation_email(booking_data: dict, apartment_name: str, total_price: float):
     """Pošle email potvrdenie rezervácie hosťovi"""
@@ -79,9 +86,10 @@ def send_booking_confirmation_email(booking_data: dict, apartment_name: str, tot
         msg.attach(MIMEText(html, 'html'))
         
         # Odošli email
+        smtp_password = get_smtp_password()
         with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
             server.starttls()
-            server.login(SMTP_EMAIL, SMTP_PASSWORD)
+            server.login(SMTP_EMAIL, smtp_password)
             server.send_message(msg)
         
         print(f"✅ Email potvrdenie odoslané na {booking_data['guest_email']}")
@@ -146,9 +154,10 @@ def send_admin_notification_email(booking_data: dict, apartment_name: str, total
         
         msg.attach(MIMEText(html, 'html'))
         
+        smtp_password = get_smtp_password()
         with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
             server.starttls()
-            server.login(SMTP_EMAIL, SMTP_PASSWORD)
+            server.login(SMTP_EMAIL, smtp_password)
             server.send_message(msg)
         
         print(f"✅ Admin notifikácia odoslaná")
@@ -223,9 +232,10 @@ def send_booking_confirmed_email(booking: dict, apartment_name: str):
         
         msg.attach(MIMEText(html, 'html'))
         
+        smtp_password = get_smtp_password()
         with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
             server.starttls()
-            server.login(SMTP_EMAIL, SMTP_PASSWORD)
+            server.login(SMTP_EMAIL, smtp_password)
             server.send_message(msg)
         
         print(f"✅ Email potvrdenia odoslaný na {booking['guest_email']}")
@@ -295,9 +305,10 @@ def send_booking_cancelled_email(booking: dict, apartment_name: str):
         
         msg.attach(MIMEText(html, 'html'))
         
+        smtp_password = get_smtp_password()
         with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
             server.starttls()
-            server.login(SMTP_EMAIL, SMTP_PASSWORD)
+            server.login(SMTP_EMAIL, smtp_password)
             server.send_message(msg)
         
         print(f"✅ Email zrušenia odoslaný na {booking['guest_email']}")
