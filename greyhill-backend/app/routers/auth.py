@@ -130,25 +130,25 @@ def _login_user(email: str, password: str, db: Session):
                 detail="Účet je neaktívny"
             )
         
-       print("✅ Účet aktívny")
-print("🔑 Vytváram token...")
+        print("✅ Účet aktívny")
+        print("🔑 Vytváram token...")
 
-access_token = create_access_token(data={
-    "sub": user.email,
-    "username": user.username,
-    "full_name": user.full_name,
-    "phone": user.phone,
-    "is_admin": user.is_admin
-})
+        access_token = create_access_token(data={
+            "sub": user.email,
+            "username": user.username,
+            "full_name": user.full_name,
+            "phone": user.phone,
+            "is_admin": user.is_admin
+        })
 
-print("✅ Token vytvorený")
-print(f"✅ Úspešné prihlásenie používateľa: {user.username}")
+        print("✅ Token vytvorený")
+        print(f"✅ Úspešné prihlásenie používateľa: {user.username}")
 
-return {
-    "access_token": access_token,
-    "token_type": "bearer",
-    "user": user
-}
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "user": user
+        }
         
     except HTTPException:
         raise
