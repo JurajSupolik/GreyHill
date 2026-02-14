@@ -16,6 +16,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApartmentService } from '../../services/apartment.service';
 import { BookingService } from '../../services/booking.service';
+import { AuthService } from '../../services/auth.service';  // ← PRIDANÉ
 import { Apartment } from '../../models/apartment';
 
 @Component({
@@ -34,7 +35,7 @@ import { Apartment } from '../../models/apartment';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    AvailabilityCalendarComponent  // ← PRIDAJ TOTO!
+    AvailabilityCalendarComponent
   ],
   templateUrl: './apartment-detail.component.html',
   styleUrl: './apartment-detail.component.css'
@@ -54,6 +55,7 @@ export class ApartmentDetailComponent implements OnInit {
     private router: Router,
     private apartmentService: ApartmentService,
     private bookingService: BookingService,
+    private authService: AuthService,  // ← PRIDANÉ
     private fb: FormBuilder,
     private snackBar: MatSnackBar
   ) {
@@ -82,6 +84,9 @@ export class ApartmentDetailComponent implements OnInit {
     // Počúvaj zmeny v dátumoch pre výpočet ceny
     this.bookingForm.get('checkInDate')?.valueChanges.subscribe(() => this.calculatePrice());
     this.bookingForm.get('checkOutDate')?.valueChanges.subscribe(() => this.calculatePrice());
+    
+    // AUTO-FILL user data
+    this.loadUserData();  // ← PRIDANÉ
   }
 
   loadApartment(id: number): void {
@@ -104,6 +109,22 @@ export class ApartmentDetailComponent implements OnInit {
         console.error('Chyba pri načítaní apartmánu:', error);
         this.error = true;
         this.loading = false;
+      }
+    });
+  }
+
+  // ← NOVÁ FUNKCIA - AUTO-FILL
+  loadUserData(): void {
+    // Získaj aktuálneho používateľa z auth service
+    this.authService.currentUser$.subscribe(user => {
+      if (user) {
+        console.log('🔍 Auto-fill user data:', user);
+        // Auto-fill formulár s user údajmi
+        this.bookingForm.patchValue({
+          guestName: user.full_name || user.username,
+          guestEmail: user.email,
+          guestPhone: user.phone || ''
+        });
       }
     });
   }
