@@ -63,6 +63,7 @@ def register(user_data: UserRegister, db: Session = Depends(get_db)):
                 email=user_data.email,
                 username=user_data.username,
                 full_name=user_data.full_name,
+                phone=user_data.phone,  # ← PRIDAJ TENTO RIADOK
                 hashed_password=hashed_pwd
             )
             
@@ -131,12 +132,18 @@ def _login_user(email: str, password: str, db: Session):
         
         print("✅ Účet aktívny")
         print("🔑 Vytváram token...")
-        
-        access_token = create_access_token(data={"sub": user.email})
-        
+
+        access_token = create_access_token(data={
+            "sub": user.email,
+            "username": user.username,
+            "full_name": user.full_name,
+            "phone": user.phone,
+            "is_admin": user.is_admin
+        })
+
         print("✅ Token vytvorený")
         print(f"✅ Úspešné prihlásenie používateľa: {user.username}")
-        
+
         return {
             "access_token": access_token,
             "token_type": "bearer",
@@ -170,8 +177,7 @@ def login_json(credentials: UserLogin, db: Session = Depends(get_db)):
 
 # GET /me
 @router.get("/me", response_model=UserResponse)
-async def get_me(current_user: User = Depends(get_current_active_user)):
-    print(f"✅ Požiadavka na /me od používateľa: {current_user.username}")
+def get_current_user_endpoint(current_user: User = Depends(get_current_active_user)):
     return current_user
 
 # LOGOUT

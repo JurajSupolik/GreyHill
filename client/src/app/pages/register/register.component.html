@@ -50,6 +50,19 @@
             <mat-icon matPrefix>badge</mat-icon>
           </mat-form-field>
 
+          <!-- NOVÝ FIELD - TELEFÓN -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Telefónne číslo *</mat-label>
+            <input 
+              matInput 
+              type="tel" 
+              [(ngModel)]="userData.phone" 
+              name="phone"
+              required
+              placeholder="+421 900 123 456">
+            <mat-icon matPrefix>phone</mat-icon>
+          </mat-form-field>
+
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Heslo *</mat-label>
             <input 

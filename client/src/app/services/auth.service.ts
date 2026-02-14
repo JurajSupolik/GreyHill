@@ -11,6 +11,7 @@ export interface User {
   email: string;
   username: string;
   full_name?: string;
+  phone?: string;  // ← PRIDANÉ
   is_active: boolean;
   is_admin: boolean;
   created_at: string;
@@ -25,6 +26,7 @@ export interface RegisterRequest {
   email: string;
   username: string;
   full_name?: string;
+  phone: string;  // ← PRIDANÉ
   password: string;
 }
 
@@ -59,10 +61,12 @@ export class AuthService {
   login(credentials: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login-json`, credentials).pipe(
       tap(response => {
+        console.log('🔑 Login response:', response);
         // Ulož token do localStorage
         localStorage.setItem('access_token', response.access_token);
         // Nastav aktuálneho používateľa
         this.currentUserSubject.next(response.user);
+        console.log('✅ User set:', response.user);
       })
     );
   }
@@ -93,7 +97,10 @@ export class AuthService {
   // Získaj aktuálneho používateľa z API
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/me`).pipe(
-      tap(user => this.currentUserSubject.next(user))
+      tap(user => {
+        console.log('👤 Current user from API:', user);
+        this.currentUserSubject.next(user);
+      })
     );
   }
 
@@ -101,7 +108,11 @@ export class AuthService {
   private checkAuth(): void {
     if (this.isAuthenticated()) {
       this.getCurrentUser().subscribe({
+        next: (user) => {
+          console.log('✅ Auth check passed, user loaded');
+        },
         error: () => {
+          console.log('❌ Auth check failed, logging out');
           // Ak token je neplatný, odhláš používateľa
           this.logout();
         }
