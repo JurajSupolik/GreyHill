@@ -8,6 +8,7 @@ class UserRegister(BaseModel):
     email: EmailStr
     username: str = Field(..., min_length=3, max_length=50)
     full_name: Optional[str] = None
+    phone: str = Field(..., min_length=9, max_length=20)  # ← NOVÝ RIADOK - POVINNÝ
     password: str = Field(..., min_length=6)
 
 class UserLogin(BaseModel):
@@ -19,6 +20,7 @@ class UserResponse(BaseModel):
     email: str
     username: str
     full_name: Optional[str] = None
+    phone: Optional[str] = None  # ← NOVÝ RIADOK
     is_active: bool
     is_admin: bool
     created_at: datetime

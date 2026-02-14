@@ -34,6 +34,7 @@ export class RegisterComponent {
     email: '',
     username: '',
     full_name: '',
+    phone: '',  // ← NOVÝ RIADOK
     password: '',
     confirmPassword: ''
   };
@@ -50,8 +51,15 @@ export class RegisterComponent {
 
   onSubmit(): void {
     // Validácia
-    if (!this.userData.email || !this.userData.username || !this.userData.password) {
+    if (!this.userData.email || !this.userData.username || !this.userData.phone || !this.userData.password) {
       this.snackBar.open('Vyplňte všetky povinné polia', 'Zavrieť', { duration: 3000 });
+      return;
+    }
+
+    // Validácia telefónu
+    const phoneRegex = /^\+?[0-9\s]{9,20}$/;
+    if (!phoneRegex.test(this.userData.phone)) {
+      this.snackBar.open('Neplatné telefónne číslo', 'Zavrieť', { duration: 3000 });
       return;
     }
 
@@ -71,6 +79,7 @@ export class RegisterComponent {
       email: this.userData.email,
       username: this.userData.username,
       full_name: this.userData.full_name,
+      phone: this.userData.phone,  // ← NOVÝ RIADOK
       password: this.userData.password
     };
 

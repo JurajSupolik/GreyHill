@@ -77,6 +77,7 @@ def create_admin_user(db):
             email="admin@greyhill.sk",
             username="admin",
             full_name="Admin User",
+            phone="+421911222333",
             hashed_password=hash_password("admin123"),
             is_admin=True
         )
@@ -92,6 +93,7 @@ def create_user(db):
             email="user@greyhill.sk",
             username="user",
             full_name="Test User",
+            phone="+421940123456",
             hashed_password=hash_password("user123"),
             is_admin=False
         )
