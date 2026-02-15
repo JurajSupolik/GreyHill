@@ -22,6 +22,9 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # OAuth2 scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
+# OAuth2 scheme (optional - nepovinná autentifikácia)
+oauth2_scheme_optional = OAuth2PasswordBearer(tokenUrl="/api/auth/login", auto_error=False)
+
 # Hashovanie hesla
 def hash_password(password: str) -> str:
     # Bcrypt má limit 72 bytov, orezeme heslo ak je dlhšie
@@ -92,3 +95,23 @@ async def get_current_admin_user(
             detail="Nemáte oprávnenie na túto operáciu"
         )
     return current_user
+
+# Voliteľné získanie používateľa (nepovinná autentifikácia)
+async def get_current_user_optional(
+    token: Optional[str] = Depends(oauth2_scheme_optional),
+    db: Session = Depends(get_db)
+) -> Optional[User]:
+    if token is None:
+        return None
+    
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            return None
+        token_data = TokenData(email=email)
+    except JWTError:
+        return None
+    
+    user = db.query(User).filter(User.email == token_data.email).first()
+    return user
