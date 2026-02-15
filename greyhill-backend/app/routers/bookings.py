@@ -100,6 +100,13 @@ async def create_booking(
     if not apartment:
         raise HTTPException(status_code=404, detail="Apartmán nenájdený")
     
+    # Validácia dátumov
+    if booking.check_out_date <= booking.check_in_date:
+        raise HTTPException(
+            status_code=400, 
+            detail="Dátum odchodu musí byť po dátume príchodu"
+        )
+    
     # Skontroluj dostupnosť
     existing_bookings = db.query(Booking).filter(
         Booking.apartment_id == booking.apartment_id,
