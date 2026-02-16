@@ -13,6 +13,7 @@ from app.utils.auth import (
     get_current_active_user,
     get_current_admin_user
 )
+from app.utils.email import send_welcome_email
 from app.utils.env_variables import EnvVariables, get_env_variables
 import traceback
 from seed_data import clear_database, seed_database
@@ -72,6 +73,9 @@ def register(user_data: UserRegister, db: Session = Depends(get_db)):
             db.refresh(new_user)
             
             print(f"✅ Používateľ vytvorený! ID: {new_user.id}")
+            
+            # Pošli uvítací email
+            send_welcome_email(new_user.email, new_user.full_name)
             
             return new_user
             
