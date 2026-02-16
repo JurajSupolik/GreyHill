@@ -99,7 +99,13 @@ export class ApartmentDetailComponent implements OnInit {
           this.bookingForm.get('numberOfAdults')?.setValidators([
             Validators.required,
             Validators.min(1),
-            Validators.max(apartment.capacity)
+            Validators.max(apartment.capacity - this.bookingForm.get('numberOfKids')?.value)
+          ]);
+          // Nastav max počet detí podle kapacity apartmánu
+          this.bookingForm.get('numberOfKids')?.setValidators([
+            Validators.required,
+            Validators.min(0),
+            Validators.max(apartment.capacity - this.bookingForm.get('numberOfAdults')?.value)
           ]);
         } else {
           this.error = true;
