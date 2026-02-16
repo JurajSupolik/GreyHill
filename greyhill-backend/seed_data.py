@@ -29,6 +29,7 @@ APARTMENTS_DATA = [
         "bedrooms": 1,
         "bathrooms": 1,
         "image_url": "https://images.unsplash.com/photo-1502672260066-6bc36a69ce48?w=800",
+        #"image_url": "https://img.unitedclassifieds.sk/foto/Zml0LWluLzgwMHgyMDAwL2ZpbHRlcnM6cXVhbGl0eSg4MCk6Zm9ybWF0KHdlYnApL2p1bA==/e7ddx23rw_fss?st=l6jtclRnsXl6HYZQOwE9l48LY23SkLagngW_2ijesvc&ts=1769160045&e=0",
         "amenities": ["WiFi", "TV", "Kuchyňa", "Terasa", "Klimatizácia"],
         "address": "Dunajská 45",
         "city": "Bratislava",
