@@ -137,7 +137,7 @@ async def create_booking(
         guest_phone=booking.guest_phone,
         check_in_date=booking.check_in_date,
         check_out_date=booking.check_out_date,
-        number_of_guests=booking.number_of_guests,
+        number_of_adults=booking.number_of_adults,
         total_price=total_price,
         status=BookingStatus.PENDING,
         special_requests=booking.special_requests
@@ -158,7 +158,7 @@ async def create_booking(
             'guest_phone': new_booking.guest_phone,
             'check_in_date': new_booking.check_in_date.isoformat(),
             'check_out_date': new_booking.check_out_date.isoformat(),
-            'number_of_guests': new_booking.number_of_guests
+            'number_of_adults': new_booking.number_of_adults
         }
         
         send_booking_confirmation_email(
@@ -225,7 +225,7 @@ def cancel_booking(
                 'guest_email': booking.guest_email,
                 'check_in_date': booking.check_in_date.isoformat(),
                 'check_out_date': booking.check_out_date.isoformat(),
-                'number_of_guests': booking.number_of_guests,
+                'number_of_adults': booking.number_of_adults,
                 'total_price': booking.total_price
             }
             
@@ -282,7 +282,7 @@ def update_booking_status(
             'guest_email': booking.guest_email,
             'check_in_date': booking.check_in_date.isoformat(),
             'check_out_date': booking.check_out_date.isoformat(),
-            'number_of_guests': booking.number_of_guests,
+            'number_of_adults': booking.number_of_adults,
             'total_price': booking.total_price
         }
         

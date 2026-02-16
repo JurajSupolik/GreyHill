@@ -11,7 +11,7 @@ class BookingBase(BaseModel):
     guest_phone: Optional[str] = None
     check_in_date: datetime
     check_out_date: datetime
-    number_of_guests: int = Field(..., gt=0)
+    number_of_adults: int = Field(..., gt=0)
     special_requests: Optional[str] = None
 
 class BookingCreate(BookingBase):
@@ -23,7 +23,7 @@ class BookingUpdate(BaseModel):
     guest_phone: Optional[str] = None
     check_in_date: Optional[datetime] = None
     check_out_date: Optional[datetime] = None
-    number_of_guests: Optional[int] = None
+    number_of_adults: Optional[int] = None
     special_requests: Optional[str] = None
     status: Optional[str] = None
 

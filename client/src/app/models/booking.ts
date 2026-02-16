@@ -22,7 +22,7 @@ export interface Booking {
   guest_phone: string;
   check_in_date: string;
   check_out_date: string;
-  number_of_guests: number;
+  number_of_adults: number;
   total_price: number;
   status: BookingStatus | string; // Môže byť enum alebo string
   special_requests?: string;
@@ -37,6 +37,6 @@ export interface BookingCreate {
   guest_phone: string;
   check_in_date: Date | string;
   check_out_date: Date | string;
-  number_of_guests: number;
+  number_of_adults: number;
   special_requests?: string;
 }

@@ -66,7 +66,7 @@ export class ApartmentDetailComponent implements OnInit {
       guestPhone: ['', [Validators.required, Validators.pattern(/^[0-9+\s()-]{9,}$/)]],
       checkInDate: ['', Validators.required],
       checkOutDate: ['', Validators.required],
-      numberOfGuests: [1, [Validators.required, Validators.min(1)]],
+      numberOfAdults: [1, [Validators.required, Validators.min(1)]],
       specialRequests: ['']
     });
   }
@@ -94,8 +94,8 @@ export class ApartmentDetailComponent implements OnInit {
       next: (apartment) => {
         if (apartment) {
           this.apartment = apartment;
-          // Nastav max počet hostí podľa kapacity apartmánu
-          this.bookingForm.get('numberOfGuests')?.setValidators([
+          // Nastav max počet dospelých podľa kapacity apartmánu
+          this.bookingForm.get('numberOfAdults')?.setValidators([
             Validators.required,
             Validators.min(1),
             Validators.max(apartment.capacity)
@@ -162,7 +162,7 @@ export class ApartmentDetailComponent implements OnInit {
         guest_phone: this.bookingForm.value.guestPhone,
         check_in_date: this.bookingForm.value.checkInDate.toISOString(),
         check_out_date: this.bookingForm.value.checkOutDate.toISOString(),
-        number_of_guests: this.bookingForm.value.numberOfGuests,
+        number_of_adults: this.bookingForm.value.numberOfAdults,
         special_requests: this.bookingForm.value.specialRequests || ''
       };
 

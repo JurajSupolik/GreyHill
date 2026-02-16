@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit {
   user: any = null;
   bookings: Booking[] = [];
   loading = true;
-  displayedColumns: string[] = ['apartment', 'dates', 'guests', 'total', 'status', 'actions'];
+  displayedColumns: string[] = ['apartment', 'dates', 'adults', 'total', 'status', 'actions'];
 
   constructor(
     private authService: AuthService,

@@ -222,16 +222,16 @@
                     </mat-form-field>
                   </div>
 
-                  <!-- Počet hostí -->
+                  <!-- Počet dospelých -->
                   <mat-form-field appearance="outline">
-                    <mat-label>Počet hostí</mat-label>
-                    <input matInput type="number" formControlName="numberOfGuests" [max]="apartment.capacity" min="1">
+                    <mat-label>Počet dospelých</mat-label>
+                    <input matInput type="number" formControlName="numberOfAdults" [max]="apartment.capacity" min="1">
                     <mat-icon matPrefix>people</mat-icon>
-                    @if (bookingForm.get('numberOfGuests')?.hasError('required')) {
-                      <mat-error>Počet hostí je povinný</mat-error>
+                    @if (bookingForm.get('numberOfAdults')?.hasError('required')) {
+                      <mat-error>Počet dospelých je povinný</mat-error>
                     }
-                    @if (bookingForm.get('numberOfGuests')?.hasError('max')) {
-                      <mat-error>Maximum {{ apartment.capacity }} hostí</mat-error>
+                    @if (bookingForm.get('numberOfAdults')?.hasError('max')) {
+                      <mat-error>Maximum {{ apartment.capacity }} dospelých</mat-error>
                     }
                   </mat-form-field>
 

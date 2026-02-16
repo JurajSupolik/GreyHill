@@ -22,7 +22,7 @@ class Booking(Base):
     guest_phone = Column(String(50))
     check_in_date = Column(DateTime, nullable=False)
     check_out_date = Column(DateTime, nullable=False)
-    number_of_guests = Column(Integer, nullable=False)
+    number_of_adults = Column(Integer, nullable=False)
     total_price = Column(Float, nullable=False)
     status = Column(Enum(BookingStatus), default=BookingStatus.PENDING)
     special_requests = Column(String(1000))
