@@ -95,11 +95,22 @@
                 <mat-icon matPrefix>phone</mat-icon>
               </mat-form-field>
 
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Predmet</mat-label>
-                <input matInput [(ngModel)]="contactForm.subject">
-                <mat-icon matPrefix>subject</mat-icon>
-              </mat-form-field>
+           <!-- ZMEŇ Z INPUT NA SELECT -->
+<mat-form-field appearance="outline" class="full-width">
+  <mat-label>Predmet</mat-label>
+  <mat-select [(ngModel)]="contactForm.subject">
+    <mat-option value="">Vybrať predmet...</mat-option>
+    <mat-option value="Problém s rezerváciou">🔴 Problém s rezerváciou</mat-option>
+    <mat-option value="Otázka k apartmánu">🏠 Otázka k apartmánu</mat-option>
+    <mat-option value="Zrušenie rezervácie">❌ Zrušenie rezervácie</mat-option>
+    <mat-option value="Zmena rezervácie">✏️ Zmena rezervácie</mat-option>
+    <mat-option value="Technický problém">⚙️ Technický problém</mat-option>
+    <mat-option value="Cenová ponuka">💰 Cenová ponuka</mat-option>
+    <mat-option value="Sťažnosť">⚠️ Sťažnosť</mat-option>
+    <mat-option value="Iné">💬 Iné</mat-option>
+  </mat-select>
+  <mat-icon matPrefix>subject</mat-icon>
+</mat-form-field>
 
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Správa *</mat-label>
@@ -110,13 +121,16 @@
                 <mat-icon matPrefix>message</mat-icon>
               </mat-form-field>
 
-              <button mat-raised-button 
-                      color="primary" 
-                      class="submit-button"
-                      (click)="onSubmit()">
-                <mat-icon>send</mat-icon>
-                Odoslať správu
-              </button>
+            <!-- PRIDAJ LOADING STAV -->
+<button mat-raised-button 
+        color="primary" 
+        class="submit-button"
+        [disabled]="submitting"
+        (click)="onSubmit()">
+  <mat-icon *ngIf="!submitting">send</mat-icon>
+  <mat-icon *ngIf="submitting" class="spinning">refresh</mat-icon>
+  {{ submitting ? 'Odosiela sa...' : 'Odoslať správu' }}
+</button>
 
             </div>
           </mat-card-content>
