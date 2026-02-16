@@ -222,16 +222,32 @@
                     </mat-form-field>
                   </div>
 
-                  <!-- Počet hostí -->
+                  <!-- Počet dospelých -->
                   <mat-form-field appearance="outline">
-                    <mat-label>Počet hostí</mat-label>
-                    <input matInput type="number" formControlName="numberOfGuests" [max]="apartment.capacity" min="1">
+                    <mat-label>Počet dospelých</mat-label>
+                    <input matInput type="number" formControlName="numberOfAdults" [max]="apartment.capacity - bookingForm.get('numberOfKids')?.value" min="1">
                     <mat-icon matPrefix>people</mat-icon>
-                    @if (bookingForm.get('numberOfGuests')?.hasError('required')) {
-                      <mat-error>Počet hostí je povinný</mat-error>
+                    @if (bookingForm.get('numberOfAdults')?.hasError('required')) {
+                      <mat-error>Počet dospelých je povinný</mat-error>
                     }
-                    @if (bookingForm.get('numberOfGuests')?.hasError('max')) {
-                      <mat-error>Maximum {{ apartment.capacity }} hostí</mat-error>
+                    @if (bookingForm.get('numberOfAdults')?.hasError('max')) {
+                      <mat-error>Maximum {{ apartment.capacity - bookingForm.get('numberOfKids')?.value }} dospelých</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <!-- Počet detí -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Počet detí</mat-label>
+                    <input matInput type="number" formControlName="numberOfKids" [max]="apartment.capacity - bookingForm.get('numberOfAdults')?.value" min="0">
+                    <mat-icon matPrefix>child_care</mat-icon>
+                    @if (bookingForm.get('numberOfKids')?.hasError('required')) {
+                      <mat-error>Počet detí je povinný</mat-error>
+                    }
+                    @if (bookingForm.get('numberOfKids')?.hasError('min')) {
+                      <mat-error>Počet detí nemôže byť záporný</mat-error>
+                    }
+                    @if (bookingForm.get('numberOfKids')?.hasError('max')) {
+                      <mat-error>Maximum {{ apartment.capacity - bookingForm.get('numberOfAdults')?.value }} detí</mat-error>
                     }
                   </mat-form-field>
 

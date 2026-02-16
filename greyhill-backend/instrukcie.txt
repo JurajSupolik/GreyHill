@@ -26,4 +26,4 @@ ng serve --configuration test --ssl
 ng serve --ssl
 ng serve --configuration development --ssl true --ssl-cert cert.pem --ssl-key key.pem
 ng serve --configuration production --ssl true --ssl-cert cert.pem --ssl-key key.pem
-alebo
+alebo 

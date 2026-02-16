@@ -125,9 +125,25 @@ async def create_booking(
     
     # Vypočítaj celkovú cenu
     nights = (booking.check_out_date - booking.check_in_date).days
-    total_price = apartment.price_per_night * nights
-    logger.info(f"💰 Celková cena: {total_price} EUR")
+    #total_price = apartment.price_per_night * nights
+    #total_price = (apartment.price_per_night * nights) * (booking.number_of_adults + booking.number_of_kids * 0.5)
 
+    print(f"📅 Počet nocí: {nights}, dospelých: {booking.number_of_adults}, detí: {booking.number_of_kids}")
+
+    base_price = apartment.price_per_night * 0.6; # 60 base price
+    print(f"💰 Základní cena (60%): {base_price} EUR")
+    variable_price = apartment.price_per_night - base_price # 40% variabilní cena
+    print(f"💰 Variabilní cena (40%): {variable_price} EUR")
+
+    adult_price = (variable_price / apartment.capacity * booking.number_of_adults)
+    print(f"💰 Cena za dospelych: {adult_price} EUR")
+
+    kids_price = (variable_price / apartment.capacity * booking.number_of_kids * 0.5) if booking.number_of_kids > 0 else 0    
+    print(f"💰 Cena za děti: {kids_price} EUR")
+
+    total_price = (base_price + adult_price + kids_price) * nights    
+    logger.info(f"💰 Celková cena: {total_price} EUR")
+    print(f"💰 Celková cena: {total_price} EUR")
 
     # Vytvor rezerváciu
     new_booking = Booking(
@@ -137,7 +153,8 @@ async def create_booking(
         guest_phone=booking.guest_phone,
         check_in_date=booking.check_in_date,
         check_out_date=booking.check_out_date,
-        number_of_guests=booking.number_of_guests,
+        number_of_adults=booking.number_of_adults,
+        number_of_kids=booking.number_of_kids,
         total_price=total_price,
         status=BookingStatus.PENDING,
         special_requests=booking.special_requests
@@ -158,7 +175,8 @@ async def create_booking(
             'guest_phone': new_booking.guest_phone,
             'check_in_date': new_booking.check_in_date.isoformat(),
             'check_out_date': new_booking.check_out_date.isoformat(),
-            'number_of_guests': new_booking.number_of_guests
+            'number_of_adults': new_booking.number_of_adults,
+            'number_of_kids': new_booking.number_of_kids
         }
         
         send_booking_confirmation_email(
@@ -225,7 +243,8 @@ def cancel_booking(
                 'guest_email': booking.guest_email,
                 'check_in_date': booking.check_in_date.isoformat(),
                 'check_out_date': booking.check_out_date.isoformat(),
-                'number_of_guests': booking.number_of_guests,
+                'number_of_adults': booking.number_of_adults,
+                'number_of_kids': booking.number_of_kids,
                 'total_price': booking.total_price
             }
             
@@ -282,7 +301,8 @@ def update_booking_status(
             'guest_email': booking.guest_email,
             'check_in_date': booking.check_in_date.isoformat(),
             'check_out_date': booking.check_out_date.isoformat(),
-            'number_of_guests': booking.number_of_guests,
+            'number_of_adults': booking.number_of_adults,
+            'number_of_kids': booking.number_of_kids,
             'total_price': booking.total_price
         }
         

@@ -91,12 +91,21 @@
               <td mat-cell *matCellDef="let booking">{{ formatDate(booking.check_out_date) }}</td>
             </ng-container>
 
-            <!-- Guests Column -->
-            <ng-container matColumnDef="guests">
-              <th mat-header-cell *matHeaderCellDef>Hostia</th>
+            <!-- Adults Column -->
+            <ng-container matColumnDef="adults">
+              <th mat-header-cell *matHeaderCellDef>Dospelí</th>
               <td mat-cell *matCellDef="let booking">
                 <mat-icon class="small-icon">people</mat-icon>
-                {{ booking.number_of_guests }}
+                {{ booking.number_of_adults }}
+              </td>
+            </ng-container>
+
+            <!-- Kids Column -->
+            <ng-container matColumnDef="kids">
+              <th mat-header-cell *matHeaderCellDef>Deti</th>
+              <td mat-cell *matCellDef="let booking">
+                <mat-icon class="small-icon">child_care</mat-icon>
+                {{ booking.number_of_kids }}
               </td>
             </ng-container>
 
