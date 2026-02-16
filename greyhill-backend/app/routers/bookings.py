@@ -130,10 +130,10 @@ async def create_booking(
 
     print(f"📅 Počet nocí: {nights}, dospelých: {booking.number_of_adults}, detí: {booking.number_of_kids}")
 
-    base_price = apartment.price_per_night * 0.8; # 80 base price  
-    print(f"💰 Základní cena (80%): {base_price} EUR")
-    variable_price = apartment.price_per_night - base_price # 20% variabilní cena    
-    print(f"💰 Variabilní cena (20%): {variable_price} EUR")
+    base_price = apartment.price_per_night * 0.6; # 60 base price
+    print(f"💰 Základní cena (60%): {base_price} EUR")
+    variable_price = apartment.price_per_night - base_price # 40% variabilní cena
+    print(f"💰 Variabilní cena (40%): {variable_price} EUR")
 
     adult_price = (variable_price / apartment.capacity * booking.number_of_adults)
     print(f"💰 Cena za dospelych: {adult_price} EUR")

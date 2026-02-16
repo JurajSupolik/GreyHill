@@ -148,7 +148,7 @@ export class ApartmentDetailComponent implements OnInit {
         // this.totalPrice = nights * this.apartment.price_per_night;
         const adults = this.bookingForm.get('numberOfAdults')?.value || 0;
         const kids = this.bookingForm.get('numberOfKids')?.value || 0;
-        const basePrice = this.apartment.price_per_night * 0.8; // ← Základní cena pro dospelého (s 20% slevou) pro zvýšení atraktivity ceny  
+        const basePrice = this.apartment.price_per_night * 0.6; // ← Základní cena 
         const variablePrice = this.apartment.price_per_night - basePrice; // ← Variabilní část ceny, která se přidává pro dospělé a děti        
         
         //write to conosle nights, adults, kids, basePrice
@@ -161,7 +161,7 @@ export class ApartmentDetailComponent implements OnInit {
         }
 
         this.totalPrice = (basePrice + adultPrice + kidPrice) * nights; // ← Celková cena se násobí počtem nocí
-        this.totalPrice = Math.round(this.totalPrice); // ← Celková cena za všechny noci
+        //this.totalPrice = Math.round(this.totalPrice); // ← Celková cena za všechny noci
         console.log(`Total Price: ${this.totalPrice}`);
       } else {
         this.totalPrice = 0;
