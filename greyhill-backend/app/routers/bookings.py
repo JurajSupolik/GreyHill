@@ -92,8 +92,10 @@ async def create_booking(
     # Log či je používateľ prihlásený
     if current_user:
         logger.info(f"✅ Používateľ je prihlásený: {current_user.email}")
+        print(f"✅ Používateľ je prihlásený: {current_user.email}")
     else:
         logger.info(f"❌ Používateľ NIE JE prihlásený (anonymná rezervácia) - Email: {booking.guest_email or 'Neznámy email'}")
+        print(f"❌ Používateľ NIE JE prihlásený (anonymná rezervace) - Email: {booking.guest_email or 'Neznámy email'}")
     
     # Skontroluj, či apartmán existuje
     apartment = db.query(Apartment).filter(Apartment.id == booking.apartment_id).first()
@@ -175,6 +177,7 @@ async def create_booking(
         )
         logger.info(f"📧 Notifikácia adminovi odoslaná pre rezerváciu #{new_booking.id}")
     except Exception as e:
+        print(f"⚠️ Email sa nepodarilo odoslať: {e}")
         logger.error(f"⚠️ Email sa nepodarilo odoslať: {e}")
         # Nezrušuj rezerváciu ak email zlyhá
     
@@ -232,6 +235,7 @@ def cancel_booking(
             )
             logger.info(f"📧 Email o zrušení odoslaný na {booking.guest_email}")
         except Exception as e:
+            print(f"⚠️ Email zrušenia sa nepodarilo odoslať: {e}")
             logger.error(f"⚠️ Email zrušenia sa nepodarilo odoslať: {e}")
     
     return booking
@@ -298,6 +302,7 @@ def update_booking_status(
             )
             logger.info(f"📧 Email zrušenia odoslaný na {booking.guest_email}")
     except Exception as e:
+        print(f"⚠️ Email sa nepodarilo odoslať: {e}")
         logger.error(f"⚠️ Email sa nepodarilo odoslať: {e}")
     
     return booking
