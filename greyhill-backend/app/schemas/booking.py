@@ -12,6 +12,7 @@ class BookingBase(BaseModel):
     check_in_date: datetime
     check_out_date: datetime
     number_of_adults: int = Field(..., gt=0)
+    number_of_kids: int = Field(default=0)
     special_requests: Optional[str] = None
 
 class BookingCreate(BookingBase):
@@ -24,6 +25,7 @@ class BookingUpdate(BaseModel):
     check_in_date: Optional[datetime] = None
     check_out_date: Optional[datetime] = None
     number_of_adults: Optional[int] = None
+    number_of_kids: Optional[int] = None
     special_requests: Optional[str] = None
     status: Optional[str] = None
 

@@ -67,6 +67,7 @@ export class ApartmentDetailComponent implements OnInit {
       checkInDate: ['', Validators.required],
       checkOutDate: ['', Validators.required],
       numberOfAdults: [1, [Validators.required, Validators.min(1)]],
+      numberOfKids: [0, [Validators.required, Validators.min(0)]],
       specialRequests: ['']
     });
   }
@@ -163,6 +164,7 @@ export class ApartmentDetailComponent implements OnInit {
         check_in_date: this.bookingForm.value.checkInDate.toISOString(),
         check_out_date: this.bookingForm.value.checkOutDate.toISOString(),
         number_of_adults: this.bookingForm.value.numberOfAdults,
+        number_of_kids: this.bookingForm.value.numberOfKids,
         special_requests: this.bookingForm.value.specialRequests || ''
       };
 

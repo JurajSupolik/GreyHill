@@ -54,7 +54,8 @@ def send_booking_confirmation_email(booking_data: dict, apartment_name: str, tot
                 <p><strong>📅 Príchod:</strong> {check_in.strftime('%d.%m.%Y %H:%M')}</p>
                 <p><strong>📅 Odchod:</strong> {check_out.strftime('%d.%m.%Y %H:%M')}</p>
                 <p><strong>👥 Počet dospelých:</strong> {booking_data['number_of_adults']}</p>
-                <p><strong>💰 Celková cena:</strong> {total_price}€</p>
+                <p><strong>� Počet detí:</strong> {booking_data.get('number_of_kids', 0)}</p>
+                <p><strong>�💰 Celková cena:</strong> {total_price}€</p>
                 <p><strong>📊 Status:</strong> <span style="color: orange;">ČAKÁ NA POTVRDENIE</span></p>
               </div>
               
@@ -131,7 +132,8 @@ def send_admin_notification_email(booking_data: dict, apartment_name: str, total
                 <p><strong>📅 Príchod:</strong> {check_in.strftime('%d.%m.%Y %H:%M')}</p>
                 <p><strong>📅 Odchod:</strong> {check_out.strftime('%d.%m.%Y %H:%M')}</p>
                 <p><strong>👥 Počet dospelých:</strong> {booking_data['number_of_adults']}</p>
-                <p><strong>💰 Celková cena:</strong> {total_price}€</p>
+                <p><strong>� Počet detí:</strong> {booking_data.get('number_of_kids', 0)}</p>
+                <p><strong>�💰 Celková cena:</strong> {total_price}€</p>
               </div>
               
               <div style="text-align: center; margin: 30px 0;">
@@ -198,7 +200,8 @@ def send_booking_confirmed_email(booking: dict, apartment_name: str):
                 <p><strong>📅 Príchod:</strong> {check_in.strftime('%d.%m.%Y %H:%M')}</p>
                 <p><strong>📅 Odchod:</strong> {check_out.strftime('%d.%m.%Y %H:%M')}</p>
                 <p><strong>👥 Počet dospelých:</strong> {booking['number_of_adults']}</p>
-                <p><strong>💰 Celková cena:</strong> {booking['total_price']}€</p>
+                <p><strong>� Počet detí:</strong> {booking.get('number_of_kids', 0)}</p>
+                <p><strong>�💰 Celková cena:</strong> {booking['total_price']}€</p>
                 <p><strong>📊 Status:</strong> <span style="color: #4caf50; font-weight: bold;">POTVRDENÁ</span></p>
               </div>
               
@@ -276,7 +279,8 @@ def send_booking_cancelled_email(booking: dict, apartment_name: str):
                 <p><strong>📅 Príchod:</strong> {check_in.strftime('%d.%m.%Y %H:%M')}</p>
                 <p><strong>📅 Odchod:</strong> {check_out.strftime('%d.%m.%Y %H:%M')}</p>
                 <p><strong>👥 Počet dospelých:</strong> {booking['number_of_adults']}</p>
-                <p><strong>💰 Celková cena:</strong> {booking['total_price']}€</p>
+                <p><strong>� Počet detí:</strong> {booking.get('number_of_kids', 0)}</p>
+                <p><strong>�💰 Celková cena:</strong> {booking['total_price']}€</p>
                 <p><strong>📊 Status:</strong> <span style="color: #f44336; font-weight: bold;">ZRUŠENÁ</span></p>
               </div>
               

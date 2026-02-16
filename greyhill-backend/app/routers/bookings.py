@@ -138,6 +138,7 @@ async def create_booking(
         check_in_date=booking.check_in_date,
         check_out_date=booking.check_out_date,
         number_of_adults=booking.number_of_adults,
+        number_of_kids=booking.number_of_kids,
         total_price=total_price,
         status=BookingStatus.PENDING,
         special_requests=booking.special_requests
@@ -158,7 +159,8 @@ async def create_booking(
             'guest_phone': new_booking.guest_phone,
             'check_in_date': new_booking.check_in_date.isoformat(),
             'check_out_date': new_booking.check_out_date.isoformat(),
-            'number_of_adults': new_booking.number_of_adults
+            'number_of_adults': new_booking.number_of_adults,
+            'number_of_kids': new_booking.number_of_kids
         }
         
         send_booking_confirmation_email(
@@ -226,6 +228,7 @@ def cancel_booking(
                 'check_in_date': booking.check_in_date.isoformat(),
                 'check_out_date': booking.check_out_date.isoformat(),
                 'number_of_adults': booking.number_of_adults,
+                'number_of_kids': booking.number_of_kids,
                 'total_price': booking.total_price
             }
             
@@ -283,6 +286,7 @@ def update_booking_status(
             'check_in_date': booking.check_in_date.isoformat(),
             'check_out_date': booking.check_out_date.isoformat(),
             'number_of_adults': booking.number_of_adults,
+            'number_of_kids': booking.number_of_kids,
             'total_price': booking.total_price
         }
         

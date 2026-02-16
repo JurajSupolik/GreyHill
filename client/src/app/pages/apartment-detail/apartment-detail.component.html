@@ -235,6 +235,19 @@
                     }
                   </mat-form-field>
 
+                  <!-- Počet detí -->
+                  <mat-form-field appearance="outline">
+                    <mat-label>Počet detí</mat-label>
+                    <input matInput type="number" formControlName="numberOfKids" min="0">
+                    <mat-icon matPrefix>child_care</mat-icon>
+                    @if (bookingForm.get('numberOfKids')?.hasError('required')) {
+                      <mat-error>Počet detí je povinný</mat-error>
+                    }
+                    @if (bookingForm.get('numberOfKids')?.hasError('min')) {
+                      <mat-error>Počet detí nemôže byť záporný</mat-error>
+                    }
+                  </mat-form-field>
+
                   <!-- Špeciálne požiadavky -->
                   <mat-form-field appearance="outline">
                     <mat-label>Špeciálne požiadavky (voliteľné)</mat-label>

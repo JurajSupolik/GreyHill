@@ -23,6 +23,7 @@ class Booking(Base):
     check_in_date = Column(DateTime, nullable=False)
     check_out_date = Column(DateTime, nullable=False)
     number_of_adults = Column(Integer, nullable=False)
+    number_of_kids = Column(Integer, nullable=False, default=0)
     total_price = Column(Float, nullable=False)
     status = Column(Enum(BookingStatus), default=BookingStatus.PENDING)
     special_requests = Column(String(1000))
