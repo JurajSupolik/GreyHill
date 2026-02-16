@@ -35,7 +35,7 @@ import { Booking, BookingStatus } from '../../../models/booking';
 export class DashboardComponent implements OnInit {
   bookings: Booking[] = [];
   loading = true;
-  displayedColumns: string[] = ['id', 'guestName', 'apartmentId', 'checkIn', 'checkOut', 'guests', 'price', 'status', 'actions'];
+  displayedColumns: string[] = ['id', 'guestName', 'apartmentId', 'checkIn', 'checkOut', 'adults', 'kids', 'price', 'status', 'actions'];
 
   constructor(
     private bookingService: BookingService,

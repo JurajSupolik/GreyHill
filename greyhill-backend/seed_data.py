@@ -10,8 +10,8 @@ from app.utils.auth import hash_password
 APARTMENTS_DATA = [
     {
         "name": "Luxusný apartmán centrum",
-        "description": "Krásny priestranný apartmán v centre mesta s výhľadom na hory.",
-        "price_per_night": 89.0,
+        "description": "Krásny priestranný apartmán v centre mesta.",
+        "price_per_night": 100.0,
         "capacity": 4,
         "bedrooms": 2,
         "bathrooms": 1,
@@ -134,9 +134,10 @@ def create_bookings(db):
             guest_email="user@greyhill.sk",
             guest_phone="+421940123456",
             check_in_date=datetime.now() + timedelta(days=5),
-            check_out_date=datetime.now() + timedelta(days=10),
-            number_of_guests=2,
-            total_price=apartments[0].price_per_night * 5,
+            check_out_date=datetime.now() + timedelta(days=7),
+            number_of_adults=2,
+            number_of_kids=1,
+            total_price=(apartments[0].price_per_night * 2) - 5,
             status=BookingStatus.CONFIRMED,
             special_requests="Prosím, ranný check-in"
         ),
@@ -145,9 +146,10 @@ def create_bookings(db):
             guest_name="Test User",
             guest_email="user@greyhill.sk",
             guest_phone="+421940123456",
-            check_in_date=datetime.now() + timedelta(days=15),
-            check_out_date=datetime.now() + timedelta(days=20),
-            number_of_guests=2,
+            check_in_date=datetime.now() + timedelta(days=10),
+            check_out_date=datetime.now() + timedelta(days=15),
+            number_of_adults=2,
+            number_of_kids=0,
             total_price=apartments[1].price_per_night * 5,
             status=BookingStatus.PENDING,
             special_requests="Veľa vankúšov, prosím"
