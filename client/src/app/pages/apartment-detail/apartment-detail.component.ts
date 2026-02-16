@@ -85,7 +85,9 @@ export class ApartmentDetailComponent implements OnInit {
     // Počúvaj zmeny v dátumoch pre výpočet ceny
     this.bookingForm.get('checkInDate')?.valueChanges.subscribe(() => this.calculatePrice());
     this.bookingForm.get('checkOutDate')?.valueChanges.subscribe(() => this.calculatePrice());
-    
+    this.bookingForm.get('numberOfAdults')?.valueChanges.subscribe(() => {this.calculatePrice();});
+    this.bookingForm.get('numberOfKids')?.valueChanges.subscribe(() => {this.calculatePrice();});
+
     // AUTO-FILL user data
     this.loadUserData();  // ← PRIDANÉ
   }
@@ -141,9 +143,26 @@ export class ApartmentDetailComponent implements OnInit {
     const checkOut = this.bookingForm.get('checkOutDate')?.value;
 
     if (checkIn && checkOut && this.apartment) {
-      const days = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-      if (days > 0) {
-        this.totalPrice = days * this.apartment.price_per_night;
+      const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+      if (nights > 0) {
+        // this.totalPrice = nights * this.apartment.price_per_night;
+        const adults = this.bookingForm.get('numberOfAdults')?.value || 0;
+        const kids = this.bookingForm.get('numberOfKids')?.value || 0;
+        const basePrice = this.apartment.price_per_night * 0.8; // ← Základní cena pro dospelého (s 20% slevou) pro zvýšení atraktivity ceny  
+        const variablePrice = this.apartment.price_per_night - basePrice; // ← Variabilní část ceny, která se přidává pro dospělé a děti        
+        
+        //write to conosle nights, adults, kids, basePrice
+        console.log(`Nights: ${nights}, Adults: ${adults}, Kids: ${kids}, Base Price: ${basePrice}, Variable Price: ${variablePrice}`);
+
+        const adultPrice = variablePrice / this.apartment.capacity * adults; // ← Cena pro dospělé se zvyšuje s počtem dospělých
+        let kidPrice = 0;
+        if (kids > 0) {
+          kidPrice = (variablePrice / this.apartment.capacity * 0.5) * kids; // ← Cena pro děti je poloviční a také se zvyšuje s počtem dětí
+        }
+
+        this.totalPrice = (basePrice + adultPrice + kidPrice) * nights; // ← Celková cena se násobí počtem nocí
+        this.totalPrice = Math.round(this.totalPrice); // ← Celková cena za všechny noci
+        console.log(`Total Price: ${this.totalPrice}`);
       } else {
         this.totalPrice = 0;
       }
