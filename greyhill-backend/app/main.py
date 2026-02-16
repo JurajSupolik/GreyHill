@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from app.database import engine, Base
-from app.routers import apartments, auth, bookings
+from app.routers import apartments, auth, bookings, contact
 from seed_data import seed_database
 
 from app.middlewares.logging import LoggingMiddleware,RequestLogData
@@ -84,6 +84,7 @@ app.add_middleware(LoggingMiddleware,log_handler=custom_log_handler)
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(apartments.router, prefix="/api/apartments", tags=["Apartments"])
 app.include_router(bookings.router, prefix="/api/bookings", tags=["Bookings"])
+app.include_router(contact.router, tags=["Contact"])
 
 @app.get("/")
 def root():

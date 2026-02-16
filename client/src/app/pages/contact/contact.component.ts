@@ -5,10 +5,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select'; // ← PRIDANÉ
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ContactService } from '../../services/contact.service'; // ← PRIDANÉ
 
 @Component({
   selector: 'app-contact',
@@ -18,6 +20,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule, // ← PRIDANÉ
     MatButtonModule,
     MatIconModule,
     MatCardModule,
@@ -36,32 +39,64 @@ export class ContactComponent {
     message: ''
   };
 
-  constructor(private snackBar: MatSnackBar) {}
+  submitting = false; // ← PRIDANÉ
+
+  constructor(
+    private snackBar: MatSnackBar,
+    private contactService: ContactService // ← PRIDANÉ
+  ) {}
 
   onSubmit(): void {
     // Validácia
     if (!this.contactForm.name || !this.contactForm.email || !this.contactForm.message) {
-      this.snackBar.open('Vyplňte prosím všetky povinné polia', 'Zavrieť', {
+      this.snackBar.open('❌ Vyplňte prosím všetky povinné polia', 'Zavrieť', {
         duration: 3000
       });
       return;
     }
 
-    // Tu by sa normálne poslal request na backend
-    console.log('Odosielam formulár:', this.contactForm);
+    // Email validácia
+   // Email validácia
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if (!emailRegex.test(this.contactForm.email)) {
+  this.snackBar.open('❌ Zadajte platný email', 'Zavrieť', {
+    duration: 3000
+  });
+  return;
+}
 
-    // Zobrazenie úspechu
-    this.snackBar.open('Správa bola úspešne odoslaná! Ozveme sa vám čoskoro.', 'OK', {
-      duration: 5000
+    this.submitting = true;
+
+    // Odoslanie na backend
+    this.contactService.sendMessage(this.contactForm).subscribe({
+      next: (response) => {
+        console.log('✅ Odpoveď z backendu:', response);
+        
+        this.snackBar.open('✅ ' + response.message, 'OK', {
+          duration: 5000
+        });
+
+        // Reset formulára
+        this.contactForm = {
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        };
+        
+        this.submitting = false;
+      },
+      error: (error) => {
+        console.error('❌ Chyba pri odosielaní:', error);
+        
+        const errorMsg = error.error?.detail || 'Chyba pri odosielaní správy. Skúste to prosím neskôr.';
+        this.snackBar.open('❌ ' + errorMsg, 'Zavrieť', {
+          duration: 5000
+        });
+        
+        this.submitting = false;
+      }
     });
-
-    // Reset formulára
-    this.contactForm = {
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
-    };
   }
 }
