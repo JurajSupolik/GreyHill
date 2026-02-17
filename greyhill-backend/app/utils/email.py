@@ -11,7 +11,6 @@ SMTP_EMAIL = get_env_variables().smtp_username
 #print(f"📧 Používam SMTP email: {SMTP_EMAIL}")
 
 # Príjemca admin emailov
-#ADMIN_EMAIL = "jurajsupolik@gmail.com"
 ADMIN_EMAIL = get_env_variables().admin_email
 #print(f"📧 Používam admin email: {ADMIN_EMAIL}")
 
