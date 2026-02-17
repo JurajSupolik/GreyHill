@@ -2,10 +2,9 @@
 
 import logging
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional
 from datetime import datetime
-
 from app.database import get_db
 
 # Configure logger for this module
@@ -32,9 +31,11 @@ def get_my_bookings(
 ):
     """Získaj všetky rezervácie aktuálneho užívateľa"""
     logger.info(f"📋 Načítavanie rezervácií pre používateľa: {current_user.email}")
-    bookings = db.query(Booking).filter(
-        Booking.guest_email == current_user.email
-    ).order_by(Booking.created_at.desc()).all()
+    bookings = db.query(Booking).options(
+    joinedload(Booking.apartment)
+).filter(
+    Booking.guest_email == current_user.email
+).order_by(Booking.created_at.desc()).all()
     
     logger.info(f"✅ Nájdených {len(bookings)} rezervácií pre {current_user.email}")
     return bookings
