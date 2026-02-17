@@ -1,20 +1,16 @@
-# app/utils/email.py
-
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime
 from app.utils.env_variables import get_env_variables, EnvVariables
 
-# Email konfigurácia - UPRAV TIETO ÚDAJE!
+# Email konfigurácia 
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
-#SMTP_EMAIL = "jurajsupolik@gmail.com"  # Tvoj Gmail
 SMTP_EMAIL = get_env_variables().smtp_username
 #print(f"📧 Používam SMTP email: {SMTP_EMAIL}")
 
 # Príjemca admin emailov
-#ADMIN_EMAIL = "jurajsupolik@gmail.com"
 ADMIN_EMAIL = get_env_variables().admin_email
 #print(f"📧 Používam admin email: {ADMIN_EMAIL}")
 
@@ -87,7 +83,7 @@ def send_booking_confirmation_email(booking_data: dict, apartment_name: str, tot
         </html>
         """
         
-        # Pridaj HTML obsah
+        
         msg.attach(MIMEText(html, 'html'))
         
         # Odošli email

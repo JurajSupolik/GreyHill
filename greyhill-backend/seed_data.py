@@ -1,5 +1,3 @@
-# seed_data.py
-
 from app.database import SessionLocal, engine, Base
 from app.models.apartment import Apartment
 from app.models.user import User
@@ -109,7 +107,7 @@ def create_bookings(db):
     from datetime import datetime, timedelta
     from app.models.booking import BookingStatus
     
-    # Skontroluj, či už existujú rezervácie
+    # Skontroluj či už existujú rezervácie
     existing_count = db.query(Booking).count()
     if existing_count > 0:
         print(f"ℹ️  Už existuje {existing_count} rezervácií, preskočené vytváranie.")

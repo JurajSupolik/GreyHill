@@ -1,5 +1,3 @@
-# app/schemas/user.py
-
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 from datetime import datetime
@@ -8,7 +6,7 @@ class UserRegister(BaseModel):
     email: EmailStr
     username: str = Field(..., min_length=3, max_length=50)
     full_name: Optional[str] = None
-    phone: str = Field(..., min_length=9, max_length=20)  # ← NOVÝ RIADOK - POVINNÝ
+    phone: str = Field(..., min_length=9, max_length=20) 
     password: str = Field(..., min_length=6)
 
 class UserLogin(BaseModel):
@@ -20,7 +18,7 @@ class UserResponse(BaseModel):
     email: str
     username: str
     full_name: Optional[str] = None
-    phone: Optional[str] = None  # ← NOVÝ RIADOK
+    phone: Optional[str] = None  
     is_active: bool
     is_admin: bool
     created_at: datetime

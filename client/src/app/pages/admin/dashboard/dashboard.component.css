@@ -1,5 +1,3 @@
-/* ADMIN DASHBOARD - Modré pozadie + výrazné stavy */
-
 .dashboard-container {
   min-height: calc(100vh - 64px);
   background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
@@ -8,7 +6,6 @@
   overflow: hidden;
 }
 
-/* Animované pozadie - jemné */
 .dashboard-container::before {
   content: '';
   position: absolute;
@@ -42,7 +39,6 @@
   }
 }
 
-/* Header - Bielý na modrom */
 .header {
   max-width: 1400px;
   margin: 0 auto 40px auto;
@@ -80,7 +76,6 @@
   margin: 0;
 }
 
-/* Loading */
 .loading {
   text-align: center;
   padding: 80px 20px;
@@ -91,7 +86,6 @@
   font-size: 18px;
 }
 
-/* Stats Grid - Biele karty */
 .stats {
   max-width: 1400px;
   margin: 0 auto 40px auto;
@@ -146,7 +140,6 @@
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
 }
 
-/* Ikony v stat kartách */
 .stat-card mat-icon {
   font-size: 56px;
   width: 56px;
@@ -191,7 +184,6 @@
   letter-spacing: 0.5px;
 }
 
-/* Main Card - Biela na modrom */
 mat-card {
   max-width: 1400px;
   margin: 0 auto;
@@ -218,7 +210,6 @@ mat-card mat-card-content {
   padding: 32px !important;
 }
 
-/* Table */
 .table-container {
   overflow-x: auto;
   margin: 24px 0;
@@ -278,7 +269,6 @@ mat-card mat-card-content {
   font-size: 12px;
 }
 
-/* STATUS BADGES - VÝRAZNÉ A ČITATEĽNÉ! */
 ::ng-deep .bookings-table mat-chip {
   font-weight: 700 !important;
   font-size: 12px !important;
@@ -290,7 +280,6 @@ mat-card mat-card-content {
   border: 2px solid;
 }
 
-/* STATUS BADGES - SPRÁVNE FARBY! */
 ::ng-deep .bookings-table mat-chip {
   font-weight: 700 !important;
   font-size: 12px !important;
@@ -302,7 +291,6 @@ mat-card mat-card-content {
   border: 2px solid;
 }
 
-/* PRIMARY (Potvrdené/Dokončené) - ZELENÁ */
 ::ng-deep .bookings-table mat-chip.mat-primary,
 ::ng-deep mat-chip[color="primary"] {
   background: #10b981 !important;
@@ -310,7 +298,6 @@ mat-card mat-card-content {
   border-color: #059669 !important;
 }
 
-/* ACCENT (Čakajúce) - ORANŽOVÁ */
 ::ng-deep .bookings-table mat-chip.mat-accent,
 ::ng-deep mat-chip[color="accent"] {
   background: #f59e0b !important;
@@ -318,7 +305,7 @@ mat-card mat-card-content {
   border-color: #d97706 !important;
 }
 
-/* WARN (Zrušené) - ČERVENÁ */
+
 ::ng-deep .bookings-table mat-chip.mat-warn,
 ::ng-deep mat-chip[color="warn"] {
   background: #ef4444 !important;
@@ -326,13 +313,13 @@ mat-card mat-card-content {
   border-color: #dc2626 !important;
 }
 
-/* Hover efekt */
+
 ::ng-deep .bookings-table mat-chip:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Action Buttons */
+
 ::ng-deep .bookings-table button {
   transition: all 0.2s ease;
 }
@@ -365,7 +352,7 @@ mat-card mat-card-content {
   background: #fee2e2;
 }
 
-/* Empty State */
+
 .empty-state {
   text-align: center;
   padding: 80px 20px;
@@ -398,7 +385,7 @@ mat-card mat-card-content {
   font-size: 15px;
 }
 
-/* Responsive */
+
 @media (max-width: 1024px) {
   .stats {
     grid-template-columns: repeat(2, 1fr);

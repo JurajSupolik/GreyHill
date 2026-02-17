@@ -1,10 +1,8 @@
-/* ABOUT PAGE - Presne podľa HTML */
-
 .about-container {
   min-height: calc(100vh - 64px);
 }
 
-/* Hero Section */
+
 .about-hero {
   background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
   padding: 80px 20px;
@@ -24,7 +22,7 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Story Section */
+
 .story-section {
   padding: 80px 20px;
   background: white;
@@ -70,7 +68,6 @@
   transform: scale(1.05);
 }
 
-/* Values Section */
 .values-section {
   padding: 80px 20px;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
@@ -130,7 +127,6 @@
   font-size: 15px;
 }
 
-/* Team Section */
 .team-section {
   padding: 80px 20px;
   background: white;
@@ -206,7 +202,6 @@
   font-size: 14px;
 }
 
-/* Stats Section */
 .stats-section {
   padding: 80px 20px;
   background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
@@ -247,7 +242,6 @@
   margin: 0;
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
   .story-content {
     grid-template-columns: 1fr;

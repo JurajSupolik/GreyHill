@@ -1,5 +1,3 @@
-# app/schemas/booking.py
-
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 from datetime import datetime
@@ -44,7 +42,7 @@ class BookingResponse(BookingBase):
     status: str
     created_at: datetime
     updated_at: Optional[datetime] = None
-    apartment: Optional[ApartmentInfo] = None  # ← PRIDANÉ
+    apartment: Optional[ApartmentInfo] = None  
 
     class Config:
         from_attributes = True

@@ -1,7 +1,3 @@
-// src/app/app.config.ts
-
-// src/app/app.config.ts
-
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';

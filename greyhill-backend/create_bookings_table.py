@@ -1,5 +1,3 @@
-# create_bookings_table.py
-
 from app.database import Base, engine
 from app.models.booking import Booking
 from app.models.apartment import Apartment

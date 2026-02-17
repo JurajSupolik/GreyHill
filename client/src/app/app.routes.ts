@@ -1,5 +1,3 @@
-// src/app/app.routes.ts
-
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { ApartmentListComponent } from './components/apartment-list/apartment-list.component';

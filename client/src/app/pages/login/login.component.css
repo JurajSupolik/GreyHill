@@ -1,5 +1,3 @@
-/* LOGIN PAGE - Tmavo modré pozadie */
-
 .login-container {
   min-height: calc(100vh - 64px);
   display: flex;
@@ -11,7 +9,6 @@
   overflow: hidden;
 }
 
-/* Animované pozadie - plávajúce kruhy */
 .login-container::before {
   content: '';
   position: absolute;
@@ -45,7 +42,6 @@
   }
 }
 
-/* Login Card - Biela na modrom pozadí */
 .login-card {
   max-width: 450px;
   width: 100%;
@@ -70,7 +66,6 @@
   }
 }
 
-/* Svetelný efekt okolo karty */
 .login-card::before {
   content: '';
   position: absolute;
@@ -89,7 +84,6 @@
   opacity: 1;
 }
 
-/* Header */
 .login-header {
   text-align: center;
   margin-bottom: 32px;
@@ -128,7 +122,6 @@
   font-size: 15px;
 }
 
-/* Form */
 .login-form {
   display: flex;
   flex-direction: column;
@@ -154,12 +147,11 @@
   }
 }
 
-/* Form field glow efekt */
 ::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-text-field-wrapper {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* Submit Button */
+
 .submit-button {
   margin-top: 8px;
   height: 48px;
@@ -189,7 +181,7 @@
   height: 400px;
 }
 
-/* Divider */
+
 .divider {
   margin: 24px 0;
   text-align: center;
@@ -214,7 +206,7 @@
   font-size: 14px;
 }
 
-/* Register Link */
+
 .register-link {
   text-align: center;
   margin-top: 16px;
@@ -250,7 +242,7 @@
   color: #1e3a8a;
 }
 
-/* Responsive */
+
 @media (max-width: 480px) {
   .login-container {
     padding: 24px 16px;

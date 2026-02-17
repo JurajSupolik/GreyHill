@@ -1,14 +1,10 @@
-/* APARTMENT LIST COMPONENT - Presne podľa HTML */
-
 .apartment-list-container {
   padding: 24px;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-/* ========================================
-   LIST HEADER
-   ======================================== */
+
 .list-header {
   margin-bottom: 40px;
   animation: fadeInUp 0.6s ease-out;
@@ -26,9 +22,7 @@
   color: #64748b;
 }
 
-/* ========================================
-   LOADING STATE - S animáciou
-   ======================================== */
+
 .loading {
   display: flex;
   justify-content: center;
@@ -62,9 +56,6 @@
   100% { left: 200%; }
 }
 
-/* ========================================
-   APARTMENTS GRID - S hover efektmi
-   ======================================== */
 .apartments-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -84,9 +75,6 @@
 .apartments-grid > *:nth-child(5) { animation-delay: 0.5s; }
 .apartments-grid > *:nth-child(6) { animation-delay: 0.6s; }
 
-/* ========================================
-   NO RESULTS STATE
-   ======================================== */
 .no-results {
   text-align: center;
   padding: 80px 20px;
@@ -110,9 +98,7 @@
   color: #94a3b8;
 }
 
-/* ========================================
-   ANIMÁCIE
-   ======================================== */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -135,9 +121,7 @@
   }
 }
 
-/* ========================================
-   RESPONSIVE
-   ======================================== */
+
 @media (max-width: 768px) {
   .apartment-list-container {
     padding: 16px;

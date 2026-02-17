@@ -1,5 +1,3 @@
-// src/app/services/auth.service.ts
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
@@ -11,7 +9,7 @@ export interface User {
   email: string;
   username: string;
   full_name?: string;
-  phone?: string;  // ← PRIDANÉ
+  phone?: string;  
   is_active: boolean;
   is_admin: boolean;
   created_at: string;
@@ -26,7 +24,7 @@ export interface RegisterRequest {
   email: string;
   username: string;
   full_name?: string;
-  phone: string;  // ← PRIDANÉ
+  phone: string;  
   password: string;
 }
 

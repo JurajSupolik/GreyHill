@@ -1,5 +1,3 @@
-# app/models/booking.py
-
 from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Enum
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
@@ -30,5 +28,5 @@ class Booking(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
-    # Relationship
+    
     apartment = relationship("Apartment", backref="bookings")

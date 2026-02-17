@@ -1,4 +1,3 @@
-// src/app/pages/apartment-detail/apartment-detail.component.ts
 import { AvailabilityCalendarComponent } from '../../components/availability-calendar/availability-calendar.component';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -16,7 +15,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApartmentService } from '../../services/apartment.service';
 import { BookingService } from '../../services/booking.service';
-import { AuthService } from '../../services/auth.service';  // ← PRIDANÉ
+import { AuthService } from '../../services/auth.service';  
 import { Apartment } from '../../models/apartment';
 
 @Component({
@@ -55,7 +54,7 @@ export class ApartmentDetailComponent implements OnInit {
     private router: Router,
     private apartmentService: ApartmentService,
     private bookingService: BookingService,
-    private authService: AuthService,  // ← PRIDANÉ
+    private authService: AuthService,  
     private fb: FormBuilder,
     private snackBar: MatSnackBar
   ) {
@@ -82,14 +81,14 @@ export class ApartmentDetailComponent implements OnInit {
       this.loading = false;
     }
 
-    // Počúvaj zmeny v dátumoch pre výpočet ceny
+    // zmeny v dátumoch pre výpočet ceny
     this.bookingForm.get('checkInDate')?.valueChanges.subscribe(() => this.calculatePrice());
     this.bookingForm.get('checkOutDate')?.valueChanges.subscribe(() => this.calculatePrice());
     this.bookingForm.get('numberOfAdults')?.valueChanges.subscribe(() => {this.calculatePrice();});
     this.bookingForm.get('numberOfKids')?.valueChanges.subscribe(() => {this.calculatePrice();});
 
-    // AUTO-FILL user data
-    this.loadUserData();  // ← PRIDANÉ
+    
+    this.loadUserData();  
   }
 
   loadApartment(id: number): void {
@@ -122,7 +121,7 @@ export class ApartmentDetailComponent implements OnInit {
     });
   }
 
-  // ← NOVÁ FUNKCIA - AUTO-FILL
+  
   loadUserData(): void {
     // Získaj aktuálneho používateľa z auth service
     this.authService.currentUser$.subscribe(user => {
@@ -148,20 +147,20 @@ export class ApartmentDetailComponent implements OnInit {
         // this.totalPrice = nights * this.apartment.price_per_night;
         const adults = this.bookingForm.get('numberOfAdults')?.value || 0;
         const kids = this.bookingForm.get('numberOfKids')?.value || 0;
-        const basePrice = this.apartment.price_per_night * 0.6; // ← Základní cena 
-        const variablePrice = this.apartment.price_per_night - basePrice; // ← Variabilní část ceny, která se přidává pro dospělé a děti        
+        const basePrice = this.apartment.price_per_night * 0.6; // ← Základna cena 
+        const variablePrice = this.apartment.price_per_night - basePrice; // ← Variabilna čast ceny, ktora sa pridava pre dospelych a deti        
         
-        //write to conosle nights, adults, kids, basePrice
+        
         console.log(`Nights: ${nights}, Adults: ${adults}, Kids: ${kids}, Base Price: ${basePrice}, Variable Price: ${variablePrice}`);
 
-        const adultPrice = variablePrice / this.apartment.capacity * adults; // ← Cena pro dospělé se zvyšuje s počtem dospělých
+        const adultPrice = variablePrice / this.apartment.capacity * adults; // ← Cena pre dospelych sa zvyšuje s počtom dospelých
         let kidPrice = 0;
         if (kids > 0) {
-          kidPrice = (variablePrice / this.apartment.capacity * 0.5) * kids; // ← Cena pro děti je poloviční a také se zvyšuje s počtem dětí
+          kidPrice = (variablePrice / this.apartment.capacity * 0.5) * kids; // ← Cena pre deti je polovičná a tiež sa zvyšuje s počtom detí
         }
 
-        this.totalPrice = (basePrice + adultPrice + kidPrice) * nights; // ← Celková cena se násobí počtem nocí
-        //this.totalPrice = Math.round(this.totalPrice); // ← Celková cena za všechny noci
+        this.totalPrice = (basePrice + adultPrice + kidPrice) * nights; // ← Celková cena sa násobí počtom nocí
+        //this.totalPrice = Math.round(this.totalPrice); // ← Celková cena za všetky noci
         console.log(`Total Price: ${this.totalPrice}`);
       } else {
         this.totalPrice = 0;

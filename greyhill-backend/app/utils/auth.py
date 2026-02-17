@@ -1,5 +1,3 @@
-# app/utils/auth.py
-
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
@@ -22,7 +20,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # OAuth2 scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
-# OAuth2 scheme (optional - nepovinná autentifikácia)
+# OAuth2 scheme (nepovinná autentifikácia)
 oauth2_scheme_optional = OAuth2PasswordBearer(tokenUrl="/api/auth/login", auto_error=False)
 
 # Hashovanie hesla

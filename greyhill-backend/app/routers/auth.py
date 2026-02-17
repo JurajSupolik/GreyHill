@@ -1,5 +1,3 @@
-# app/routers/auth.py
-
 from fastapi import APIRouter, Depends, HTTPException, status, Form
 from sqlalchemy.orm import Session
 from typing import List
@@ -64,7 +62,7 @@ def register(user_data: UserRegister, db: Session = Depends(get_db)):
                 email=user_data.email,
                 username=user_data.username,
                 full_name=user_data.full_name,
-                phone=user_data.phone,  # ← PRIDAJ TENTO RIADOK
+                phone=user_data.phone,  
                 hashed_password=hashed_pwd
             )
             
@@ -174,23 +172,23 @@ def login(
 ):
     return _login_user(username, password, db)
 
-# LOGIN - Prihlásenie používateľa (JSON pre Angular)
+# LOGIN - Prihlásenie používateľa 
 @router.post("/login-json", response_model=Token)
 def login_json(credentials: UserLogin, db: Session = Depends(get_db)):
     return _login_user(credentials.email, credentials.password, db)
 
-# GET /me
+
 @router.get("/me", response_model=UserResponse)
 def get_current_user_endpoint(current_user: User = Depends(get_current_active_user)):
     return current_user
 
-# LOGOUT
+
 @router.post("/logout")
 async def logout():
     print("✅ Odhlásenie")
     return {"message": "Úspešne odhlásený"}
 
-# GET /users - Zoznam používateľov (len admin)
+# GET /users - Zoznam používateľov len admin
 @router.get("/users", response_model=List[UserResponse])
 async def get_all_users(
     current_user: User = Depends(get_current_admin_user),
@@ -200,13 +198,13 @@ async def get_all_users(
     users = db.query(User).order_by(User.created_at.desc()).all()
     return users
 
-# GET /admin/veraibles - Zobrazenie env premenných (len admin)
+# Zobrazenie env premenných (len admin)
 @router.get("/admin/variables")
 async def get_env_variables_admin(
     current_user: User = Depends(get_current_admin_user),    
     env_vars: EnvVariables = Depends(get_env_variables)
 ):
-    #print(f"📋 {current_user.username} žiada env premenné")    
+        
     return env_vars
 
 @router.post("/admin/current_path")
