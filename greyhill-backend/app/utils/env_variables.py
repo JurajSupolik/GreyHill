@@ -7,7 +7,7 @@ class EnvVariables(BaseModel):
     database_url: str
     admin_password: str
     smtp_password: str   
-    is_debug_mode: bool = False  # Príklad ďalšieho nastavenia
+    is_debug_mode: bool = False  
 
 
 load_dotenv()  # Načíta premenné prostredia z .env súboru

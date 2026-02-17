@@ -1,16 +1,14 @@
-// src/app/pages/contact/contact.component.ts
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select'; // ← PRIDANÉ
+import { MatSelectModule } from '@angular/material/select'; 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { ContactService } from '../../services/contact.service'; // ← PRIDANÉ
+import { ContactService } from '../../services/contact.service'; 
 
 @Component({
   selector: 'app-contact',
@@ -20,7 +18,7 @@ import { ContactService } from '../../services/contact.service'; // ← PRIDANÉ
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule, // ← PRIDANÉ
+    MatSelectModule, 
     MatButtonModule,
     MatIconModule,
     MatCardModule,
@@ -39,11 +37,11 @@ export class ContactComponent {
     message: ''
   };
 
-  submitting = false; // ← PRIDANÉ
+  submitting = false; 
 
   constructor(
     private snackBar: MatSnackBar,
-    private contactService: ContactService // ← PRIDANÉ
+    private contactService: ContactService 
   ) {}
 
   onSubmit(): void {
@@ -55,7 +53,7 @@ export class ContactComponent {
       return;
     }
 
-    // Email validácia
+   
    // Email validácia
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 if (!emailRegex.test(this.contactForm.email)) {

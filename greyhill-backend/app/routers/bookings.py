@@ -1,5 +1,3 @@
-# greyhill-backend/app/routers/bookings.py
-
 import logging
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session, joinedload
@@ -7,7 +5,7 @@ from typing import List, Optional
 from datetime import datetime
 from app.database import get_db
 
-# Configure logger for this module
+
 logger = logging.getLogger(__name__)
 from app.models.booking import Booking, BookingStatus
 from app.models.user import User
@@ -74,7 +72,7 @@ def get_booking(
         logger.warning(f"⚠️ Rezervácia #{booking_id} nenájdená")
         raise HTTPException(status_code=404, detail="Rezervácia nenájdená")
     
-    # Kontrola oprávnení - len admin alebo vlastník rezervácie
+    # Kontrola oprávnení  len admin alebo vlastník rezervácie
     if not current_user.is_admin and booking.guest_email != current_user.email:
         logger.warning(f"🚫 Zamietnutý prístup k rezervácii #{booking_id} pre {current_user.email}")
         raise HTTPException(status_code=403, detail="Nemáte oprávnenie")
@@ -98,7 +96,7 @@ async def create_booking(
         logger.info(f"❌ Používateľ NIE JE prihlásený (anonymná rezervácia) - Email: {booking.guest_email or 'Neznámy email'}")
         print(f"❌ Používateľ NIE JE prihlásený (anonymná rezervace) - Email: {booking.guest_email or 'Neznámy email'}")
     
-    # Skontroluj, či apartmán existuje
+    # Skontroluj či apartmán existuje
     apartment = db.query(Apartment).filter(Apartment.id == booking.apartment_id).first()
     if not apartment:
         raise HTTPException(status_code=404, detail="Apartmán nenájdený")
@@ -133,7 +131,7 @@ async def create_booking(
 
     base_price = apartment.price_per_night * 0.6; # 60 base price
     print(f"💰 Základní cena (60%): {base_price} EUR")
-    variable_price = apartment.price_per_night - base_price # 40% variabilní cena
+    variable_price = apartment.price_per_night - base_price # 40% variabilna cena
     print(f"💰 Variabilní cena (40%): {variable_price} EUR")
 
     adult_price = (variable_price / apartment.capacity * booking.number_of_adults)
@@ -167,7 +165,7 @@ async def create_booking(
     
     logger.info(f"✅ Rezervácia #{new_booking.id} úspešne vytvorená pre {new_booking.guest_email}")
     
-    # 📧 POŠLI EMAILY
+    
     try:
         # Email hosťovi
         booking_data = {
@@ -235,7 +233,7 @@ def cancel_booking(
     
     logger.info(f"✅ Rezervácia #{booking_id} úspešne zrušená (stavy: {old_status.value} → {BookingStatus.CANCELLED.value})")
     
-    # 📧 POŠLI EMAIL O ZRUŠENÍ
+    # pošli email o zrušení
     if old_status in [BookingStatus.PENDING, BookingStatus.CONFIRMED]:
         try:
             apartment = db.query(Apartment).filter(Apartment.id == booking.apartment_id).first()
@@ -294,7 +292,7 @@ def update_booking_status(
     
     logger.info(f"✅ Stav rezervácie #{booking_id} zmenený: {old_status.value} → {new_status.value}")
     
-    # 📧 POŠLI EMAIL PRI ZMENE STATUSU
+    # pošli email pri zmene statusu
     try:
         apartment = db.query(Apartment).filter(Apartment.id == booking.apartment_id).first()
         booking_data = {

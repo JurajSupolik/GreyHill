@@ -1,8 +1,6 @@
-<!-- src/app/pages/apartment-detail/apartment-detail.component.html -->
-
 <div class="detail-container">
 
-  <!-- Loading -->
+  
   @if (loading) {
     <div class="loading">
       <p>Načítavam apartmán...</p>
@@ -26,7 +24,7 @@
   @if (apartment && !loading && !error) {
     <div class="detail-content">
       
-      <!-- Navigácia späť -->
+    
       <div class="back-button">
         <button mat-button (click)="goBack()">
           <mat-icon>arrow_back</mat-icon>
@@ -34,7 +32,7 @@
         </button>
       </div>
 
-      <!-- Hlavná fotka -->
+      
       <div class="main-image">
         <img [src]="apartment.image_url" [alt]="apartment.name">
       </div>
@@ -90,7 +88,7 @@
 
           <mat-divider></mat-divider>
 
-          <!-- Popis -->
+         
           <div class="description">
             <h2>O apartmáne</h2>
             <p>{{ apartment.description }}</p>
@@ -98,7 +96,7 @@
 
           <mat-divider></mat-divider>
 
-          <!-- Vybavenie -->
+         
           <div class="amenities">
             <h2>Vybavenie</h2>
             <div class="amenities-grid">
@@ -251,7 +249,7 @@
                     }
                   </mat-form-field>
 
-                  <!-- Špeciálne požiadavky -->
+                  
                   <mat-form-field appearance="outline">
                     <mat-label>Špeciálne požiadavky (voliteľné)</mat-label>
                     <textarea matInput formControlName="specialRequests" rows="3"></textarea>

@@ -1,5 +1,3 @@
-# app/models/apartment.py
-
 from sqlalchemy import Column, Integer, String, Float, JSON, DateTime
 from sqlalchemy.sql import func
 from app.database import Base
