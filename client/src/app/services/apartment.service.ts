@@ -1,5 +1,3 @@
-// src/app/services/apartment.service.ts
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -32,17 +30,17 @@ export class ApartmentService {
     return this.http.get<Apartment>(`${this.apiUrl}/${id}`);
   }
 
-  // Vytvor nový apartmán (len pre adminov)
+  // Vytvor nový apartmán len pre adminov
   createApartment(apartment: Apartment): Observable<Apartment> {
     return this.http.post<Apartment>(this.apiUrl, apartment);
   }
 
-  // Uprav apartmán (len pre adminov)
+  // Uprav apartmán len pre adminov
   updateApartment(id: number, apartment: Partial<Apartment>): Observable<Apartment> {
     return this.http.put<Apartment>(`${this.apiUrl}/${id}`, apartment);
   }
 
-  // Zmaž apartmán (len pre adminov)
+  // Zmaž apartmán len pre adminov
   deleteApartment(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }

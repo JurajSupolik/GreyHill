@@ -56,7 +56,7 @@ export class AvailabilityCalendarComponent implements OnInit {
       end.toISOString().split('T')[0]
     ).subscribe({
       next: (data) => {
-        console.log('📅 Dostupnosť z API:', data); // DEBUG
+        console.log('📅 Dostupnosť z API:', data); 
         
         // Spracuj booked_dates z backendu
         this.occupiedDates = new Set();
@@ -76,7 +76,7 @@ export class AvailabilityCalendarComponent implements OnInit {
           });
         }
         
-        console.log('🔴 Obsadené dni:', Array.from(this.occupiedDates)); // DEBUG
+        console.log('🔴 Obsadené dni:', Array.from(this.occupiedDates)); 
         
         this.generateCalendar();
         this.loading = false;
@@ -94,9 +94,9 @@ export class AvailabilityCalendarComponent implements OnInit {
     const year = this.currentMonth.getFullYear();
     const month = this.currentMonth.getMonth();
     
-    // Prvý deň mesiaca
+    
     const firstDay = new Date(year, month, 1);
-    // Posledný deň mesiaca
+   
     const lastDay = new Date(year, month + 1, 0);
     
     // Deň v týždni prvého dňa (0 = nedeľa, 6 = sobota)
@@ -115,7 +115,6 @@ export class AvailabilityCalendarComponent implements OnInit {
       });
     }
     
-    // Dni aktuálneho mesiaca
     for (let day = 1; day <= lastDay.getDate(); day++) {
       const date = new Date(year, month, day);
       this.calendarDays.push({
@@ -126,8 +125,8 @@ export class AvailabilityCalendarComponent implements OnInit {
       });
     }
     
-    // Dni z nasledujúceho mesiaca (aby sme doplnili riadky)
-    const remainingDays = 42 - this.calendarDays.length; // 6 týždňov × 7 dní
+    // Dni z nasledujúceho mesiaca 
+    const remainingDays = 42 - this.calendarDays.length; 
     for (let day = 1; day <= remainingDays; day++) {
       const date = new Date(year, month + 1, day);
       this.calendarDays.push({

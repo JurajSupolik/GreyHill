@@ -1,5 +1,3 @@
-// src/app/models/booking.ts
-
 export enum BookingStatus {
   PENDING = 'PENDING',
   CONFIRMED = 'CONFIRMED',
@@ -25,7 +23,7 @@ export interface Booking {
   number_of_adults: number;
   number_of_kids: number;
   total_price: number;
-  status: BookingStatus | string; // Môže byť enum alebo string
+  status: BookingStatus | string; 
   special_requests?: string;
   created_at: string;
   updated_at?: string;

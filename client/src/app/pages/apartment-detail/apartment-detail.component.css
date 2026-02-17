@@ -1,11 +1,9 @@
-/* APARTMENT DETAIL - Presne podľa HTML */
-
 .detail-container {
   min-height: calc(100vh - 64px);
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
-/* Loading & Error States */
+
 .loading, .error {
   display: flex;
   flex-direction: column;
@@ -33,14 +31,13 @@
   margin-bottom: 24px;
 }
 
-/* Detail Content */
+
 .detail-content {
   max-width: 1400px;
   margin: 0 auto;
   padding: 24px;
 }
 
-/* Back Button */
 .back-button {
   margin-bottom: 16px;
 }
@@ -49,7 +46,7 @@
   color: #2563eb !important;
 }
 
-/* Main Image */
+
 .main-image {
   width: 100%;
   height: 500px;
@@ -70,14 +67,14 @@
   transform: scale(1.05);
 }
 
-/* Content Grid - 2 columns */
+
 .content-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
 }
 
-/* Info Section - Left Side */
+
 .info-section {
   background: white;
   padding: 32px;
@@ -127,12 +124,12 @@
   color: #1e3a8a;
 }
 
-/* Divider Spacing */
+
 mat-divider {
   margin: 24px 0;
 }
 
-/* Basic Info Grid */
+
 .basic-info {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -176,7 +173,7 @@ mat-divider {
   margin: 0;
 }
 
-/* Description */
+
 .description h2,
 .amenities h2 {
   font-size: 1.5rem;
@@ -190,7 +187,7 @@ mat-divider {
   font-size: 15px;
 }
 
-/* Amenities Grid */
+
 .amenities-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -224,7 +221,7 @@ mat-divider {
   font-size: 14px;
 }
 
-/* Calendar Section */
+
 .calendar-section {
   background: white;
   padding: 32px;
@@ -244,7 +241,6 @@ mat-divider {
   margin-bottom: 24px;
 }
 
-/* Booking Section - Right Side */
 .booking-section {
   position: sticky;
   top: 88px;
@@ -268,7 +264,7 @@ mat-divider {
   padding: 32px !important;
 }
 
-/* Price Header */
+
 .price-header {
   margin-bottom: 24px;
 }
@@ -290,7 +286,7 @@ mat-divider {
   color: #64748b;
 }
 
-/* Booking Info */
+
 .booking-info {
   margin: 24px 0;
 }
@@ -314,7 +310,7 @@ mat-divider {
   height: 20px;
 }
 
-/* Book Button */
+
 .book-button {
   width: 100%;
   height: 56px;
@@ -330,7 +326,7 @@ mat-divider {
   margin-top: 12px;
 }
 
-/* Booking Form */
+
 .booking-form {
   margin-top: 24px;
 }
@@ -383,7 +379,6 @@ mat-divider {
   flex: 1;
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
   .content-grid {
     grid-template-columns: 1fr;

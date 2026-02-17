@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+
 """
 Run FastAPI server with HTTPS using cert.pfx
 """
 import uvicorn
 import os
 
-# Generate certificates if they don't exist
+# vytvor certifikáty ak neexistujú
 if not os.path.exists('cert.pfx'):
     print("Certificate not found. Generating...")
     os.system('python generate_cert.py')

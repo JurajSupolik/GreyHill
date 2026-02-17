@@ -1,5 +1,3 @@
-// src/app/pages/register/register.component.ts
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -34,7 +32,7 @@ export class RegisterComponent {
     email: '',
     username: '',
     full_name: '',
-    phone: '',  // ← NOVÝ RIADOK
+    phone: '',  
     password: '',
     confirmPassword: ''
   };
@@ -79,7 +77,7 @@ export class RegisterComponent {
       email: this.userData.email,
       username: this.userData.username,
       full_name: this.userData.full_name,
-      phone: this.userData.phone,  // ← NOVÝ RIADOK
+      phone: this.userData.phone,  
       password: this.userData.password
     };
 

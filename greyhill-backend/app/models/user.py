@@ -1,5 +1,3 @@
-# app/models/user.py
-
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from sqlalchemy.sql import func
 from app.database import Base
@@ -11,7 +9,7 @@ class User(Base):
     email = Column(String(200), unique=True, index=True, nullable=False)
     username = Column(String(100), unique=True, index=True, nullable=False)
     full_name = Column(String(200))
-    phone = Column(String(20), nullable=True)  # ← NOVÝ RIADOK
+    phone = Column(String(20), nullable=True)  
     hashed_password = Column(String(300), nullable=False)
     is_active = Column(Boolean, default=True)
     is_admin = Column(Boolean, default=False)

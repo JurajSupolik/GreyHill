@@ -1,14 +1,12 @@
-// src/app/models/apartment.ts
-
 export interface Apartment {
   id: number;
   name: string;
   description: string;
-  price_per_night: number;  // ← zmenené z pricePerNight
+  price_per_night: number;  
   capacity: number;
   bedrooms: number;
   bathrooms: number;
-  image_url: string;  // ← zmenené z imageUrl
+  image_url: string;  
   images?: string[];
   amenities: string[];
   address: string;

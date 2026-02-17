@@ -1,5 +1,3 @@
-# app/routers/contact.py
-
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, EmailStr
 import smtplib

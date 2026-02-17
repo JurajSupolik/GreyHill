@@ -1,5 +1,3 @@
-// src/app/pages/admin/dashboard/dashboard.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -10,7 +8,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';  // ← PRIDAJ TENTO IMPORT!
+import { MatDividerModule } from '@angular/material/divider';  
 import { BookingService } from '../../../services/booking.service';
 import { Booking, BookingStatus } from '../../../models/booking';
 
@@ -27,7 +25,7 @@ import { Booking, BookingStatus } from '../../../models/booking';
     MatMenuModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatDividerModule  // ← A PRIDAJ SEM!
+    MatDividerModule  
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -64,7 +62,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // ← PRIDAJ TIETO FUNKCIE:
+  
   get pendingCount(): number {
     return this.bookings.filter(b => b.status === 'PENDING').length;
   }
@@ -75,10 +73,10 @@ export class DashboardComponent implements OnInit {
 
  getStatusColor(status: string): string {
   switch(status) {
-    case 'PENDING': return 'accent';     // ← ORANŽOVÁ pre čakajúce
-    case 'CONFIRMED': return 'primary';  // ← ZELENÁ pre potvrdené
-    case 'CANCELLED': return 'warn';     // ← ČERVENÁ pre zrušené
-    case 'COMPLETED': return 'primary';  // ← ZELENÁ pre dokončené
+    case 'PENDING': return 'accent';     
+    case 'CONFIRMED': return 'primary';  
+    case 'CANCELLED': return 'warn';     
+    case 'COMPLETED': return 'primary';  
     default: return '';
   }
 }

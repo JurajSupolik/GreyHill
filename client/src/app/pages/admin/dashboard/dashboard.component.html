@@ -1,5 +1,3 @@
-<!-- src/app/pages/admin/dashboard/dashboard.component.html -->
-
 <div class="dashboard-container">
   
   <div class="header">
@@ -56,13 +54,13 @@
         <div class="table-container">
           <table mat-table [dataSource]="bookings" class="bookings-table">
 
-            <!-- ID Column -->
+            <!-- ID stlpec -->
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef>ID</th>
               <td mat-cell *matCellDef="let booking">#{{ booking.id }}</td>
             </ng-container>
 
-            <!-- Guest Name Column -->
+            <!-- Guest Name stlpec -->
             <ng-container matColumnDef="guestName">
               <th mat-header-cell *matHeaderCellDef>Hosť</th>
               <td mat-cell *matCellDef="let booking">
@@ -73,25 +71,25 @@
               </td>
             </ng-container>
 
-            <!-- Apartment Column -->
+            <!-- Apartment stlpec -->
             <ng-container matColumnDef="apartmentId">
               <th mat-header-cell *matHeaderCellDef>Apartmán</th>
               <td mat-cell *matCellDef="let booking">Apartmán #{{ booking.apartment_id }}</td>
             </ng-container>
 
-            <!-- Check In Column -->
+            <!-- Check In stlpec -->
             <ng-container matColumnDef="checkIn">
               <th mat-header-cell *matHeaderCellDef>Príchod</th>
               <td mat-cell *matCellDef="let booking">{{ formatDate(booking.check_in_date) }}</td>
             </ng-container>
 
-            <!-- Check Out Column -->
+            <!-- Check Out stlpec -->
             <ng-container matColumnDef="checkOut">
               <th mat-header-cell *matHeaderCellDef>Odchod</th>
               <td mat-cell *matCellDef="let booking">{{ formatDate(booking.check_out_date) }}</td>
             </ng-container>
 
-            <!-- Adults Column -->
+            <!-- Adults stlpec -->
             <ng-container matColumnDef="adults">
               <th mat-header-cell *matHeaderCellDef>Dospelí</th>
               <td mat-cell *matCellDef="let booking">
@@ -100,7 +98,7 @@
               </td>
             </ng-container>
 
-            <!-- Kids Column -->
+            <!-- Kids stlpec -->
             <ng-container matColumnDef="kids">
               <th mat-header-cell *matHeaderCellDef>Deti</th>
               <td mat-cell *matCellDef="let booking">
@@ -117,7 +115,7 @@
               </td>
             </ng-container>
 
-            <!-- Status Column -->
+            <!-- Status stlpec -->
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef>Status</th>
               <td mat-cell *matCellDef="let booking">
@@ -127,7 +125,7 @@
               </td>
             </ng-container>
 
-            <!-- Actions Column -->
+            <!-- Actions stlpec -->
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef>Akcie</th>
               <td mat-cell *matCellDef="let booking">

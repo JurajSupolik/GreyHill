@@ -1,5 +1,3 @@
-# app/main.py
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
@@ -12,18 +10,18 @@ from app.core.logging import LoggerFactory
 import os
 
 # Vytvorenie všetkých databázových tabuliek
-#Base.metadata.create_all(bind=engine)
+
 seed_database()
 
 # Inicializácia loggerov
 path = os.getcwd()
 log_file_path = os.path.join("api_requests.log")
 print(f"Current working directory: {path}")
-if os.name == "nt":  # NT kernel (Windows)
+if os.name == "nt":  # NT kernel Windows
     print("Windows")
     os.makedirs("logs", exist_ok=True) 
     path = os.path.join(path, "logs")
-elif os.name == "posix":  # POSIX kernel (Linux, macOS)
+elif os.name == "posix":  # POSIX kernel Linux, macOS
     print("Linux/MacOS")    
     #linux_path = os.path.join("home", "data", "logs")
     linux_path = "/home/data/logs"
@@ -55,7 +53,7 @@ def custom_log_handler(log_data: RequestLogData):
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Azure nastavia CORS policy, preto povolujeme všetky originy
+    allow_origins=["*"],  # Azure nastavia CORS policy preto povolujeme všetky originy
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -67,11 +65,11 @@ app.add_middleware(
     TrustedHostMiddleware,
     allowed_hosts=["*"]    
 )
-# Handle forwarded headers properly
+
 from starlette.middleware.base import BaseHTTPMiddleware
 class ProxyHeadersMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):        
-        if "x-forwarded-proto" in request.headers: # Azure passes these headers
+        if "x-forwarded-proto" in request.headers: 
             request.scope["scheme"] = request.headers["x-forwarded-proto"]
         response = await call_next(request)
         return response

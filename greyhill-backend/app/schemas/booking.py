@@ -1,8 +1,16 @@
-# app/schemas/booking.py
-
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 from datetime import datetime
+
+class ApartmentInfo(BaseModel):
+    id: int
+    name: str
+    city: Optional[str] = None
+    price_per_night: float
+    image_url: Optional[str] = None
+
+    class Config:
+        from_attributes = True
 
 class BookingBase(BaseModel):
     apartment_id: int
@@ -19,7 +27,6 @@ class BookingCreate(BookingBase):
     pass
 
 class BookingUpdate(BaseModel):
-    """Schema pre aktualizáciu rezervácie"""
     guest_name: Optional[str] = None
     guest_phone: Optional[str] = None
     check_in_date: Optional[datetime] = None
@@ -35,6 +42,7 @@ class BookingResponse(BookingBase):
     status: str
     created_at: datetime
     updated_at: Optional[datetime] = None
+    apartment: Optional[ApartmentInfo] = None  
 
     class Config:
         from_attributes = True
