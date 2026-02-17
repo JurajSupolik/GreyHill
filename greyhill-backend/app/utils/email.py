@@ -7,10 +7,13 @@ from app.utils.env_variables import get_env_variables, EnvVariables
 # Email konfigurácia 
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
-SMTP_EMAIL = "jurajsupolik@gmail.com"  
+SMTP_EMAIL = get_env_variables().smtp_username
+#print(f"📧 Používam SMTP email: {SMTP_EMAIL}")
 
 # Príjemca admin emailov
-ADMIN_EMAIL = "jurajsupolik@gmail.com"
+#ADMIN_EMAIL = "jurajsupolik@gmail.com"
+ADMIN_EMAIL = get_env_variables().admin_email
+#print(f"📧 Používam admin email: {ADMIN_EMAIL}")
 
 def get_smtp_password():
     """Get SMTP password from environment variables"""
@@ -244,6 +247,78 @@ def send_booking_confirmed_email(booking: dict, apartment_name: str):
         
     except Exception as e:
         print(f"❌ Chyba pri odosielaní emailu potvrdenia: {e}")
+        return False
+
+
+def send_welcome_email(user_email: str, user_name: str):
+    """Pošle uvítací email po registrácii"""
+    
+    try:
+        env_vars = get_env_variables()
+
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = '🎉 Vitajte v Greyhill Apartments!'
+        msg['From'] = env_vars.smtp_username
+        msg['To'] = user_email
+        
+        
+        html = f"""
+        <html>
+          <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+            <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+              
+              <h1 style="color: #1976d2; text-align: center;">🎉 Vitajte v Greyhill Apartments!</h1>
+              
+              <p>Dobrý deň <strong>{user_name}</strong>,</p>
+              
+              <p>Ďakujeme, že ste sa zaregistrovali! Váš účet bol úspešne vytvorený.</p>
+              
+              <div style="background-color: #e3f2fd; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h2 style="margin-top: 0; color: #1976d2;">✨ Čo môžete robiť?</h2>
+                <ul style="line-height: 2;">
+                  <li>🏠 Prezerať dostupné apartmány</li>
+                  <li>📅 Vytvárať rezervácie</li>
+                  <li>👤 Spravovať svoj profil a rezervácie</li>
+                  <li>📧 Dostávať notifikácie o stave rezervácií</li>
+                </ul>
+              </div>            
+              
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="{env_vars.homepage_url}" 
+                   style="display: inline-block; background-color: #1976d2; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                   Prejsť na stránku
+                </a>
+              </div>
+              
+              <p style="text-align: center; font-size: 18px; margin: 30px 0;">
+                Tešíme sa na Vašu návštevu! 🏖️
+              </p>
+              
+              <hr style="margin: 30px 0; border: none; border-top: 1px solid #ddd;">
+              
+              <p style="text-align: center; color: #999; font-size: 12px;">
+                Greyhill Apartments © 2026<br>
+                Tento email bol odoslaný automaticky, neodpovedajte naň.
+              </p>
+              
+            </div>
+          </body>
+        </html>
+        """
+        
+        msg.attach(MIMEText(html, 'html'))
+        
+        smtp_password = env_vars.smtp_password
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            server.starttls()
+            server.login(SMTP_EMAIL, smtp_password)
+            server.send_message(msg)
+        
+        print(f"✅ Uvítací email odoslaný na {user_email}")
+        return True
+        
+    except Exception as e:
+        print(f"❌ Chyba pri odosielaní uvítacieho emailu: {e}")
         return False
 
 

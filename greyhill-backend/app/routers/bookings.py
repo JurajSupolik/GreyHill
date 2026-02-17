@@ -124,9 +124,6 @@ async def create_booking(
     
     # Vypočítaj celkovú cenu
     nights = (booking.check_out_date - booking.check_in_date).days
-    #total_price = apartment.price_per_night * nights
-    #total_price = (apartment.price_per_night * nights) * (booking.number_of_adults + booking.number_of_kids * 0.5)
-
     print(f"📅 Počet nocí: {nights}, dospelých: {booking.number_of_adults}, detí: {booking.number_of_kids}")
 
     base_price = apartment.price_per_night * 0.6; # 60 base price

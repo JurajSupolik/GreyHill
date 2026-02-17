@@ -20,8 +20,6 @@ engine = create_engine(
 )
 
 env_variables = get_env_variables()
-if env_variables.is_debug_mode:
-    print("database URL from .env:", SQLALCHEMY_DATABASE_URL)
 
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
