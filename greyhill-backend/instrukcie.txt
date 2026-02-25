@@ -14,13 +14,22 @@ uvicorn app.main:app --reload --reload-dir app --ssl-keyfile=key.pem --ssl-certf
 bezne no ssl
 uvicorn app.main:app --reload --reload-dir app 
 
+
+backend
 cd .\greyhill-backend\
 python -m venv venv
+New-Item -Path .env -ItemType File
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 venv\Scripts\activate
 pip install -r requirements.txt --force
 
 
 angluar
+admin run
+Set-ExecutionPolicy RemoteSigned
+npm install -g @angular/cli
+npm install --force
+
 ng serve --configuration development 
 ng serve --configuration test --ssl
 ng serve --ssl
